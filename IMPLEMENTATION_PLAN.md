@@ -14,7 +14,7 @@
 - ✅ **Complete:** Phases 1-3 (environment, architecture, database design)
 - 🎯 **Next:** Phase 4 Backend API Development (100 hours estimated)
 - 📦 **Database:** 8 tables with 3,400+ seed records via Liquibase
-- 🛠️ **Tech Stack:** .NET 9 (Backend), Flutter (Web + Mobile), Python (AI/ML), PostgreSQL 16
+- 🛠️ **Tech Stack:** .NET 9 (Backend), Flutter (Web + Mobile), Python + Azure AI Foundry (AI/ML), PostgreSQL 16
 - 🏗️ **Architecture:** Clean Architecture (Domain, Application, Infrastructure, API layers)
 - 🤖 **AI Features:** Multi-modal chatbot, image diagnostics, ML model training platform
 - 📱 **Platforms:** Web, iOS, Android (unified Flutter codebase)
@@ -32,7 +32,8 @@
 **Verified:**
 - ✅ .NET Core 9 SDK (v10.0.101)
 - ✅ Flutter SDK 3.x
-- ✅ Python 3.11+
+- ✅ Python 3.11+ (for custom AI/ML development)
+- ✅ Azure account for AI Foundry
 - ✅ PostgreSQL 16 (Docker, port 5432)
 - ✅ Keycloak (Docker, port 8080)
 - ✅ Docker Desktop
@@ -104,7 +105,7 @@ client/
 **NOTE:** This implementation plan originally covered an 11-phase, 735-hour project scope. The project has been **expanded to a 12-phase, 1,168-hour enterprise platform** with additional features including:
 - 🤖 Advanced AI chatbot with multi-modal capabilities (voice, text, vision, deep reasoning)
 - 🎨 Headless CMS for content management
-- 🧠 ML model training platform with Python (TensorFlow/PyTorch)
+- 🧠 ML model training platform with Python + Azure AI Foundry
 - 📱 Dual mobile apps (Customer + Admin) built with Flutter
 - 🌐 Unified Flutter web platform
 - 🔐 4-tier role hierarchy with impersonation
@@ -235,27 +236,32 @@ For the **complete expanded scope and detailed specifications**, see [COMPREHENS
 
 ---
 
-### Phase 7: AI Platform & Chatbot Integration (Python)
+### Phase 7: AI Platform & Chatbot Integration (Azure AI Foundry + Python)
 **Estimated Time:** 200 hours  
 **Dependencies:** Phase 6 (CMS)  
 **Status:** ⏳ Pending
 
-**Overview:** Build Python-based AI/ML platform with multi-modal chatbot capabilities.
+**Overview:** Integrate Azure AI Foundry for chatbot models and build Python-based custom ML services.
 
 **Tasks:**
-- [ ] Set up Python FastAPI service for ML models
+- [ ] Set up Azure AI Foundry integration
+- [ ] Configure chatbot models in Azure AI Foundry
+  - [ ] Fast mode chatbot
+  - [ ] Deep thinking mode chatbot
+  - [ ] Audio/voice chatbot
+  - [ ] Image describer AI model
 - [ ] Design chatbot database schema (conversations, messages, knowledge base)
-- [ ] Implement text-based chatbot with NLP (NLTK/spaCy)
+- [ ] Implement text-based chatbot integration
 - [ ] Add voice interaction capabilities (speech-to-text/text-to-speech)
-- [ ] Integrate computer vision for image analysis (OpenCV/TensorFlow)
-- [ ] Implement deep reasoning mode
-- [ ] Build ML model training pipeline (TensorFlow/PyTorch)
+- [ ] Integrate computer vision for image analysis
+- [ ] Set up Python FastAPI service for custom ML models
+- [ ] Build custom ML model training pipeline (TensorFlow/PyTorch)
 - [ ] Create model deployment and versioning system
 - [ ] Implement A/B testing for models
 - [ ] Build AI analytics dashboard
 - [ ] Create knowledge base management
-- [ ] Integrate Python AI service with .NET backend
-- [ ] Test all chatbot modes
+- [ ] Integrate Azure AI Foundry and Python services with .NET backend
+- [ ] Test all chatbot modes (fast, thinking, audio, image)
 
 ---
 
@@ -511,6 +517,7 @@ psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"U
 - [.NET Documentation](https://learn.microsoft.com/dotnet/)
 - [Flutter Documentation](https://flutter.dev/docs)
 - [Python Documentation](https://docs.python.org/3/)
+- [Azure AI Foundry Documentation](https://learn.microsoft.com/azure/ai-foundry/)
 - [TensorFlow Documentation](https://www.tensorflow.org/api_docs)
 - [PyTorch Documentation](https://pytorch.org/docs/)
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)

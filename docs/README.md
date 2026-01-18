@@ -141,13 +141,16 @@ docs/
 | [01-liquibase-deployment-quick-start.md](04-deployment-guides/01-liquibase-deployment-quick-start.md) | Deployment steps | 10 min |
 
 **Platform Highlights:**
-- 🤖 Advanced AI chatbot with multi-modal capabilities (Python-based)
+- 🤖 Advanced AI chatbot with multi-modal capabilities (Azure AI Foundry + Python)
+  - Fast mode and deep thinking mode chatbots
+  - Audio/voice chatbot
+  - Image describer AI model
 - 📱 Unified Flutter for web, iOS, and Android
 - 🎨 Headless CMS for content management
 - 🧠 ML model training platform with Python (TensorFlow/PyTorch)
 - 🔐 4-tier role hierarchy with impersonation
 - 🌐 Multi-language support
-- 💻 Tech Stack: .NET Core, Flutter, Python
+- 💻 Tech Stack: .NET Core, Flutter, Python, Azure AI Foundry
 
 ---
 

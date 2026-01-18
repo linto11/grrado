@@ -1,7 +1,7 @@
 # Grrado - Vehicle Service Aggregator Platform
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
-[![Tech Stack](https://img.shields.io/badge/stack-.NET%209%20%7C%20Flutter%20%7C%20Python%20%7C%20PostgreSQL%2016%20%7C%20Redis-blue)](#tech-stack)
+[![Tech Stack](https://img.shields.io/badge/stack-.NET%209%20%7C%20Flutter%20%7C%20Python%20%7C%20Azure%20AI%20Foundry%20%7C%20PostgreSQL-blue)](#tech-stack)
 [![Progress](https://img.shields.io/badge/Progress-9%25%20(103%2F1168%20hrs)-brightgreen)](#project-status)
 
 **Enterprise-grade, multi-platform garage and vehicle service aggregator** that connects vehicle owners with service providers through intelligent automation, AI-powered diagnostics, and comprehensive management tools.
@@ -66,15 +66,21 @@
 - Dio (HTTP client)
 - GetIt (Dependency Injection)
 
-**AI/ML (Python):**
-- Python 3.11+
-- FastAPI (ML model serving API)
-- TensorFlow / PyTorch (ML model training)
-- Scikit-learn (Traditional ML algorithms)
-- Pandas & NumPy (Data processing)
-- OpenCV (Image processing for diagnostics)
-- NLTK / spaCy (Natural language processing for chatbot)
-- Jupyter Notebooks (Model experimentation)
+**AI/ML (Python + Azure AI Foundry):**
+- **Azure AI Foundry** (Primary AI platform for model integration and orchestration)
+  - Chatbot models (fast mode and deep thinking mode)
+  - Audio chatbot integration
+  - Image describer AI models
+  - Multi-modal AI model management
+  - Model deployment and versioning
+- **Python 3.11+** (Custom AI/ML development)
+  - TensorFlow / PyTorch (Custom ML model training)
+  - FastAPI (ML model serving API)
+  - Scikit-learn (Traditional ML algorithms)
+  - Pandas & NumPy (Data processing)
+  - OpenCV (Image processing for diagnostics)
+  - NLTK / spaCy (Natural language processing)
+  - Jupyter Notebooks (Model experimentation)
 
 **Infrastructure:**
 - PostgreSQL 16 (primary database)
@@ -83,6 +89,7 @@
 - Keycloak (authentication/authorization)
 - Docker & Docker Compose (containerization)
 - Serilog (structured logging with correlation tracking)
+- Azure Cloud Services (AI Foundry, Storage)
 
 ## Project Status
 
@@ -178,7 +185,8 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 ### Prerequisites
 - .NET Core 9 SDK
 - Flutter SDK 3.x
-- Python 3.11+
+- Python 3.11+ (for custom AI/ML development)
+- Azure account (for AI Foundry)
 - PostgreSQL 16 (Docker)
 - VS Code (recommended)
 - Docker Desktop

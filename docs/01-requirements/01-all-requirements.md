@@ -259,7 +259,7 @@ All folder structures, projects, and configurations created:
 
 - **Backend:** .NET Core 9, Entity Framework Core, Liquibase migrations
 - **Frontend:** Flutter (Unified Web + Mobile), Material Design 3, Bloc/Cubit
-- **AI/ML:** Python 3.11+, TensorFlow/PyTorch, FastAPI, OpenCV, NLTK/spaCy
+- **AI/ML:** Azure AI Foundry (chatbot models integration) + Python 3.11+ (custom ML development)
 - **Database:** PostgreSQL 16 with Liquibase versioning
 - **Authentication:** Keycloak OAuth 2.0/OIDC
 - **Image Processing:** SkiaSharp for thumbnails (zero vulnerabilities, industry-standard)

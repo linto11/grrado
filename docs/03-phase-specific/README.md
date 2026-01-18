@@ -18,7 +18,8 @@ This folder contains detailed phase-specific documentation organized by phase nu
 Complete development environment setup including:
 - .NET Core 9 SDK (v10.0.101)
 - Flutter SDK 3.x (migrated from Angular)
-- Python 3.11+ for AI/ML
+- Python 3.11+ for custom AI/ML development
+- Azure account for AI Foundry
 - Docker Desktop with PostgreSQL 16 and Keycloak
 - Full version verification and testing
 

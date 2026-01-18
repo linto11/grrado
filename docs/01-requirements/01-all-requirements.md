@@ -257,25 +257,34 @@ All folder structures, projects, and configurations created:
 
 ## Key Technologies
 
-- **Backend:** .NET Core 10, Entity Framework Core, Liquibase migrations
-- **Frontend:** Angular 19, Tailwind CSS, Shadcn components, ngx-echarts
+- **Backend:** .NET Core 9, Entity Framework Core, Liquibase migrations, Azure AI Foundry
+- **Frontend:** Flutter (Unified Web + Mobile), Material Design 3, Community charts
 - **Database:** PostgreSQL 16 with Liquibase versioning
 - **Authentication:** Keycloak OAuth 2.0/OIDC
 - **Image Processing:** SkiaSharp for thumbnails (zero vulnerabilities, industry-standard)
+- **AI/ML:** Azure OpenAI, Computer Vision, Speech Services, ML model training
 - **File Storage:** Local `/uploads/images/` folder
+- **CMS:** Headless CMS with multi-language support
 
 ---
 
 ## For Detailed Task Tracking
 
 → See **[progress-tracker.md](../02-progress-tracking/progress-tracker.md)** for:
-- Complete checklist with all 101 tasks
+- Complete checklist with expanded scope (1,168 hours)
 - Task status tracking
 - Time estimates per phase
 - Dependencies and blockers
 - Current phase details
 
+→ See **[COMPREHENSIVE-PROJECT-PLAN.md](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md)** for:
+- Complete platform specifications
+- 4-tier role hierarchy details
+- AI chatbot and ML platform features
+- Mobile app specifications
+- CMS and content management details
+
 ---
 
-*Last Updated: January 11, 2026*  
+*Last Updated: January 18, 2026*  
 *Source: todo.md (Comprehensive Progress Tracker)*

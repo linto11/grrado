@@ -1,7 +1,7 @@
 # Vehicle Service Portal
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
-[![Tech Stack](https://img.shields.io/badge/stack-.NET%209%20%7C%20Angular%2019%20%7C%20PostgreSQL%2016%20%7C%20Redis%20%7C%20Liquibase-blue)](#tech-stack)
+[![Tech Stack](https://img.shields.io/badge/stack-.NET%209%20%7C%20Flutter%20%7C%20PostgreSQL%2016%20%7C%20Redis%20%7C%20Liquibase-blue)](#tech-stack)
 [![Progress](https://img.shields.io/badge/Progress-21%25%20(155%2F735%20hrs)-brightgreen)](#project-status)
 
 A full-stack web application for managing vehicle service records, diagnostics, and garage operations.
@@ -38,10 +38,11 @@ The Vehicle Service Portal provides:
 - AutoMapper (DTO mapping)
 
 **Frontend:**
-- Angular 19 (TypeScript, standalone components)
-- Tailwind CSS (styling)
-- Shadcn-inspired components (UI library)
-- ngx-echarts (charting and analytics)
+- Flutter (Unified Web + Mobile)
+- Clean Architecture (Domain, Data, Presentation layers)
+- Bloc/Cubit (State Management)
+- Tailwind-inspired styling
+- ngx-echarts (Angular version) → local_charts/community widgets (Flutter version)
 
 **Infrastructure:**
 - PostgreSQL 16 (database)

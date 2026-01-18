@@ -23,10 +23,11 @@ The Vehicle Service Portal is an enterprise-grade, multi-platform application th
 
 ### Project Scale:
 - **Total Estimated Hours:** 1,435 hours (~9 months with 3-4 developers)
-- **Platforms:** Web, iOS, Android
+- **Platforms:** Web, iOS, Android (Unified Flutter)
 - **Users:** Super Admin, App Admin, Garage Admin, Customers
 - **Languages:** Multi-language support
-- **Tech Stack:** .NET 9, Angular 19, React Native/Flutter, PostgreSQL, Redis, Azure AI
+- **Tech Stack:** .NET 9, Flutter (Unified Web + Mobile), PostgreSQL, Redis, Azure AI
+- **Architecture:** Clean Architecture (Backend & Frontend)
 
 ---
 

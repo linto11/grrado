@@ -1,0 +1,22 @@
+name: auth
+description: Authentication shared package for GRRADO (Keycloak)
+version: 0.1.0
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: ^5.0.0
+  core:
+    path: ../core
+  domain:
+    path: ../domain
+  data:
+    path: ../data
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

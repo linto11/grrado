@@ -1,25 +1,46 @@
-# Vehicle Service Portal
+# Grrado - Vehicle Service Aggregator Platform
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
-[![Tech Stack](https://img.shields.io/badge/stack-.NET%209%20%7C%20Flutter%20%7C%20PostgreSQL%2016%20%7C%20Redis%20%7C%20Liquibase-blue)](#tech-stack)
-[![Progress](https://img.shields.io/badge/Progress-21%25%20(155%2F735%20hrs)-brightgreen)](#project-status)
+[![Tech Stack](https://img.shields.io/badge/stack-.NET%209%20%7C%20Flutter%20%7C%20Python%20%7C%20Azure%20AI%20Foundry%20%7C%20PostgreSQL-blue)](#tech-stack)
+[![Progress](https://img.shields.io/badge/Progress-9%25%20(103%2F1168%20hrs)-brightgreen)](#project-status)
 
-A full-stack web application for managing vehicle service records, diagnostics, and garage operations.
+**Enterprise-grade, multi-platform garage and vehicle service aggregator** that connects vehicle owners with service providers through intelligent automation, AI-powered diagnostics, and comprehensive management tools.
 
-**Status:** Phases 1-3 Complete ✅ | Phase 4 In Progress 🔄 (57% Foundation)
+**Status:** Phases 1-3 Complete ✅ | Phase 4 In Progress 🔄 (71% Foundation)
 
 ## Project Overview
 
-The Vehicle Service Portal provides:
-- **User Management:** Customer profiles with experience levels
-- **Vehicle Management:** Vehicle records, history, and issue tracking
-- **Garage Management:** Service provider locations and offerings
-- **Service Management:** Service history, appointments, and diagnostics
-- **Analytics:** Dashboard with service trends, vehicle health, garage performance
-- **Image Diagnostics:** AI-powered image analysis for vehicle diagnostics
+**Grrado** is a comprehensive garage and vehicle service aggregator platform that revolutionizes how vehicle owners connect with service providers. The platform offers:
+
+### 🎯 Core Platform Features
+- **Multi-Platform Access:** Unified Flutter web and mobile apps (iOS/Android)
+- **4-Tier Role System:** Super Admin, Application Admin, Garage Admin, and Customers
+- **Service Aggregation:** Connect customers with hundreds of garage service providers
+- **Real-Time Booking:** GPS-based garage discovery, live availability, and instant booking
+- **Service Tracking:** Real-time status updates, push notifications, and progress monitoring
+- **Digital Payments:** Integrated payment processing and invoice generation
+
+### 🤖 AI-Powered Intelligence
+- **Advanced AI Chatbot:** Multi-modal assistance with voice, text, vision, and deep reasoning
+- **Image Diagnostics:** AI-powered vehicle issue detection from photos
+- **Predictive Analytics:** ML models for maintenance prediction and service recommendations
+- **Azure AI Foundry:** Enterprise-grade AI infrastructure and model training platform
+
+### 🎨 Content & Management
+- **Headless CMS:** Multi-language content management for web and mobile
+- **Admin Portal:** Comprehensive dashboard for operations team
+- **Garage Dashboard:** Service provider management, scheduling, and analytics
+- **Customer Portal:** Vehicle management, service history, and booking interface
+
+### 📊 Business Intelligence
+- **Advanced Analytics:** Revenue tracking, service trends, customer insights
+- **Performance Metrics:** Garage ratings, mechanic efficiency, customer satisfaction
+- **Financial Reports:** Commission tracking, tax reports, accounting integrations
+- **Inventory Management:** Parts tracking, low stock alerts, supplier management
 
 ## Quick Links
 
+- **📋 Comprehensive Project Plan:** [COMPREHENSIVE-PROJECT-PLAN.md](docs/00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md) ← Complete feature specifications
 - **📋 Implementation Plan:** [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) ← Master development guide for Copilot
 - **📊 Progress Tracker:** [docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md) ← Single source of truth
 - **🏗️ Phase Documentation:** [docs/03-phase-specific/](docs/03-phase-specific/) ← Detailed phase completions
@@ -27,56 +48,76 @@ The Vehicle Service Portal provides:
 
 ## Tech Stack
 
-**Backend:**
-- .NET Core 9 (C#)
-- Clean Architecture (Domain, Application, Infrastructure, API layers)
+**Backend (.NET Core 9):**
+- C# with Clean Architecture (Domain, Application, Infrastructure, API layers)
 - Entity Framework Core 9 + PostgreSQL 16
-- Redis (distributed caching with error message support)
+- Redis 7 (distributed caching with error message support)
 - Liquibase (database version control)
 - MediatR (CQRS pattern)
 - FluentValidation (validation with error codes)
 - AutoMapper (DTO mapping)
+- Polly (resilience and fault tolerance)
 
-**Frontend:**
-- Flutter (Unified Web + Mobile)
+**Frontend (Flutter):**
+- Flutter SDK (Unified Web + Mobile for iOS/Android)
 - Clean Architecture (Domain, Data, Presentation layers)
 - Bloc/Cubit (State Management)
-- Tailwind-inspired styling
-- ngx-echarts (Angular version) → local_charts/community widgets (Flutter version)
+- Material Design 3
+- Dio (HTTP client)
+- GetIt (Dependency Injection)
+
+**AI/ML (Python + Azure AI Foundry):**
+- **Azure AI Foundry** (Primary AI platform for model integration and orchestration)
+  - Chatbot models (fast mode and deep thinking mode)
+  - Audio chatbot integration
+  - Image describer AI models
+  - Multi-modal AI model management
+  - Model deployment and versioning
+- **Python 3.11+** (Custom AI/ML development)
+  - TensorFlow / PyTorch (Custom ML model training)
+  - FastAPI (ML model serving API)
+  - Scikit-learn (Traditional ML algorithms)
+  - Pandas & NumPy (Data processing)
+  - OpenCV (Image processing for diagnostics)
+  - NLTK / spaCy (Natural language processing)
+  - Jupyter Notebooks (Model experimentation)
 
 **Infrastructure:**
-- PostgreSQL 16 (database)
+- PostgreSQL 16 (primary database)
 - Redis 7 (distributed caching)
 - Liquibase (schema management)
 - Keycloak (authentication/authorization)
 - Docker & Docker Compose (containerization)
 - Serilog (structured logging with correlation tracking)
-
-**Development Tools:**
-- VS Code (recommended IDE)
-- .NET CLI 9
-- Node.js 20 LTS
-- npm / Angular CLI 19
+- Azure Cloud Services (AI Foundry, Storage)
 
 ## Project Status
 
 **Phases Completed:** 1, 2, 3 (Environment, Architecture, Database)  
-**Total Progress:** 21% (155 of 735 hours)  
-**Current Phase:** 4 - Backend API Development (57% Foundation Complete)
+**Total Progress:** 9% (103 of 1,168 hours)  
+**Current Phase:** 4 - Backend API Development (71% Foundation Complete)
 
-| Phase | Status | Tasks | Time |
-|-------|--------|-------|------|
-| 1: Environment Setup | ✅ Complete | 7/7 | 5 hrs |
-| 2: Project Structure | ✅ Complete | 13/13 | 8 hrs |
-| 3: Database & Liquibase | ✅ Complete | 13/13 | 15 hrs |
-| 4: Backend API | 🔄 In Progress | 8/14 | 55 hrs |
-| 5: Frontend UI | ⏳ Pending | 0/10 | 30 hrs |
+| Phase | Status | Progress | Time |
+|-------|--------|----------|------|
+| 1: Environment Setup | ✅ Complete | 100% | 5 hrs |
+| 2: Project Structure | ✅ Complete | 100% | 8 hrs |
+| 3: Database & Liquibase | ✅ Complete | 100% | 15 hrs |
+| 4: Backend API (Clean Arch) | 🔄 In Progress | 71% | 100 hrs |
+| 5: Roles & Permissions | ⏳ Pending | 0% | 60 hrs |
+| 6: Content Management System | ⏳ Pending | 0% | 100 hrs |
+| 7: AI Platform & Chatbot | ⏳ Pending | 0% | 200 hrs |
+| 8: Mobile App - Customer (Flutter) | ⏳ Pending | 0% | 180 hrs |
+| 9: Mobile App - Admin (Flutter) | ⏳ Pending | 0% | 100 hrs |
+| 10: Web Portals (Flutter Web) | ⏳ Pending | 0% | 220 hrs |
+| 11: Integration & Testing | ⏳ Pending | 0% | 120 hrs |
+| 12: Deployment & DevOps | ⏳ Pending | 0% | 60 hrs |
+| **TOTAL** | | **9%** | **1,168 hrs** |
 ## Documentation
 
+- **[COMPREHENSIVE-PROJECT-PLAN.md](docs/00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md)** - Complete platform specifications and all features
 - **[IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md)** - Detailed implementation plan for all phases (start here for development)
 - **[docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md)** - Task-by-task progress tracking
 - **[docs/03-phase-specific/](docs/03-phase-specific/)** - Complete documentation for each phase
-- **[docs/00-getting-started/](docs/00-getting-started/)** - Setup and getting started guides
 - **[CHANGELOG.md](CHANGELOG.md)** - Version history and release notes
 - **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** - Community guidelines
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
@@ -94,10 +135,15 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 ---
 
 **Last Updated:** January 18, 2026  
-**Current Phase:** 4 - Backend API Development (57% Foundation)  
-**Overall Progress:** 21% (155 of 735 hours)
+**Current Phase:** 4 - Backend API Development (71% Foundation)  
+**Overall Progress:** 9% (103 of 1,168 hours)
 
 ## Latest Achievements (January 18, 2026)
+
+✅ **Frontend Migration to Flutter**
+- Migrated from Angular to unified Flutter for web + mobile
+- Clean Architecture implementation for Flutter
+- Updated coding standards (Rulebook v1.1)
 
 ✅ **Error Code Management System**
 - JSON-based configuration with 32 error codes
@@ -106,6 +152,13 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 - Code name to GUID resolution with O(1) dictionary lookup
 - Hot reload support for runtime configuration updates
 
+✅ **Polly Resilience Framework**
+- HTTP integration policies (retry, circuit breaker, timeout)
+- Azure AI integration resilience
+- Keycloak authentication resilience
+- Database operation policies
+- Comprehensive error handling and fault tolerance
+
 ✅ **Architecture Foundation**
 - Abstractions layer with 24 DTOs (Read/Create/Update)
 - Repository + Unit of Work patterns
@@ -113,6 +166,7 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 - Serilog structured logging with correlation IDs
 - Keycloak authentication services
 - Layer-specific dependency injection
+- Database logging infrastructure with background queue processing
 
 ✅ **Validation System**
 - FluentValidation with error codes
@@ -130,7 +184,9 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 
 ### Prerequisites
 - .NET Core 9 SDK
-- Node.js 20 LTS
+- Flutter SDK 3.x
+- Python 3.11+ (for custom AI/ML development)
+- Azure account (for AI Foundry)
 - PostgreSQL 16 (Docker)
 - VS Code (recommended)
 - Docker Desktop
@@ -156,8 +212,8 @@ dotnet build
 
 # Build frontend
 cd ../client
-npm install
-ng build
+flutter pub get
+flutter build web
 ```
 
 ## Project Structure
@@ -174,12 +230,15 @@ grrado/
 │   │   └── Services/                # Infrastructure services
 │   └── API/                         # REST API
 │
-├── client/                          # Angular Frontend
-│   ├── src/app/
-│   │   ├── core/                    # Services, interceptors
-│   │   ├── shared/                  # UI components
-│   │   └── features/                # Feature modules (8 entities)
-│   └── styles.css                   # Tailwind CSS
+├── client/                          # Flutter Frontend (Web + Mobile)
+│   ├── web/
+│   │   └── consumer/                # Customer mobile/web app
+│   └── shared/                      # Shared Flutter packages
+│       ├── auth/                    # Authentication
+│       ├── ui/                      # UI components
+│       ├── data/                    # Data layer
+│       ├── core/                    # Core utilities
+│       └── domain/                  # Domain models
 │
 ├── scripts/
 │   └── database-setup/              # Database initialization
@@ -200,21 +259,31 @@ grrado/
 
 ## Database Schema
 
-**8 Tables:**
-- **Users** (100 records) - Customer profiles
-- **Vehicles** (650+ records) - Vehicle inventory
-- **Garages** - Service provider locations
-- **Services** - Service offerings by garage
-- **VehicleIssues** - Reported issues
-- **ServiceHistories** - Service appointments
-- **DiagnosticRules** - AI diagnostic rules
-- **ImageDiagnostics** - Image analysis results
+**8 Core Tables:**
+- **Users** (100 records) - Customer profiles with role management
+- **Vehicles** (650+ records) - Vehicle inventory with maintenance tracking
+- **Garages** - Service provider locations with ratings and services
+- **Services** - Service offerings by garage with pricing
+- **VehicleIssues** - Reported issues with AI diagnostic support
+- **ServiceHistories** - Service appointments and completion records
+- **DiagnosticRules** - AI diagnostic rules and patterns
+- **ImageDiagnostics** - Image analysis results and recommendations
+
+**Additional Tables (Planned):**
+- **ChatbotConversations** - AI chatbot conversation history
+- **ChatbotMessages** - Individual chatbot messages
+- **ChatbotKnowledgeBase** - AI knowledge repository
+- **MLModels** - Trained ML model metadata
+- **Notifications** - Push notifications and alerts
+- **Payments** - Transaction records
+- **Reviews** - Customer reviews and ratings
 
 **Features:**
 - 12 composite indexes for performance
 - 5 foreign key relationships
 - Soft-delete pattern on all tables
 - 3,400+ seed records via Liquibase
+- Audit trails with timestamps
 
 ## Database Management
 
@@ -260,59 +329,102 @@ dotnet test
 cd client
 
 # Install dependencies
-npm install
+flutter pub get
 
-# Development server
-ng serve
+# Development server (web)
+flutter run -d chrome
 
-# Build
-ng build
+# Build for web
+flutter build web
+
+# Build for mobile
+flutter build apk  # Android
+flutter build ios  # iOS
 ```
 
-**Application will be available at:** http://localhost:4200
+**Application will be available at:** http://localhost:8080 (or as specified)
 
 ## Key Features
 
-### Authentication
+### User Experience
+- **Multi-Platform Access:** Unified Flutter experience across web, iOS, and Android
+- **GPS-Based Discovery:** Find nearby garages with real-time availability
+- **Real-Time Booking:** Instant appointment scheduling with live calendar
+- **Service Tracking:** Push notifications for appointment updates and service progress
+- **Digital Wallet:** Integrated payment processing and invoice management
+- **Multi-Language Support:** Localized content and interface
+
+### Authentication & Authorization
 - OAuth 2.0 / OIDC via Keycloak
-- Role-based access control (RBAC)
+- 4-tier role-based access control (RBAC)
+- Impersonation capabilities with audit trails
 - Token refresh and session management
+- Two-factor authentication (2FA) for admins
 
-### API
-- 32 REST endpoints (4 per entity)
-- Full CRUD operations
-- Soft-delete with restore
-- File upload for images
-- Search and filtering
-- Pagination support
+### API & Backend
+- 32+ REST endpoints with full CRUD operations
+- Soft-delete with restore functionality
+- File upload for images with thumbnail generation
+- Search, filtering, and pagination support
+- Error code management with Redis caching
+- Polly resilience patterns for fault tolerance
+- Structured logging with correlation IDs
 
-### UI
-- Responsive design (mobile-first)
-- Tailwind CSS styling
-- Interactive charts (ngx-echarts)
-- Data grids with sorting/filtering
-- Modal dialogs for forms
-- Image upload and preview
+### AI & Machine Learning
+- **Advanced Chatbot:** Multi-modal AI assistant (text, voice, vision, deep reasoning)
+- **Image Diagnostics:** Computer vision for vehicle issue detection
+- **Predictive Maintenance:** ML models for service predictions
+- **Model Training Platform:** Custom model training and deployment
+- **Azure AI Foundry:** Enterprise AI infrastructure
 
-### Analytics
-- Service volume trends
-- Vehicle health metrics
-- Garage performance
-- Upcoming maintenance
-- Dashboard with real-time updates
+### Content Management
+- **Headless CMS:** Multi-language content management
+- **Media Library:** Images, videos, and documents
+- **WYSIWYG Editor:** Rich text editing with version control
+- **Template Management:** Email and notification templates
+- **SEO Optimization:** Meta tags and search engine optimization
+
+### Business Intelligence
+- **Analytics Dashboard:** Service trends, revenue, and customer insights
+- **Performance Metrics:** Garage ratings, mechanic efficiency, satisfaction scores
+- **Financial Reports:** Revenue breakdown, commissions, tax reports
+- **Inventory Management:** Parts tracking, low stock alerts
+- **Export Capabilities:** PDF, Excel, and accounting software integration
+
+### Mobile Features (Customer App)
+- Vehicle management with VIN scanner
+- GPS-based garage discovery
+- Real-time booking and tracking
+- AI chatbot assistance
+- Push notifications
+- Digital payment wallet
+- Service history and reminders
+
+### Mobile Features (Admin App)
+- Appointment management
+- Quick status updates
+- Photo uploads
+- Voice memos
+- Emergency alerts
+- Performance dashboard
 
 ## Next Steps (Phase 4)
 
 See [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) for detailed Phase 4 tasks:
 
-1. Configure Keycloak authentication
-2. Scaffold DbContext from database
-3. Build repository pattern
-4. Create DTOs and mappings
-5. Implement service layer
-6. Build REST API controllers
-7. Add file upload endpoint
-8. Create Swagger documentation
+1. Complete Application Services layer (business logic for 8 entities)
+2. Build REST API Controllers (CRUD endpoints)
+3. Configure Keycloak realm and client setup
+4. Add JWT authentication middleware to API pipeline
+5. Test all endpoints with seed data
+6. Document APIs with Swagger/OpenAPI
+
+**Upcoming Phases:**
+- **Phase 5:** Roles & Permissions System (60 hrs)
+- **Phase 6:** Headless CMS Implementation (100 hrs)
+- **Phase 7:** AI Platform & Chatbot Integration (200 hrs)
+- **Phase 8-10:** Mobile & Web Apps with Flutter (500 hrs)
+- **Phase 11-12:** Integration, Testing & Deployment (180 hrs)
 
 ## Documentation
 - Activation blocked? Allow for the session:

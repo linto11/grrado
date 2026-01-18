@@ -1,8 +1,8 @@
-# Vehicle Service Portal - Progress Tracker
+# Grrado - Vehicle Service Aggregator Platform - Progress Tracker
 
 **Last Updated:** January 18, 2026  
 **Overall Status:** Phases 1-3 ✅ COMPLETE | Phase 4 🔄 IN PROGRESS (71% Foundation)  
-**Project Scope:** Enterprise Multi-Platform with AI/ML Capabilities  
+**Project Scope:** Enterprise Multi-Platform Garage and Vehicle Service Aggregator
 **Clean Architecture:** ✅ Mandated for all Backend (.NET) and Frontend (Flutter) projects
 **Next Phase:** Phase 4 Backend API Development (Application Services & Controllers)  
 **Total Project Progress:** 9% (103 of 1,168 hours complete)
@@ -12,15 +12,16 @@
 ## 📊 Executive Summary
 
 ### Project Evolution
-- **Original Scope:** Web-based service portal (735 hours)
-- **Expanded Scope:** Multi-platform AI-powered system (1,168 hours)
+- **Original Scope:** Web-based vehicle service portal (735 hours)
+- **Expanded Scope:** Multi-platform garage and vehicle service aggregator (1,168 hours)
 - **New Features Added:**
-  - 🤖 Advanced AI Chatbot (voice + vision + deep thinking)
-  - 📱 2 Mobile Apps (Customer + Admin)
-  - 🎨 Headless CMS
-  - 🧠 ML Model Training Platform
-  - 🔐 4-Tier Role Hierarchy
-  - ☁️ Microsoft Azure AI Foundry Integration
+  - 🤖 Advanced AI Chatbot (Azure AI Foundry: fast mode, thinking mode, audio, image describer)
+  - 📱 2 Mobile Apps (Customer + Admin) - Flutter
+  - 🌐 Unified Web Platform - Flutter Web
+  - 🎨 Headless CMS for multi-language content
+  - 🧠 Custom ML Models with Python (TensorFlow/PyTorch)
+  - 🔐 4-Tier Role Hierarchy (Super Admin, App Admin, Garage Admin, Customer)
+  - 📊 Real-time GPS-based garage discovery and booking
 
 ### Overall Status
 | Metric | Value |
@@ -160,7 +161,7 @@
 
 ---
 
-## Phase 7: AI Platform & Chatbot ⏳ PENDING
+## Phase 7: AI Platform & Chatbot (Azure AI Foundry + Python) ⏳ PENDING
 
 **Status:** ⏳ Not Started  
 **Duration:** 200 hours  
@@ -168,21 +169,26 @@
 
 ### Scope
 - [ ] **Azure AI Foundry Setup**
-  - [ ] Azure OpenAI Service (GPT-4 Turbo)
-  - [ ] Azure AI Speech (voice input/output)
-  - [ ] Azure AI Vision (image analysis)
-  - [ ] Azure AI Search (knowledge base RAG)
-  - [ ] Azure Prompt Flow (orchestration)
-  - [ ] Azure Content Safety (moderation)
+  - [ ] Configure Azure AI Foundry workspace
+  - [ ] Set up chatbot models:
+    - [ ] Fast mode chatbot
+    - [ ] Deep thinking mode chatbot
+    - [ ] Audio/voice chatbot
+    - [ ] Image describer AI model
+  - [ ] Configure model deployment and versioning
+  - [ ] Set up Azure AI Search (knowledge base RAG)
+  - [ ] Configure content safety and moderation
 
-- [ ] **ML Model Training Platform**
+- [ ] **Python Custom ML Platform**
+  - [ ] Set up Python FastAPI service
   - [ ] Dataset upload & management
-  - [ ] Model training API
+  - [ ] Custom model training pipeline (TensorFlow/PyTorch)
   - [ ] Hyperparameter tuning
   - [ ] Model evaluation & deployment
   - [ ] Analytics dashboard
+  - [ ] Integration with .NET backend
 
-- [ ] **Advanced AI Chatbot**
+- [ ] **Advanced AI Chatbot Integration**
   - [ ] 💬 Text chat mode
   - [ ] 🎤 Voice chat mode (speech-to-text/text-to-speech)
   - [ ] 🧠 Deep thinking mode (complex diagnostics)
@@ -378,31 +384,47 @@
 
 ## 📊 Technology Stack Summary
 
-### Current (Implemented)
+### Backend (.NET Core 9)
 - ✅ .NET Core 9 (Clean Architecture)
-- ❌ Angular 19 (REPLACED BY FLUTTER)
+- ✅ Entity Framework Core 9
 - ✅ PostgreSQL 16
 - ✅ Redis 7
-- ✅ Keycloak
-- ✅ Liquibase
-- ✅ SkiaSharp 2.88.8
-- ✅ Serilog
-- ✅ AutoMapper
-- ✅ MediatR
-- ✅ FluentValidation
+- ✅ Keycloak (OAuth 2.0/OIDC)
+- ✅ Liquibase (Database versioning)
+- ✅ SkiaSharp 2.88.8 (Image processing)
+- ✅ Serilog (Structured logging)
+- ✅ AutoMapper (DTO mapping)
+- ✅ MediatR (CQRS pattern)
+- ✅ FluentValidation (Validation)
+- ✅ Polly (Resilience)
 
-### Planned (Phases 5-12)
-- ⏳ Flutter (Unified Web + Mobile, Clean Architecture)
-- ⏳ Azure AI Foundry
-  - Azure OpenAI (GPT-4 Turbo)
-  - Azure AI Speech
-  - Azure AI Vision
-  - Azure AI Search
-  - Azure Prompt Flow
-  - Azure Content Safety
-- ⏳ ML.NET (Custom models)
-- ⏳ TinyMCE (CMS editor)
-- ⏳ Kubernetes (Deployment)
+### Frontend (Flutter)
+- ✅ Flutter SDK 3.x (Unified Web + Mobile)
+- ✅ Clean Architecture (Domain, Data, Presentation)
+- ✅ Bloc/Cubit (State Management)
+- ✅ Material Design 3
+- ✅ Dio (HTTP client)
+- ✅ GetIt (Dependency Injection)
+- ⏳ Modular package structure (auth, ui, data, domain, core)
+
+### AI/ML Platform
+- ⏳ **Azure AI Foundry** (Chatbot model integration)
+  - Fast mode chatbot
+  - Deep thinking mode chatbot
+  - Audio/voice chatbot
+  - Image describer AI model
+- ⏳ **Python 3.11+** (Custom AI/ML development)
+  - TensorFlow / PyTorch (Custom model training)
+  - FastAPI (ML model serving API)
+  - OpenCV (Image processing)
+  - NLTK / spaCy (NLP)
+  - Scikit-learn (Traditional ML)
+  - Pandas & NumPy (Data processing)
+
+### Infrastructure
+- ✅ Docker & Docker Compose
+- ⏳ Azure Cloud Services (AI Foundry)
+- ⏳ Kubernetes (Production deployment)
 
 ---
 
@@ -657,11 +679,20 @@ public class UpdateVehicleHandler : IRequestHandler<UpdateVehicleCommand>
 ## 📝 Notes & Decisions
 
 ### January 18, 2026
-- **Decision:** Expanded project scope to include mobile apps, CMS, and AI platform
+- **Decision:** Expanded project scope to full garage and vehicle service aggregator platform
+- **Decision:** Migrated frontend from Angular to Flutter (unified web + mobile)
+- **Decision:** Tech stack finalized:
+  - Backend: .NET Core 9
+  - Frontend: Flutter (web + iOS + Android)
+  - AI/ML: Azure AI Foundry (chatbot models) + Python 3.11+ (custom ML)
+- **Decision:** Azure AI Foundry for chatbot model integration:
+  - Fast mode chatbot
+  - Deep thinking mode chatbot
+  - Audio/voice chatbot
+  - Image describer AI model
+- **Decision:** Python for custom AI/ML development (TensorFlow, PyTorch, FastAPI)
 - **Decision:** Migrated from SixLabors.ImageSharp to SkiaSharp for zero vulnerabilities
-- **Decision:** Selected Azure AI Foundry as primary AI platform
-- **Decision:** 4-tier role hierarchy (Super Admin → App Admin → Garage Admin → User)
-- **Decision:** Advanced chatbot with 4 modes (text, voice, deep thinking, image)
+- **Decision:** 4-tier role hierarchy (Super Admin → App Admin → Garage Admin → Customer)
 - **Action Required:** Stakeholder approval for expanded scope and budget
 
 ### Key Risks

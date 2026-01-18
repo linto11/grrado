@@ -1,39 +1,43 @@
-# Vehicle Service Portal - Implementation Plan
+# Grrado - Vehicle Service Aggregator Platform - Implementation Plan
 
 **Last Updated:** January 18, 2026  
-**Overall Progress:** 21% (155 of 735 hours complete)  
-**Current Phase:** Phase 3 ✅ COMPLETE | Phase 4 🔄 IN PROGRESS (57% Foundation)
+**Overall Progress:** 9% (103 of 1,168 hours complete)  
+**Current Phase:** Phase 3 ✅ COMPLETE | Phase 4 🔄 IN PROGRESS (71% Foundation)
 
 ---
 
 ## Executive Summary
 
-The Vehicle Service Portal is a full-stack application for managing vehicle service records, diagnostics, and garage operations. Phases 1-3 are complete (environment, project structure, database). Phases 4-11 are ready to begin, with Phase 4 (Backend API) being the immediate priority.
+**Grrado** is an enterprise-grade, multi-platform garage and vehicle service aggregator that connects vehicle owners with service providers through intelligent automation, AI-powered diagnostics, and comprehensive management tools. Phases 1-3 are complete (environment, project structure, database). Phases 4-12 cover backend API, roles, CMS, AI platform, mobile apps, web portals, testing, and deployment.
 
 **Key Stats:**
 - ✅ **Complete:** Phases 1-3 (environment, architecture, database design)
-- 🎯 **Next:** Phase 4 Backend API Development (40 hours estimated)
+- 🎯 **Next:** Phase 4 Backend API Development (100 hours estimated)
 - 📦 **Database:** 8 tables with 3,400+ seed records via Liquibase
-- 🛠️ **Tech Stack:** .NET 9 (Backend), Angular 19 (Frontend), PostgreSQL 16, Liquibase
+- 🛠️ **Tech Stack:** .NET 9 (Backend), Flutter (Unified Web + Mobile), PostgreSQL 16, Azure AI Foundry
 - 🏗️ **Architecture:** Clean Architecture (Domain, Application, Infrastructure, API layers)
+- 🤖 **AI Features:** Multi-modal chatbot, image diagnostics, ML model training platform
+- 📱 **Platforms:** Web, iOS, Android (unified Flutter codebase)
+- 🎨 **Content:** Headless CMS with multi-language support
+- 👥 **Users:** 4-tier role hierarchy (Super Admin, App Admin, Garage Admin, Customers)
 
 ---
 
 ## Completed Work (Phases 1-3)
 
-### ✅ Phase 1: Environment & Prerequisites (7/7 Complete)
+### ✅ Phase 1: Environment & Prerequisites (Complete)
 **Completion Date:** January 11, 2026  
 **Documentation:** [phase-1-environment-setup/README.md](docs/03-phase-specific/phase-1-environment-setup/README.md)
 
 **Verified:**
 - ✅ .NET Core 9 SDK (v10.0.101)
-- ✅ Node.js v20.11.1 & npm 10.2.4
-- ✅ Angular CLI 19
+- ✅ Flutter SDK 3.x
 - ✅ PostgreSQL 16 (Docker, port 5432)
 - ✅ Keycloak (Docker, port 8080)
 - ✅ Docker Desktop
+- ✅ Azure account for AI services
 
-### ✅ Phase 2: Project Structure & Configuration (13/13 Complete)
+### ✅ Phase 2: Project Structure & Configuration (Complete)
 **Completion Date:** January 11, 2026  
 **Documentation:** [phase-2-project-structure/README.md](docs/03-phase-specific/phase-2-project-structure/README.md)
 
@@ -49,21 +53,22 @@ server/
 **Frontend Structure:**
 ```
 client/
-├── src/app/
-│   ├── core/           (Services, interceptors, auth)
-│   ├── shared/         (UI components, pipes, directives)
-│   └── features/       (Feature modules - to be created)
-├── public/             (Static assets)
-└── styles.css          (Tailwind CSS configured)
+├── web/
+│   └── consumer/       (Customer-facing Flutter web app)
+└── shared/             (Shared Flutter packages)
+    ├── auth/           (Authentication)
+    ├── ui/             (UI components)
+    ├── data/           (Data layer)
+    ├── core/           (Core utilities)
+    └── domain/         (Domain models)
 ```
 
 **Installed:**
-- ✅ Tailwind CSS (styling framework)
-- ✅ Shadcn-inspired UI components (Button, Card, Input, Modal, Table)
-- ✅ ngx-echarts 19 (charting library)
+- ✅ Flutter SDK with Material Design 3
+- ✅ Flutter community charts for data visualization
 - ✅ Keycloak integration (authentication)
 
-### ✅ Phase 3: Database Design & Setup (13/13 Complete)
+### ✅ Phase 3: Database Design & Setup (Complete)
 **Completion Date:** January 11, 2026  
 **Documentation:** [phase-3-database-liquibase/README.md](docs/03-phase-specific/phase-3-database-liquibase/README.md)
 
@@ -94,10 +99,20 @@ client/
 
 ---
 
-## Next Work: Phases 4-11
+## Next Work: Phases 4-12
 
-### 🎯 Phase 4: Backend API Development (NEXT PRIORITY)
-**Estimated Time:** 40 hours  
+**NOTE:** This implementation plan originally covered an 11-phase, 735-hour project scope. The project has been **expanded to a 12-phase, 1,168-hour enterprise platform** with additional features including:
+- 🤖 Advanced AI chatbot with multi-modal capabilities (voice, text, vision, deep reasoning)
+- 🎨 Headless CMS for content management
+- 🧠 ML model training platform with Azure AI Foundry
+- 📱 Dual mobile apps (Customer + Admin) built with Flutter
+- 🌐 Unified Flutter web platform
+- 🔐 4-tier role hierarchy with impersonation
+
+For the **complete expanded scope and detailed specifications**, see [COMPREHENSIVE-PROJECT-PLAN.md](docs/00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md).
+
+### 🎯 Phase 4: Backend API Development (IN PROGRESS - 71% Foundation Complete)
+**Estimated Time:** 100 hours  
 **Dependencies:** ✅ Complete (Phases 1-3)  
 **Documentation:** [progress-tracker.md](docs/02-progress-tracking/progress-tracker.md)
 
@@ -178,121 +193,181 @@ client/
 
 ---
 
-### Phase 5: Frontend UI Setup
-**Estimated Time:** 30 hours  
+### Phase 5: Roles & Permissions System
+**Estimated Time:** 60 hours  
 **Dependencies:** Phase 4 (Backend API must be complete)  
-**Status:** ⏳ Blocked (waiting for Phase 4)
+**Status:** ⏳ Pending
+
+**Overview:** Implement comprehensive 4-tier role hierarchy with impersonation capabilities.
 
 **Tasks:**
-- [ ] Create feature modules (Dashboard, Users, Vehicles, Garages, Services, ServiceHistories, VehicleIssues, DiagnosticRules, ImageDiagnostics)
-- [ ] Configure Keycloak/OIDC authentication in Angular
-- [ ] Create authentication service (login/logout, token management)
-- [ ] Build HTTP interceptor (token injection, error handling)
-- [ ] Implement route guards (auth, role-based)
-- [ ] Create navigation & layout components
-- [ ] Create reusable grid component (DataTable)
-- [ ] Create reusable modal/dialog component
-- [ ] Create API service (type-safe HTTP calls)
-- [ ] Implement timezone service
+- [ ] Implement Super Admin role and permissions
+- [ ] Implement Application Admin role with CMS access
+- [ ] Implement Garage Admin role with dashboard access
+- [ ] Implement Customer role with mobile-first features
+- [ ] Build impersonation system with audit trails
+- [ ] Create role-based route guards
+- [ ] Implement permission checking middleware
+- [ ] Add 2FA for admin roles
+- [ ] Build user management interfaces
+- [ ] Test all role-based access scenarios
 
 ---
 
-### Phase 6: CRUD Grids & Forms
-**Estimated Time:** 50 hours  
-**Dependencies:** Phase 5 (Frontend UI)  
-**Status:** ⏳ Blocked
+### Phase 6: Content Management System (CMS)
+**Estimated Time:** 100 hours  
+**Dependencies:** Phase 5 (Roles & Permissions)  
+**Status:** ⏳ Pending
 
-**Tasks:** Implement for all 8 entities
-- [ ] Create list/grid views (columns, pagination, sorting, search)
-- [ ] Create detail/read-only views
-- [ ] Create add/create forms
-- [ ] Create edit/update forms
-- [ ] Create delete confirmations (soft-delete)
-- [ ] Create restore functionality
-- [ ] Implement grid features (sorting, filtering, pagination)
-- [ ] Implement form validation
-- [ ] Add soft-delete visibility toggle
-
----
-
-### Phase 7: Image Diagnostics Special Handling
-**Estimated Time:** 15 hours  
-**Dependencies:** Phase 6 (CRUD grids)  
-**Status:** ⏳ Blocked
+**Overview:** Build headless CMS for managing web and mobile content.
 
 **Tasks:**
-- [ ] File upload input (drag-and-drop, validation, preview)
-- [ ] Thumbnail display in grids (200x200px, clickable)
-- [ ] Full image modal/lightbox
-- [ ] Image preview/download functionality
+- [ ] Design CMS database schema
+- [ ] Create CMS API endpoints
+- [ ] Build WYSIWYG editor interface
+- [ ] Implement media library (images, videos, documents)
+- [ ] Add multi-language content support
+- [ ] Create version control for content
+- [ ] Build publish/draft workflow
+- [ ] Implement SEO settings
+- [ ] Create template management
+- [ ] Test content delivery to web and mobile
 
 ---
 
-### Phase 8: Analytics Dashboard
-**Estimated Time:** 20 hours  
-**Dependencies:** Phase 5 (Frontend UI)  
-**Status:** ⏳ Blocked
+### Phase 7: AI Platform & Chatbot Integration
+**Estimated Time:** 200 hours  
+**Dependencies:** Phase 6 (CMS)  
+**Status:** ⏳ Pending
+
+**Overview:** Integrate Azure AI Foundry and build multi-modal AI chatbot.
 
 **Tasks:**
-- [ ] Service Volume Trend (line chart - 12 months)
-- [ ] Vehicle Health Summary (gauge charts)
-- [ ] Upcoming Maintenance (table - 30 days)
-- [ ] Garage Performance (bar chart - top 10)
-- [ ] Dashboard controls (refresh, filters)
-- [ ] Timezone support
-- [ ] Responsive styling
+- [ ] Set up Azure AI Foundry integration
+- [ ] Design chatbot database schema (conversations, messages, knowledge base)
+- [ ] Implement text-based chatbot
+- [ ] Add voice interaction capabilities
+- [ ] Integrate computer vision for image analysis
+- [ ] Implement deep reasoning mode
+- [ ] Build ML model training platform
+- [ ] Create model deployment pipeline
+- [ ] Implement A/B testing for models
+- [ ] Build AI analytics dashboard
+- [ ] Create knowledge base management
+- [ ] Test all chatbot modes
 
 ---
 
-### Phase 9: UI Styling & Responsive Design
-**Estimated Time:** 20 hours  
-**Dependencies:** Phase 8 (Dashboard)  
-**Status:** ⏳ Blocked
+### Phase 8: Mobile App - Customer (Flutter)
+**Estimated Time:** 180 hours  
+**Dependencies:** Phase 7 (AI Platform)  
+**Status:** ⏳ Pending
+
+**Overview:** Build customer-facing mobile app for iOS and Android.
 
 **Tasks:**
-- [ ] Apply Tailwind CSS globally
-- [ ] Use Shadcn components consistently
-- [ ] Mobile-first responsive design
-- [ ] Test on multiple devices/browsers
-- [ ] Accessibility features (ARIA, keyboard nav, WCAG AA)
+- [ ] Set up Flutter mobile project structure
+- [ ] Implement Clean Architecture for mobile
+- [ ] Create vehicle management screens
+- [ ] Build GPS-based garage discovery
+- [ ] Implement real-time booking system
+- [ ] Add service tracking with notifications
+- [ ] Integrate AI chatbot
+- [ ] Implement digital payment wallet
+- [ ] Create service history and reminders
+- [ ] Add VIN scanner functionality
+- [ ] Build user profile management
+- [ ] Test on iOS and Android devices
 
 ---
 
-### Phase 10: Integration & Testing
-**Estimated Time:** 30 hours  
-**Dependencies:** Phase 9 (Styling)  
-**Status:** ⏳ Blocked
+### Phase 9: Mobile App - Admin (Flutter)
+**Estimated Time:** 100 hours  
+**Dependencies:** Phase 8 (Customer Mobile App)  
+**Status:** ⏳ Pending
+
+**Overview:** Build admin mobile app for Application Admins and Garage Admins.
+
+**Tasks:**
+- [ ] Create admin mobile app structure
+- [ ] Build appointment management interface
+- [ ] Implement quick status updates
+- [ ] Add photo upload functionality
+- [ ] Create voice memo feature
+- [ ] Build performance dashboard
+- [ ] Implement emergency alerts
+- [ ] Add garage management tools
+- [ ] Create inventory management interface
+- [ ] Test admin workflows
+
+---
+
+### Phase 10: Web Portals (Flutter Web)
+**Estimated Time:** 220 hours  
+**Dependencies:** Phase 9 (Admin Mobile App)  
+**Status:** ⏳ Pending
+
+**Overview:** Build unified Flutter web portals for all user roles.
+
+**Tasks:**
+- [ ] Convert Flutter mobile to responsive web
+- [ ] Build Super Admin portal
+- [ ] Create Application Admin portal with CMS
+- [ ] Build Garage Admin dashboard
+- [ ] Create Customer web portal
+- [ ] Implement analytics dashboards
+- [ ] Add financial reporting
+- [ ] Create inventory management
+- [ ] Build user management interfaces
+- [ ] Implement impersonation UI
+- [ ] Test across browsers
+- [ ] Optimize for desktop experience
+
+---
+
+### Phase 11: Integration & Testing
+**Estimated Time:** 120 hours  
+**Dependencies:** Phase 10 (Web Portals)  
+**Status:** ⏳ Pending
 
 **Test Coverage:**
-- [ ] Authentication (Keycloak login, token refresh, RBAC)
-- [ ] CRUD operations (all 8 entities)
-- [ ] Soft-delete functionality
-- [ ] Search functionality
-- [ ] Pagination (large datasets)
-- [ ] File operations (upload, thumbnail)
-- [ ] Dashboard KPIs
-- [ ] Timezone conversion
+- [ ] End-to-end authentication flows
 - [ ] Role-based access control
-- [ ] Error handling (400, 401, 403, 404, 500)
-- [ ] Load testing (3,400+ records)
+- [ ] All CRUD operations across platforms
+- [ ] AI chatbot functionality (all modes)
+- [ ] CMS content delivery
+- [ ] Mobile app features (iOS + Android)
+- [ ] Web portal features
+- [ ] Real-time notifications
+- [ ] Payment processing
+- [ ] GPS and location services
+- [ ] Image uploads and diagnostics
+- [ ] ML model predictions
+- [ ] Performance testing with large datasets
+- [ ] Security penetration testing
+- [ ] Accessibility compliance
 
 ---
 
-### Phase 11: Deployment & Documentation
-**Estimated Time:** 20 hours  
-**Dependencies:** Phase 10 (Testing)  
-**Status:** ⏳ Blocked
+### Phase 12: Deployment & DevOps
+**Estimated Time:** 60 hours  
+**Dependencies:** Phase 11 (Testing)  
+**Status:** ⏳ Pending
 
 **Tasks:**
-- [ ] Create Docker build scripts (backend, frontend)
-- [ ] Create docker-compose for full stack
-- [ ] System requirements documentation
-- [ ] PostgreSQL backup strategy
-- [ ] API documentation (Swagger/OpenAPI)
-- [ ] Angular documentation
-- [ ] Deployment guide
-- [ ] User guide
-- [ ] Monitoring & logging setup
+- [ ] Set up Azure cloud infrastructure
+- [ ] Configure CI/CD pipelines
+- [ ] Implement Docker containerization
+- [ ] Set up Kubernetes orchestration
+- [ ] Configure auto-scaling
+- [ ] Implement monitoring and alerting
+- [ ] Set up backup and disaster recovery
+- [ ] Create deployment documentation
+- [ ] Configure CDN for media delivery
+- [ ] Set up SSL certificates
+- [ ] Implement rate limiting
+- [ ] Create user documentation
+- [ ] Build admin training materials
 
 ---
 
@@ -329,11 +404,13 @@ client/
 - **Philosophy:** Schema versions tracked independently from code
 
 ### Frontend Architecture
-- **Framework:** Angular 19 (standalone components)
-- **Styling:** Tailwind CSS + Shadcn components
-- **Features:** Modular feature-based structure
-- **Charts:** ngx-echarts (ECharts v5)
+- **Framework:** Flutter (Unified Web + Mobile)
+- **Architecture:** Clean Architecture (Domain, Data, Presentation)
+- **State Management:** Bloc/Cubit pattern
+- **Styling:** Material Design 3
+- **Charts:** Community charts packages
 - **Auth:** Keycloak OAuth 2.0 / OIDC
+- **Platforms:** Web, iOS, Android from single codebase
 
 ---
 
@@ -350,8 +427,8 @@ dotnet build  # Should succeed
 
 # Check frontend project
 cd ../client
-npm install   # Should succeed
-ng build      # Should succeed
+flutter pub get   # Should succeed
+flutter build web # Should succeed
 
 # Check database
 cd ../..
@@ -393,6 +470,7 @@ psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"U
 | Document | Purpose |
 |----------|---------|
 | [README.md](README.md) | Project overview |
+| [COMPREHENSIVE-PROJECT-PLAN.md](docs/00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md) | Complete platform specifications |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
 | [docs/00-getting-started/](docs/00-getting-started/) | Setup guides |
 | [docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md) | Detailed task tracking |
@@ -406,13 +484,16 @@ psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"U
 
 | Metric | Value |
 |--------|-------|
-| **Total Scope** | 735 hours (~4.5 months full-time) |
-| **Completed** | 100 hours (14%) |
-| **Remaining** | 635 hours (86%) |
-| **Database Tables** | 8 (Users, Vehicles, Garages, Services, ServiceHistories, VehicleIssues, DiagnosticRules, ImageDiagnostics) |
+| **Total Scope** | 1,168 hours (~9 months with 3-4 developers) |
+| **Completed** | 103 hours (9%) |
+| **Remaining** | 1,065 hours (91%) |
+| **Phases** | 12 (Environment → Deployment) |
+| **Database Tables** | 8 core + 5 planned (chatbot, ML, payments, notifications, reviews) |
 | **Seed Records** | 3,400+ |
-| **API Endpoints** | 32 (4 per entity) |
-| **Frontend Components** | 9 feature modules + shared UI components |
+| **API Endpoints** | 32+ (expandable for new features) |
+| **Platforms** | Web, iOS, Android (unified Flutter) |
+| **User Roles** | 4-tier hierarchy (Super Admin, App Admin, Garage Admin, Customer) |
+| **AI Features** | Multi-modal chatbot, image diagnostics, ML training platform |
 
 ---
 
@@ -420,15 +501,18 @@ psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"U
 
 **Project Team:**
 - Database: See Phase 3 documentation
-- Backend: See Phase 4 plan
-- Frontend: See Phases 5-9 plan
+- Backend: See Phase 4 plan  
+- Frontend (Flutter): See Phases 8-10 plan
+- AI/ML: See Phase 7 plan
+- CMS: See Phase 6 plan
 
 **External Documentation:**
 - [.NET Documentation](https://learn.microsoft.com/dotnet/)
-- [Angular Documentation](https://angular.io/)
+- [Flutter Documentation](https://flutter.dev/docs)
 - [Liquibase Documentation](https://docs.liquibase.com/)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [Keycloak Documentation](https://www.keycloak.org/documentation)
+- [Azure AI Foundry Documentation](https://learn.microsoft.com/azure/ai-foundry/)
 
 ---
 
@@ -437,21 +521,23 @@ psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"U
 **When implementing Phase 4:**
 1. Reference [docs/03-phase-specific/phase-3-database-liquibase/](docs/03-phase-specific/phase-3-database-liquibase/) for database schema
 2. Follow clean architecture layer dependencies
-3. Create DTOs first, then repository, then services, then controllers
-4. Use `liquibase update` to deploy schema before scaffolding DbContext
-5. Test endpoints with Swagger UI
-6. Document all APIs with OpenAPI annotations
+3. Create Application Services for business logic
+4. Build REST API controllers
+5. Use `liquibase update` to deploy schema before scaffolding DbContext
+6. Test endpoints with Swagger UI
+7. Document all APIs with OpenAPI annotations
 
-**When implementing Phases 5-11:**
-1. Reference Phase 4 API contracts
-2. Follow Angular standalone component patterns
-3. Use Tailwind + Shadcn components consistently
-4. Test with 3,400+ seed records
-5. Implement timezone conversions properly
-6. Handle soft-delete visibility in all grids
+**When implementing Phases 5-12:**
+1. Reference [COMPREHENSIVE-PROJECT-PLAN.md](docs/00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md) for complete specifications
+2. Follow Flutter Clean Architecture patterns
+3. Implement role-based access control carefully
+4. Test AI features thoroughly
+5. Ensure mobile responsiveness
+6. Implement proper error handling
+7. Test with 3,400+ seed records
 
 ---
 
-**Last Updated:** January 11, 2026  
-**Status:** Phases 1-3 Complete ✅ | Phase 4 Ready to Start 🎯  
+**Last Updated:** January 18, 2026  
+**Status:** Phases 1-3 Complete ✅ | Phase 4 In Progress 🔄 (71% Foundation)  
 **Next Review:** After Phase 4 completion

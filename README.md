@@ -139,8 +139,8 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 
 ```bash
 # Clone repository
-git clone <repo-url>
-cd AI-ML-Project
+git clone https://github.com/linto11/grrado.git
+cd grrado
 
 # Start database
 docker-compose up -d
@@ -163,7 +163,7 @@ ng build
 ## Project Structure
 
 ```
-AI-ML-Project/
+grrado/
 ├── server/                          # .NET Backend
 │   ├── Domain/                      # Entity models
 │   ├── Application/                 # Business logic

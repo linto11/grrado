@@ -342,7 +342,7 @@ client/
 ### Prerequisites Check
 ```bash
 # Verify Phases 1-3 are complete
-cd d:\Projects\LISRC\AI-ML-Project
+cd /path/to/grrado
 
 # Check backend project
 cd server

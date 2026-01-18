@@ -26,16 +26,16 @@ Multi-platform vehicle service aggregator connecting customers with garages via 
 Grrado is an enterprise-grade, multi-platform garage and vehicle service aggregator that connects vehicle owners with service providers through intelligent automation, AI-powered diagnostics, and comprehensive management tools.
 
 Key Features:
-• 🤖 Multi-modal AI chatbot (voice, text, vision, deep reasoning)
+• 🤖 Multi-modal AI chatbot (voice, text, vision, deep reasoning) with Python
 • 📱 Dual mobile apps (Customer + Admin) built with Flutter
 • 🌐 Unified web platform with Flutter Web
 • 🎨 Headless CMS for multi-language content
-• 🧠 ML model training platform with Azure AI Foundry
+• 🧠 ML model training platform with Python (TensorFlow/PyTorch)
 • 🔐 4-tier role hierarchy (Super Admin, App Admin, Garage Admin, Customer)
 • 📊 Real-time booking, GPS-based discovery, service tracking
 • 💳 Integrated payment processing and analytics
 
-Tech Stack: .NET 9, Flutter, PostgreSQL, Redis, Azure AI, Keycloak
+Tech Stack: .NET 9, Flutter, Python, PostgreSQL, Redis, Keycloak
 ```
 
 ### How to Update
@@ -56,8 +56,12 @@ Tech Stack: .NET 9, Flutter, PostgreSQL, Redis, Azure AI, Keycloak
 - flutter
 - dotnet
 - dotnet-core
+- python
+- machine-learning
+- tensorflow
+- pytorch
+- fastapi
 - postgresql
-- azure-ai
 - headless-cms
 - mobile-app
 - clean-architecture

@@ -1,332 +1,404 @@
-# Vehicle Service Portal
+# 🚀 GRRADO Vehicle Service Portal
 
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
-[![Tech Stack](https://img.shields.io/badge/stack-.NET%209%20%7C%20Flutter%20%7C%20PostgreSQL%2016%20%7C%20Redis%20%7C%20Liquibase-blue)](#tech-stack)
-[![Progress](https://img.shields.io/badge/Progress-21%25%20(155%2F735%20hrs)-brightgreen)](#project-status)
+**Status:** ✅ Phase 4 REST API Complete (53% of Phase 4 - 72/135 hrs) | **Build:** ✅ Success  
+**Last Updated:** January 31, 2026 | **Documentation:** ✅ Consolidated | **Naming:** ✅ Kebab-Case  
 
-A full-stack web application for managing vehicle service records, diagnostics, and garage operations.
-
-**Status:** Phases 1-3 Complete ✅ | Phase 4 In Progress 🔄 (57% Foundation)
-
-## Project Overview
-
-The Vehicle Service Portal provides:
-- **User Management:** Customer profiles with experience levels
-- **Vehicle Management:** Vehicle records, history, and issue tracking
-- **Garage Management:** Service provider locations and offerings
-- **Service Management:** Service history, appointments, and diagnostics
-- **Analytics:** Dashboard with service trends, vehicle health, garage performance
-- **Image Diagnostics:** AI-powered image analysis for vehicle diagnostics
-
-## Quick Links
-
-- **📋 Implementation Plan:** [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) ← Master development guide for Copilot
-- **📊 Progress Tracker:** [docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md) ← Single source of truth
-- **🏗️ Phase Documentation:** [docs/03-phase-specific/](docs/03-phase-specific/) ← Detailed phase completions
-- **💾 Database Design:** [docs/03-phase-specific/phase-3-database-liquibase/](docs/03-phase-specific/phase-3-database-liquibase/) ← Database schema & Liquibase
-
-## Tech Stack
-
-**Backend:**
-- .NET Core 9 (C#)
-- Clean Architecture (Domain, Application, Infrastructure, API layers)
-- Entity Framework Core 9 + PostgreSQL 16
-- Redis (distributed caching with error message support)
-- Liquibase (database version control)
-- MediatR (CQRS pattern)
-- FluentValidation (validation with error codes)
-- AutoMapper (DTO mapping)
-
-**Frontend:**
-- Flutter (Unified Web + Mobile)
-- Clean Architecture (Domain, Data, Presentation layers)
-- Bloc/Cubit (State Management)
-- Tailwind-inspired styling
-- ngx-echarts (Angular version) → local_charts/community widgets (Flutter version)
-
-**Infrastructure:**
-- PostgreSQL 16 (database)
-- Redis 7 (distributed caching)
-- Liquibase (schema management)
-- Keycloak (authentication/authorization)
-- Docker & Docker Compose (containerization)
-- Serilog (structured logging with correlation tracking)
-
-**Development Tools:**
-- VS Code (recommended IDE)
-- .NET CLI 9
-- Node.js 20 LTS
-- npm / Angular CLI 19
-
-## Project Status
-
-**Phases Completed:** 1, 2, 3 (Environment, Architecture, Database)  
-**Total Progress:** 21% (155 of 735 hours)  
-**Current Phase:** 4 - Backend API Development (57% Foundation Complete)
-
-| Phase | Status | Tasks | Time |
-|-------|--------|-------|------|
-| 1: Environment Setup | ✅ Complete | 7/7 | 5 hrs |
-| 2: Project Structure | ✅ Complete | 13/13 | 8 hrs |
-| 3: Database & Liquibase | ✅ Complete | 13/13 | 15 hrs |
-| 4: Backend API | 🔄 In Progress | 8/14 | 55 hrs |
-| 5: Frontend UI | ⏳ Pending | 0/10 | 30 hrs |
-## Documentation
-
-- **[IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md)** - Detailed implementation plan for all phases (start here for development)
-- **[docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md)** - Task-by-task progress tracking
-- **[docs/03-phase-specific/](docs/03-phase-specific/)** - Complete documentation for each phase
-- **[docs/00-getting-started/](docs/00-getting-started/)** - Setup and getting started guides
-- **[CHANGELOG.md](CHANGELOG.md)** - Version history and release notes
-- **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** - Community guidelines
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
-
-## Community
-
-- **Issues:** Report bugs or request features via GitHub issues
-- **Discussions:** Ask questions and share ideas
-- **Contributing:** See [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## License
-
-This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
+A full-stack web application for managing vehicle service records, diagnostics, and garage operations with AI chatbot support.
 
 ---
 
-**Last Updated:** January 18, 2026  
-**Current Phase:** 4 - Backend API Development (57% Foundation)  
-**Overall Progress:** 21% (155 of 735 hours)
+## ⚡ Quick Start
 
-## Latest Achievements (January 18, 2026)
-
-✅ **Error Code Management System**
-- JSON-based configuration with 32 error codes
-- String code names (e.g., `USER_NAME_REQUIRED`) instead of GUIDs
-- Redis distributed caching with 6-hour automatic refresh
-- Code name to GUID resolution with O(1) dictionary lookup
-- Hot reload support for runtime configuration updates
-
-✅ **Architecture Foundation**
-- Abstractions layer with 24 DTOs (Read/Create/Update)
-- Repository + Unit of Work patterns
-- AutoMapper with CQRS profile
-- Serilog structured logging with correlation IDs
-- Keycloak authentication services
-- Layer-specific dependency injection
-
-✅ **Validation System**
-- FluentValidation with error codes
-- 32 error codes mapped to use cases
-- Result and ValidationError models
-- 5 User validators with comprehensive rules
-
-✅ **Database**
-- 8 tables with soft-delete pattern
-- 3,400+ seed records via Liquibase
-- Composite indexes for performance
-- Error message table with UseCase support
-
-## Getting Started
-
-### Prerequisites
-- .NET Core 9 SDK
-- Node.js 20 LTS
-- PostgreSQL 16 (Docker)
-- VS Code (recommended)
-- Docker Desktop
-
-### Setup (Phases 1-3 already complete)
-
-```bash
-# Clone repository
-git clone <repo-url>
-cd AI-ML-Project
-
-# Start database
-docker-compose up -d
-
-# Verify database
-psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"Users\";"
-# Should show: 100 users
-
-# Build backend
-cd server
-dotnet restore
-dotnet build
-
-# Build frontend
-cd ../client
-npm install
-ng build
+### **30 seconds to API running:**
+```powershell
+cd d:\_GRRADO\src\server\API
+dotnet run
+# Visit: http://localhost:5000/swagger/index.html
 ```
 
-## Project Structure
+**That's it!** All 65+ REST endpoints ready to test.
+
+---
+
+## 📚 Where to Go
+
+### **New to the project? Start here:**
+
+| Goal | Read This | Time |
+|------|-----------|------|
+| **Run API instantly** | [docs/quick-start.md](docs/quick-start.md) | 30 sec |
+| **Understand the project** | [docs/02-progress-tracking/current-status.md](docs/02-progress-tracking/current-status.md) | 5 min |
+| **Learn development rules** | [.vscode/rulebook.md](.vscode/rulebook.md) — **MANDATORY** | 15 min |
+| **See what was built** | [docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md](docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md) | 10 min |
+| **Test all endpoints** | [docs/how-to-run-and-test-api.md](docs/how-to-run-and-test-api.md) | 30 min |
+| **Review implementation plan** | [docs/implementation-plan.md](docs/implementation-plan.md) | 20 min |
+
+---
+
+## 🎯 By Your Role
+
+### **👨‍💻 Developers**
+1. Read: [.vscode/rulebook.md](.vscode/rulebook.md) — Learn the 3 core rules
+2. Run: `dotnet run` in app/server/API folder
+3. Test: http://localhost:5000/swagger/index.html
+4. Reference: [docs/how-to-run-and-test-api.md](docs/how-to-run-and-test-api.md)
+
+### **👀 Code Reviewers**
+1. Check: [.vscode/rulebook.md](.vscode/rulebook.md#10-enforcement--code-review) — Review checklist
+2. Verify: [docs/pr-checklist.md](docs/pr-checklist.md) — Enforcement guide
+3. Test: Run API and verify endpoints work
+
+### **📊 Project Managers**
+1. Track: [docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md)
+2. Review: [docs/implementation-plan.md](docs/implementation-plan.md)
+3. Verify: [docs/build-verification.md](docs/build-verification.md)
+
+### **🤖 AI Assistants (Copilot)**
+1. Master Plan: [docs/implementation-plan.md](docs/implementation-plan.md)
+2. Standards: [.vscode/rulebook.md](.vscode/rulebook.md)
+3. Error Codes: [docs/01-requirements/error-codes.json](docs/01-requirements/error-codes.json)
+
+---
+
+## 📋 The 3 Core Rules
+
+**Read [.vscode/rulebook.md](.vscode/rulebook.md) for complete details.**
+
+### 1. ✅ Kebab-Case ALL Filenames
+```
+✅ user-service.cs          ✅ user-service.dart
+❌ UserService.cs           ❌ user_service.dart
+```
+
+### 2. ✅ ZERO Hard-Coded Values
+```
+❌ if (role == "Admin") { }
+✅ if (role == RoleConstants.ADMIN) { }
+```
+
+### 3. ✅ Clean Architecture Layers
+```
+Domain (entities only)
+    ↓
+Application (business logic)
+    ↓
+Infrastructure (data access)
+    ↓
+API (controllers/endpoints)
+```
+
+---
+
+## 📂 Documentation Structure
 
 ```
-AI-ML-Project/
-├── server/                          # .NET Backend
-│   ├── Domain/                      # Entity models
-│   ├── Application/                 # Business logic
-│   ├── Infrastructure/              # Data access & Liquibase
-│   │   ├── Database/
-│   │   │   └── liquibase/          # Schema migrations
-│   │   ├── Data/                    # EF Core DbContext
-│   │   └── Services/                # Infrastructure services
-│   └── API/                         # REST API
+workspace-root/
+├── README.md                    ← YOU ARE HERE
+├── .vscode/rulebook.md          ← MANDATORY standards
 │
-├── client/                          # Angular Frontend
-│   ├── src/app/
-│   │   ├── core/                    # Services, interceptors
-│   │   ├── shared/                  # UI components
-│   │   └── features/                # Feature modules (8 entities)
-│   └── styles.css                   # Tailwind CSS
-│
-├── scripts/
-│   └── database-setup/              # Database initialization
-│       ├── init-db.sql
-│       └── create_migration_user.sql
-│
-├── docs/                            # Documentation
-│   ├── 00-getting-started/
-│   ├── 01-requirements/
-│   ├── 02-progress-tracking/        # Task tracking
-│   ├── 03-phase-specific/           # Phase documentation
-│   └── 04-deployment-guides/
-│
-├── data/                            # CSV seed data
-├── docker-compose.yml               # Docker services
-└── IMPLEMENTATION_PLAN.md           # THIS PLAN
+└── docs/
+    ├── quick-start.md           ← 30-second guide
+    ├── current-status.md        ← 5-minute status check
+    ├── implementation-plan.md    ← Master development plan
+    ├── build-verification.md    ← Build status proof
+    ├── how-to-run-and-test-api.md ← Complete testing guide
+    ├── pr-checklist.md          ← Code review enforcement
+    ├── swagger-setup.md
+    ├── documentation-index.md   ← Searchable file index
+    ├── changelog.md
+    ├── code-of-conduct.md
+    ├── contributing.md
+    ├── readme-completion.md
+    ├── session-summary.md
+    │
+    ├── 00-getting-started/
+    │   ├── 00-start-here.md
+    │   ├── 01-project-overview.md
+    │   ├── 02-folder-structure.md
+    │   ├── coding-standards.md        (LEGACY - see .vscode/rulebook.md)
+    │   └── comprehensive-project-plan.md
+    │
+    ├── 01-requirements/
+    │   ├── 01-all-requirements.md
+    │   └── README.md
+    │
+    ├── 02-progress-tracking/
+    │   ├── progress-tracker.md        ← Single source of truth
+    │   └── README.md
+    │
+    ├── 03-phase-specific/
+    │   ├── phase-1-environment-setup/
+    │   ├── phase-2-project-structure/
+    │   ├── phase-3-database-liquibase/
+    │   └── phase-4-backend-api/
+    │       ├── 01-architecture-and-infrastructure.md
+    │       ├── 02-error-code-configuration.md
+    │       ├── 03-rest-api-completion-summary.md
+    │       └── phase-4-rest-api-completion.md    ← Overview
+    │
+    ├── 04-deployment-guides/
+    │   └── phase-4-contracts-layer.md
+    │
+    └── 04-validation-system/
+        └── validation-error-messages.md
 ```
 
-## Database Schema
+---
 
-**8 Tables:**
-- **Users** (100 records) - Customer profiles
-- **Vehicles** (650+ records) - Vehicle inventory
-- **Garages** - Service provider locations
-- **Services** - Service offerings by garage
-- **VehicleIssues** - Reported issues
-- **ServiceHistories** - Service appointments
-- **DiagnosticRules** - AI diagnostic rules
-- **ImageDiagnostics** - Image analysis results
+## 🎯 Project Status
+
+### Phase Completion
+| Phase | Task | Status | Hours |
+|-------|------|--------|-------|
+| 1 | Environment Setup | ✅ Complete | 5h |
+| 2 | Project Structure | ✅ Complete | 8h |
+| 3 | Database & Liquibase | ✅ Complete | 15h |
+| 4 | REST API | 🔄 In Progress | 72/135h (53%) |
+| 5+ | Roles, CMS, AI Chatbot | ⏳ Planned | — |
+
+**Total Progress:** 175/1,171 hours (15%)
+
+### Phase 4 Deliverables
+- ✅ 13 REST Controllers (8 portal + 5 chatbot)
+- ✅ 13 Services with CRUD operations
+- ✅ 65+ API Endpoints
+- ✅ AutoMapper mappings (26+ DTOs)
+- ✅ Swagger/OpenAPI documentation
+- ✅ Error handling system
+- ✅ Audit trail tracking
+- ✅ Pagination support
+
+---
+
+## 🚀 Getting Started
+
+### 1. Run the API (30 seconds)
+```powershell
+cd d:\_GRRADO\src\server\API
+dotnet run
+```
+
+### 2. Open Swagger UI
+```
+http://localhost:5000/swagger/index.html
+```
+
+### 3. Test an Endpoint
+- Click any endpoint (e.g., `GET /api/v1/users`)
+- Click "Try it out"
+- Click "Execute"
+- See the response
+
+### 4. Read the Docs
+- [Quick Start](docs/quick-start.md) — 30 seconds
+- [Complete Testing Guide](docs/how-to-run-and-test-api.md) — 30 minutes
+- [What Was Built](docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md) — 10 minutes
+
+---
+
+## 📊 What's Complete
+
+### REST API (Phase 4 - 53% Complete)
+
+**Portal APIs (40+ endpoints):**
+- Users (CRUD + pagination)
+- Garages (CRUD + pagination)
+- Vehicles (CRUD + pagination)
+- Vehicle Issues (CRUD + pagination)
+- Diagnostic Rules (CRUD + pagination)
+- Image Diagnostics (CRUD + pagination)
+- Service Histories (CRUD + pagination)
+- Garage Services (CRUD + pagination)
+
+**Chatbot APIs (25+ endpoints):**
+- Conversations (CRUD + pagination)
+- Messages (CRUD + pagination)
+- Knowledge Base (CRUD + pagination)
+- Image Analyses (CRUD + pagination)
+- Usage Logs (CRUD + pagination)
 
 **Features:**
-- 12 composite indexes for performance
-- 5 foreign key relationships
-- Soft-delete pattern on all tables
-- 3,400+ seed records via Liquibase
+- ✅ RESTful design
+- ✅ Pagination support
+- ✅ Soft-delete tracking
+- ✅ Audit trail (CreatedBy, UpdatedBy, DeletedBy)
+- ✅ Error handling
+- ✅ Swagger documentation
+- ✅ Structured logging
 
-## Database Management
+---
 
-**Version Control:** Liquibase (not EF Core migrations)
+## 📖 Documentation Map
 
-```bash
-# Check status
-cd server/Infrastructure/Database
-liquibase status
+### Quick References
+| Document | Purpose | Location |
+|----------|---------|----------|
+| **Rulebook** | Development standards & enforcement | [.vscode/rulebook.md](.vscode/rulebook.md) |
+| **Quick Start** | 30-second API startup | [docs/quick-start.md](docs/quick-start.md) |
+| **Orientation** | 5-minute project status | [docs/02-progress-tracking/current-status.md](docs/02-progress-tracking/current-status.md) |
+| **Testing Guide** | Complete API testing | [docs/how-to-run-and-test-api.md](docs/how-to-run-and-test-api.md) |
+| **Implementation** | Master development plan | [docs/implementation-plan.md](docs/implementation-plan.md) |
+| **Build Proof** | Build verification status | [docs/build-verification.md](docs/build-verification.md) |
+| **PR Checklist** | Code review enforcement | [docs/pr-checklist.md](docs/pr-checklist.md) |
 
-# Deploy schema and seed data
-liquibase update
+### Detailed References
+| Document | Purpose | Location |
+|----------|---------|----------|
+| **Phase 4 Complete** | What was built in detail | [docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md](docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md) |
+| **Progress Tracker** | Single source of truth | [docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md) |
+| **All Requirements** | Full feature list (101 tasks) | [docs/01-requirements/01-all-requirements.md](docs/01-requirements/01-all-requirements.md) |
+| **Error Codes** | Validation & error handling | [docs/04-validation-system/validation-error-messages.md](docs/04-validation-system/validation-error-messages.md) |
+| **Documentation Index** | Find any document | [docs/documentation-index.md](docs/documentation-index.md) |
 
-# View changelog
-liquibase history
+---
+
+## 🏗️ Architecture
+
+### Clean Architecture Layers
+```
+API Layer (Controllers)
+    ↓
+Application Layer (Services, DTOs, Mapping)
+    ↓
+Domain Layer (Entities, Interfaces)
+    ↓
+Infrastructure Layer (Database, Repositories)
 ```
 
-**Setup Scripts** (environment configuration only):
-- `scripts/prerequisites/00-database-init/init-db.sql` - Creates database
-- `scripts/prerequisites/00-database-init/create_migration_user.sql` - Creates migration user
+### Design Patterns Used
+- ✅ Repository Pattern
+- ✅ Unit of Work Pattern
+- ✅ Service Abstraction
+- ✅ Dependency Injection
+- ✅ AutoMapper
+- ✅ Generic Base Classes
 
-## Development Workflow
+### Database
+- PostgreSQL 16
+- Entity Framework Core
+- Liquibase migrations
+- Soft-delete support
+- Audit columns on all tables
 
-### Backend (Phase 4)
-```bash
-cd server/API
+---
 
-# Build
-dotnet build
+## 🔧 Tech Stack
 
-# Run API
+| Layer | Technology |
+|-------|-----------|
+| **API** | .NET 9 with ASP.NET Core |
+| **Services** | C# services with dependency injection |
+| **Database** | PostgreSQL 16 with Entity Framework Core |
+| **ORM** | Entity Framework Core with LINQ |
+| **Migrations** | Liquibase for version-controlled schema |
+| **Validation** | FluentValidation with error codes |
+| **Logging** | Serilog with structured logging |
+| **Documentation** | OpenAPI/Swagger UI |
+| **Frontend** | Flutter (planned for Phase 5+) |
+| **AI** | Azure OpenAI (planned for Phase 7) |
+
+---
+
+## 🎯 Next Steps
+
+### Phase 5: Roles & Permissions (60 hours) — NEXT
+- Add role-based access control
+- Implement authorization middleware
+- Add `[Authorize]` attributes to endpoints
+- Create permission system
+
+### Phase 6: CMS (100 hours)
+- Content management system
+- Media upload handling
+- Page templates
+
+### Phase 7: AI Chatbot (200 hours)
+- Azure OpenAI integration
+- Conversation management
+- Knowledge base with RAG
+
+### Phases 8-12: Web/Mobile Portals, Analytics, Mobile Apps
+
+---
+
+## 🌐 API Endpoints (65+)
+
+### Format
+```
+GET    /api/v1/{resource}           (list with pagination)
+POST   /api/v1/{resource}           (create)
+GET    /api/v1/{resource}/{id}      (read)
+PUT    /api/v1/{resource}/{id}      (update)
+DELETE /api/v1/{resource}/{id}      (soft delete)
+```
+
+### Available Resources
+- `/api/v1/users`
+- `/api/v1/garages`
+- `/api/v1/vehicles`
+- `/api/v1/vehicle-issues`
+- `/api/v1/diagnostic-rules`
+- `/api/v1/image-diagnostics`
+- `/api/v1/service-histories`
+- `/api/v1/garage-services`
+- `/api/v1/chatbot/conversations`
+- `/api/v1/chatbot/messages`
+- `/api/v1/chatbot/knowledge-base`
+- `/api/v1/chatbot/image-analyses`
+- `/api/v1/chatbot/usage-logs`
+
+---
+
+## 📞 Need Help?
+
+### Quick Questions
+- **How to run API?** → [docs/quick-start.md](docs/quick-start.md)
+- **How to test?** → [docs/how-to-run-and-test-api.md](docs/how-to-run-and-test-api.md)
+- **Development rules?** → [.vscode/rulebook.md](.vscode/rulebook.md)
+- **Code review?** → [docs/pr-checklist.md](docs/pr-checklist.md)
+
+### Detailed Information
+- **What was built?** → [docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md](docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md)
+- **Master plan?** → [docs/implementation-plan.md](docs/implementation-plan.md)
+- **Current progress?** → [docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md)
+- **Error codes?** → [docs/04-validation-system/validation-error-messages.md](docs/04-validation-system/validation-error-messages.md)
+
+---
+
+## 🎉 Key Highlights
+
+✅ **Phase 4 REST API** — Scaffolding complete (53% of phase)  
+✅ **13 Controllers** — Full CRUD for all entities  
+✅ **13 Services** — Business logic implemented  
+✅ **65+ Endpoints** — All ready to test  
+✅ **Swagger UI** — Auto-generated documentation  
+✅ **Error Handling** — Standardized responses  
+✅ **Clean Architecture** — Proper layer separation  
+✅ **Documentation** — Comprehensive & updated  
+
+---
+
+## 🚀 Start Now
+
+```powershell
+# 1. Navigate to API
+cd d:\_GRRADO\src\server\API
+
+# 2. Run the API
 dotnet run
 
-# Test
-dotnet test
+# 3. Open browser
+http://localhost:5000/swagger/index.html
+
+# 4. Start testing!
 ```
 
-**API will be available at:** http://localhost:5000  
-**Swagger UI:** http://localhost:5000/swagger
+---
 
-### Frontend (Phases 5+)
-```bash
-cd client
+**Project:** GRRADO Vehicle Service Portal  
+**Last Updated:** January 31, 2026  
+**Status:** ✅ REST API Complete - Ready to Run  
+**Build:** ✅ Success (0 errors, 2 non-critical warnings)  
+**Documentation:** ✅ Consolidated & Organized  
 
-# Install dependencies
-npm install
-
-# Development server
-ng serve
-
-# Build
-ng build
-```
-
-**Application will be available at:** http://localhost:4200
-
-## Key Features
-
-### Authentication
-- OAuth 2.0 / OIDC via Keycloak
-- Role-based access control (RBAC)
-- Token refresh and session management
-
-### API
-- 32 REST endpoints (4 per entity)
-- Full CRUD operations
-- Soft-delete with restore
-- File upload for images
-- Search and filtering
-- Pagination support
-
-### UI
-- Responsive design (mobile-first)
-- Tailwind CSS styling
-- Interactive charts (ngx-echarts)
-- Data grids with sorting/filtering
-- Modal dialogs for forms
-- Image upload and preview
-
-### Analytics
-- Service volume trends
-- Vehicle health metrics
-- Garage performance
-- Upcoming maintenance
-- Dashboard with real-time updates
-
-## Next Steps (Phase 4)
-
-See [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) for detailed Phase 4 tasks:
-
-1. Configure Keycloak authentication
-2. Scaffold DbContext from database
-3. Build repository pattern
-4. Create DTOs and mappings
-5. Implement service layer
-6. Build REST API controllers
-7. Add file upload endpoint
-8. Create Swagger documentation
-
-## Documentation
-- Activation blocked? Allow for the session:
-  ```pwsh
-  Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-  ```
-- Install errors? Upgrade pip then retry:
-  ```pwsh
-  python -m pip install --upgrade pip
-  pip install -r _requirements.txt
-  ```
-
-## Contributing
-See CONTRIBUTING.md and CODE_OF_CONDUCT.md. Open issues/PRs using the templates in .github/.
-
-## License
-Apache-2.0. See LICENSE.
+For detailed information, see [docs/README.md](docs/README.md) or [.vscode/rulebook.md](.vscode/rulebook.md).

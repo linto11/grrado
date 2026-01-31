@@ -1,0 +1,9 @@
+FROM postgres:16-alpine
+
+RUN echo "host all all all trust" >> /var/lib/postgresql/data/pg_hba.conf.template
+
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_DB=vehicle_service_db
+
+COPY scripts/init-postgres.sql /docker-entrypoint-initdb.d/

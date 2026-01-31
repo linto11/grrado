@@ -1,7 +1,8 @@
 # Backend Architecture & Infrastructure
 
-**Last Updated:** January 18, 2026  
-**Status:** Phase 4 Backend Foundation ✅ COMPLETE
+**Last Updated:** January 25, 2026  
+**Status:** Phase 4 Backend (Extended for Chatbot) - 55% Complete  
+**Strategic Focus:** Portal APIs + Chatbot Database Infrastructure
 
 ---
 
@@ -10,7 +11,7 @@
 ### Server Structure (Clean Architecture)
 
 ```
-server/
+app/server/
 ├── API/                                    # HTTP Layer & Entry Point
 │   ├── Controllers/                        # REST API endpoints (pending)
 │   ├── Middleware/
@@ -39,7 +40,27 @@ server/
 │   │   ├── ServiceHistory/ServiceHistoryDtos.cs
 │   │   ├── VehicleIssue/VehicleIssueDtos.cs
 │   │   ├── DiagnosticRule/DiagnosticRuleDtos.cs
-│   │   └── ImageDiagnostic/ImageDiagnosticDtos.cs
+│   │   ├── ImageDiagnostic/ImageDiagnosticDtos.cs
+│   │   ├── ChatbotConversation/            # 🤖 NEW - Chatbot conversation
+│   │   │   ├── ChatbotConversationDto.cs
+│   │   │   ├── CreateChatbotConversationRequest.cs
+│   │   │   └── UpdateChatbotConversationRequest.cs
+│   │   ├── ChatbotMessage/                 # 🤖 NEW - Chatbot messages
+│   │   │   ├── ChatbotMessageDto.cs
+│   │   │   ├── CreateChatbotMessageRequest.cs
+│   │   │   └── UpdateChatbotMessageRequest.cs
+│   │   ├── ChatbotKnowledgeBase/            # 🤖 NEW - Knowledge base Q&A
+│   │   │   ├── ChatbotKnowledgeBaseDto.cs
+│   │   │   ├── CreateChatbotKnowledgeBaseRequest.cs
+│   │   │   └── UpdateChatbotKnowledgeBaseRequest.cs
+│   │   ├── AiImageAnalysis/                 # 🤖 NEW - Vision API results
+│   │   │   ├── AiImageAnalysisDto.cs
+│   │   │   ├── CreateAiImageAnalysisRequest.cs
+│   │   │   └── UpdateAiImageAnalysisRequest.cs
+│   │   └── AiUsageLog/                      # 🤖 NEW - AI service usage tracking
+│   │       ├── AiUsageLogDto.cs
+│   │       ├── CreateAiUsageLogRequest.cs
+│   │       └── UpdateAiUsageLogRequest.cs
 │   ├── Persistence/
 │   │   ├── IRepository.cs                 # Generic repository interface
 │   │   └── IUnitOfWork.cs                 # Transaction management interface
@@ -57,7 +78,7 @@ server/
 ├── Infrastructure/                         # External Services & Data Access
 │   ├── Persistance/
 │   │   ├── DBContext/
-│   │   │   └── VehicleServiceDbContext.cs # EF Core context with 8 DbSets
+│   │   │   └── VehicleServiceDbContext.cs # EF Core context with 13 DbSets (8 core + 5 chatbot)
 │   │   ├── Repository/
 │   │   │   ├── BaseRepository.cs          # Generic CRUD + soft-delete + pagination
 │   │   │   └── UnitOfWork.cs              # Transaction management implementation
@@ -65,6 +86,9 @@ server/
 │   │   │   ├── master-changelog.xml       # Migration orchestrator
 │   │   │   ├── liquibase.properties       # Connection config
 │   │   │   └── changelogs/                # Version-specific SQL files
+│   │   │       ├── 001-initial-schema.xml # Core 8 tables (416 lines)
+│   │   │       ├── 002-seed-data.xml      # Seed data (3,400+ records)
+│   │   │       └── 003-create-chatbot-tables.xml # 🤖 NEW - 5 chatbot tables + 17 indexes
 │   │   └── DataSeedingService.cs          # CSV data seeding (3,400+ records)
 │   ├── Integration/
 │   │   ├── ImageService.cs                # Thumbnail generation (200x200px)
@@ -87,7 +111,12 @@ server/
 │   │   ├── ServiceHistory.cs              # Service history entity
 │   │   ├── VehicleIssue.cs                # Vehicle issue entity
 │   │   ├── DiagnosticRule.cs              # Diagnostic rule entity
-│   │   └── ImageDiagnostic.cs             # Image diagnostic entity
+│   │   ├── ImageDiagnostic.cs             # Image diagnostic entity
+│   │   ├── ChatbotConversation.cs         # 🤖 NEW - AI conversations
+│   │   ├── ChatbotMessage.cs              # 🤖 NEW - Chat messages
+│   │   ├── ChatbotKnowledgeBase.cs        # 🤖 NEW - Q&A knowledge base
+│   │   ├── AiImageAnalysis.cs             # 🤖 NEW - Vision API results
+│   │   └── AiUsageLog.cs                  # 🤖 NEW - API usage tracking
 │   └── Domain.csproj
 │
 └── VehicleServicePortal.sln               # Solution file
@@ -422,3 +451,4 @@ Select-String -Path "logs/all/all-*.log" -Pattern "Corr:abc123def456"
 ---
 
 **Document Status:** ✅ Current as of January 18, 2026
+

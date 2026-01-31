@@ -61,7 +61,7 @@ Complete database infrastructure with Liquibase version control:
 - [Liquibase Implementation](phase-3-database-liquibase/phase-03-liquibase-implementation.md) - Technical details (14,500+ chars)
 
 **🗂️ Infrastructure Files:**
-- `server/Infrastructure/Database/liquibase/` - Complete Liquibase structure
+- `app/server/Infrastructure/Database/liquibase/` - Complete Liquibase structure
 - `scripts/prerequisites/00-database-init/` - Database initialization scripts
 
 ---
@@ -160,3 +160,4 @@ Planned deliverables:
 
 **Last Updated:** January 11, 2026  
 **Status:** Phases 1-3 Complete ✅ | Phase 4 Ready to Start ⏳
+

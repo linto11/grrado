@@ -1,8 +1,9 @@
 # Vehicle Service Portal - Comprehensive Project Plan
 ## Enterprise Multi-Platform AI-Powered Service Management System
 
-**Document Version:** 2.0  
-**Created:** January 18, 2026  
+**Document Version:** 3.0  
+**Last Updated:** January 25, 2026  
+**Strategic Focus:** Backend-First with AI Chatbot Priority  
 **Project Type:** Full-Stack Multi-Platform with AI/ML  
 **Target Audience:** Automotive Service Industry
 
@@ -22,11 +23,12 @@ The Vehicle Service Portal is an enterprise-grade, multi-platform application th
 - ☁️ **Microsoft Azure AI Foundry** powered
 
 ### Project Scale:
-- **Total Estimated Hours:** 1,435 hours (~9 months with 3-4 developers)
-- **Platforms:** Web, iOS, Android (Unified Flutter)
+- **Total Estimated Hours:** 1,171 hours (~10 months with 4 developers)
+- **Strategic Sequence:** Backend → Roles → CMS → AI Chatbot → Web → Mobile → Testing → Deploy
+- **Platforms:** Web (Flutter Web), iOS (Flutter), Android (Flutter)
 - **Users:** Super Admin, App Admin, Garage Admin, Customers
 - **Languages:** Multi-language support
-- **Tech Stack:** .NET 9, Flutter (Unified Web + Mobile), PostgreSQL, Redis, Azure AI
+- **Tech Stack:** .NET 9, Flutter (Unified Web + Mobile), PostgreSQL, Redis, Azure AI Foundry
 - **Architecture:** Clean Architecture (Backend & Frontend)
 
 ---
@@ -1541,43 +1543,46 @@ CREATE TABLE ai_usage_logs (
 
 ---
 
-## ⏱️ Timeline & Resource Allocation
+## ⏱️ Timeline & Resource Allocation (UPDATED PRIORITY)
 
-### Summary
+### Phase Summary (NEW PRIORITY ORDER)
 
-| Phase | Duration | Status | Team Size |
-|-------|----------|--------|-----------|
-| 1-3: Foundation | 28h | ✅ Complete | 1 dev |
-| 4: Backend API | 100h | 🔄 57% (55h done) | 2 devs |
-| 5: Roles & Permissions | 60h | ⏳ Pending | 2 devs |
-| 6: CMS | 100h | ⏳ Pending | 2 devs |
-| 7: AI Platform | 200h | ⏳ Pending | 3 devs |
-| 8: Customer App | 180h | ⏳ Pending | 2 devs |
-| 9: Admin App | 100h | ⏳ Pending | 2 devs |
-| 10: Web Portals | 220h | ⏳ Pending | 3 devs |
-| 11: Integration | 120h | ⏳ Pending | 4 devs |
-| 12: Deployment | 60h | ⏳ Pending | 2 devs |
-| **Total** | **1,168h** | **7% Complete** | **Peak: 4 devs** |
+| Priority | Phase | Name | Duration | Status | Team | Focus |
+|----------|-------|------|----------|--------|------|-------|
+| N/A | 1-3 | Foundation | 28h | ✅ Complete | 1 dev | Environment, Structure, Database |
+| **#1** | **4** | **Backend API (Extended)** | **135h** | **🔄 55%** | **2 devs** | **Portal + Chatbot DB** |
+| **#2** | **5** | **Roles & Permissions** | **60h** | **⏳ Pending** | **2 devs** | **Authorization Layer** |
+| **#3** | **6** | **CMS** | **100h** | **⏳ Pending** | **2 devs** | **Content Management** |
+| **#4** | **7** | **AI Platform & Chatbot** | **200h** | **⏳ Pending** | **3 devs** | **🤖 STRATEGIC FOCUS** |
+| **#5** | **10** | **Web Portals (Flutter)** | **220h** | **⏳ Pending** | **3 devs** | **Portal UIs (Priority over Mobile)** |
+| #6 | 8 | Customer Mobile App | 180h | ⏳ Pending | 2 devs | iOS + Android |
+| #7 | 9 | Admin Mobile App | 100h | ⏳ Pending | 2 devs | iOS + Android |
+| #8 | 11 | Integration & Testing | 120h | ⏳ Pending | 4 devs | E2E, Performance, Security |
+| #9 | 12 | Deployment & DevOps | 60h | ⏳ Pending | 2 devs | Production Release |
+| | | **TOTAL** | **1,171h** | **9% Complete** | **Peak: 4 devs** | **Backend-First Strategy** |
 
-### Realistic Timeline (Parallel Development)
+### Realistic Timeline (Parallel Development with New Priorities)
 
 **Assumptions:**
-- 4 developers (2 backend, 2 frontend/mobile)
+- 4 developers (2-3 backend, 1-2 frontend/mobile, 1 AI specialist for Phase 7)
 - 40 hours/week per developer
-- 160 total hours/week capacity
+- 160-200 total hours/week capacity
 - 20% buffer for unknowns
+- **Key Change:** Web portals (Phase 10) prioritized BEFORE mobile apps (Phases 8-9)
 
 **Schedule:**
 
-| Month | Phases | Hours | Team |
-|-------|--------|-------|------|
-| **Month 1** | Phase 4 (remaining) | 45h | 2 backend |
-| **Month 2** | Phase 5 (Roles) | 60h | 2 backend |
-| **Month 3** | Phase 6 (CMS) | 100h | 2 backend |
-| **Month 4-5** | Phase 7 (AI Platform) | 200h | 3 devs (2 backend + 1 AI) |
-| **Month 6-7** | Phase 8 (Customer App) | 180h | 2 mobile |
-| | Phase 10 (Web Portals - parallel) | 110h | 2 frontend |
-| **Month 8** | Phase 9 (Admin App) | 100h | 2 mobile |
+| Month | Phases | Hours | Team | Notes |
+|-------|--------|-------|------|-------|
+| **Month 1** (Jan-Feb) | Phase 4 Complete | 45h | 2 backend | Finish portal + chatbot backend APIs |
+| **Month 2** (Feb) | Phase 5 (Roles) | 60h | 2 backend | Role/permission system gates all else |
+| **Month 3** (Mar) | Phase 6 (CMS) | 100h | 2 backend | Content for portals + KB for chatbot |
+| **Month 4-5** (Apr-May) | **Phase 7 (AI Chatbot)** | **200h** | **3 devs** | **🤖 STRATEGIC PRIORITY** - Text, Voice, Image, Deep Thinking |
+| **Month 6-7** (Jun-Jul) | **Phase 10 (Web Portals)** | **220h** | **3 devs** | **WEB FIRST** - Super/App/Garage/Customer portals |
+| | **Phase 8 START** | 90h | 2 mobile | Parallel with Phase 10 |
+| **Month 8** (Aug) | Phase 8 Complete + Phase 9 | 190h | 2-3 devs | Finish customer app, build admin app |
+| **Month 9** (Sep) | Phase 11 (Testing) | 120h | 4 devs | E2E, mobile, web, chatbot, performance, security |
+| **Month 10** (Oct) | Phase 12 (Deployment) | 60h | 2 devs | Azure infra, CI/CD, app store releases |
 | | Phase 10 (Web Portals - remaining) | 110h | 2 frontend |
 | **Month 9** | Phase 11 (Integration) | 120h | 4 devs + QA |
 | **Month 10** | Phase 12 (Deployment) | 60h | 2 DevOps |

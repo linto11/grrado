@@ -361,8 +361,8 @@ AI-ML-Project/
 ├── _requirements.txt              ← Python dependencies (optional)
 ├── .gitignore
 ├── LICENSE
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
+├── code-of-conduct.md
+├── contributing.md
 └── README.md                      ← Root documentation
 ```
 
@@ -417,7 +417,7 @@ By completing this project, you'll learn:
 
 ## 🤝 Contributing
 
-See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines:
+See [contributing.md](../../root-docs/contributing.md) for guidelines:
 - Code standards
 - Pull request process
 - Testing requirements
@@ -458,7 +458,7 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines:
 
 ---
 
-**Start Here:** [00-START-HERE.md](00-START-HERE.md)
+**Start Here:** [00-start-here.md](00-start-here.md)
 
 **Read Next:** [02-FOLDER-STRUCTURE.md](02-FOLDER-STRUCTURE.md)
 

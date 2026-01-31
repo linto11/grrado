@@ -1,11 +1,11 @@
 # Vehicle Service Portal - Progress Tracker
 
-**Last Updated:** January 18, 2026  
-**Overall Status:** Phases 1-3 ✅ COMPLETE | Phase 4 🔄 IN PROGRESS (71% Foundation)  
-**Project Scope:** Enterprise Multi-Platform with AI/ML Capabilities  
+**Last Updated:** January 25, 2026 - 2:45 PM  
+**Overall Status:** Phases 1-3 ✅ COMPLETE | Phase 4 🔄 IN PROGRESS - REST API Layer ✅ COMPLETE  
+**Project Scope:** Backend-First Strategy: Portal APIs → Role/Permission System → CMS → AI Chatbot (All 4 Modes) → Web Portals → Mobile Apps  
 **Clean Architecture:** ✅ Mandated for all Backend (.NET) and Frontend (Flutter) projects
-**Next Phase:** Phase 4 Backend API Development (Application Services & Controllers)  
-**Total Project Progress:** 9% (103 of 1,168 hours complete)
+**Strategic Focus:** Complete backend & chatbot AI core FIRST, then web frontend, then mobile apps  
+**Total Project Progress:** 15% (175 of 1,171 hours complete) - Phase 4 REST API layer now complete, Swagger UI ready
 
 ---
 
@@ -26,42 +26,45 @@
 | Metric | Value |
 |--------|-------|
 | **Phases Completed** | 3 of 12 (25%) |
-| **Hours Completed** | 103 / 1,168 (9%) |
-| **Current Phase** | Phase 4 - Backend API (64% foundation) |
+| **Hours Completed** | 103 / 1,171 (9%) |
+| **Current Phase** | Phase 4 - Backend API (Extended for Chatbot) |
 | **Team Size** | 4 developers (targeting 7 for full scope) |
 | **Timeline** | 10 months estimated |
 | **Build Status** | ✅ 0 Errors, 0 Warnings |
+| **Priority Sequence** | 4 → 5 → 6 → 7 (Chatbot AI) → 10 (Web) → 8,9 (Mobile) → 11,12 (Test/Deploy) |
 
 ---
 
-## 🎯 Phase Overview
+## 🎯 Phase Overview (NEW PRIORITY ORDER)
 
-| Phase | Name | Duration | Status | Progress |
-|-------|------|----------|--------|----------|
-| 1 | Environment Setup | 5h | ✅ Complete | 100% |
-| 2 | Project Structure | 8h | ✅ Complete | 100% |
-| 3 | Database & Liquibase | 15h | ✅ Complete | 100% |
-| 4 | Backend API (Clean Arch) | 100h | 🔄 In Progress | 71% |
-| 5 | Roles & Permissions | 60h | ⏳ Pending | 0% |
-| 6 | Content Management System | 100h | ⏳ Pending | 0% |
-| 7 | AI Platform & Chatbot | 200h | ⏳ Pending | 0% |
-| 8 | Mobile App - Customer (Flutter) | 180h | ⏳ Pending | 0% |
-| 9 | Mobile App - Admin (Flutter) | 100h | ⏳ Pending | 0% |
-| 10 | Web Portals (Flutter Web) | 220h | ⏳ Pending | 0% |
-| 11 | Integration & Testing | 120h | ⏳ Pending | 0% |
-| 12 | Deployment & DevOps | 60h | ⏳ Pending | 0% |
-| **TOTAL** | | **1,168h** | | **7%** |
+| Phase | Name | Duration | Status | Progress | Priority |
+|-------|------|----------|--------|----------|----------|
+| 1 | Environment Setup | 5h | ✅ Complete | 100% | N/A |
+| 2 | Project Structure | 8h | ✅ Complete | 100% | N/A |
+| 3 | Database & Liquibase | 15h | ✅ Complete | 100% | N/A |
+| **4** | **Backend API (Extended)** | **135h** | **🔄 In Progress** | **55%** | **#1 - CRITICAL** |
+| **5** | **Roles & Permissions** | **60h** | **⏳ Pending** | **0%** | **#2 - GATES ALL** |
+| **6** | **CMS** | **100h** | **⏳ Pending** | **0%** | **#3** |
+| **7** | **AI Platform & Chatbot** | **200h** | **⏳ Pending** | **0%** | **#4 - STRATEGIC FOCUS** |
+| **10** | **Web Portals (Flutter)** | **220h** | **⏳ Pending** | **0%** | **#5** |
+| 8 | Mobile App - Customer (Flutter) | 180h | ⏳ Pending | 0% | #6 |
+| 9 | Mobile App - Admin (Flutter) | 100h | ⏳ Pending | 0% | #7 |
+| 11 | Integration & Testing | 120h | ⏳ Pending | 0% | #8 |
+| 12 | Deployment & DevOps | 60h | ⏳ Pending | 0% | #9 |
+| **TOTAL** | | **1,171h** | | **9%** | **Backend-First Strategy** |
 
 ---
 
-## Phase 4: Backend API Development 🔄 IN PROGRESS
+## Phase 4: Backend API Development 🔄 IN PROGRESS (EXTENDED FOR CHATBOT)
 
-**Status:** 🔄 71% Foundation Complete (10/14 items)  
-**Completion Date:** January 18, 2026 (Foundation + Resilience + Logging)
+**Status:** 🔄 58% Complete - Foundation & Chatbot Infrastructure (19/33 items)  
+**Original Duration:** 100h → **Extended Duration:** 135h (added 35h for chatbot database support)
+**Completion Target:** End of Month 1 (January 31, 2026)
+**Strategic Importance:** CRITICAL - Foundation for Portal APIs AND AI Chatbot
 
-### ✅ Completed Foundation Items
+### ✅ Completed Items (19/33)
 - [x] Create Abstractions layer with proper folder structure
-- [x] Implement all 8 entity DTOs (24 DTOs: Read + Create + Update)
+- [x] Implement all 8 entity DTOs (24 DTOs: Read + Create + Update) - **Core Entities**
 - [x] Configure AutoMapper with DomainToDtoProfile (24 mappings)
 - [x] Implement generic repository pattern with soft-delete support
 - [x] Implement Unit of Work pattern with transaction management
@@ -74,14 +77,39 @@
 - [x] Implement Error Code Management with JSON Configuration (strings + Redis caching)
 - [x] Implement Polly resilience framework (HTTP, Azure AI, Keycloak, Database policies)
 - [x] Implement comprehensive database logging infrastructure with background queue processing
-- [x] MIGRATE FRONTEND: Delete Angular codebase and setup unified Flutter structure
-- [x] CONFIG: Update Coding Standards (Rulebook v1.1) with Flutter/Clean Arch
+- [x] **NEW - Create Chatbot Domain Entities** (5 entities: ChatbotConversation, ChatbotMessage, ChatbotKnowledgeBase, AiImageAnalysis, AiUsageLog)
+- [x] **NEW - Create Chatbot DTOs** (15+ DTOs for all chatbot entities - Create/Read/Update)
+- [x] **NEW - Create Liquibase Migration** (003-create-chatbot-tables.xml with 5 tables + 17 indexes)
+- [x] **NEW - Update Master Changelog** (master-changelog.xml includes chatbot migration)
+- [x] Documented lightweight SQL seeding workflow and relocated manual scripts to `scripts/seeding`
 
-### ⏳ Pending Items (29%)
-- [ ] Create Application Services layer (8 services with business logic)
-- [ ] Build REST API Controllers (8 controllers with CRUD endpoints)
+### ⏳ Pending Items (15/33) - 45% Remaining
+
+**Portal API Core (45 hours):**
+- [ ] Create 8 Application Services layer (business logic for all portal entities)
+- [ ] Build 8 REST API Controllers with CRUD endpoints
 - [ ] Configure Keycloak realm and client setup
 - [ ] Add JWT authentication middleware to API pipeline
+- [ ] Implement image file serving endpoint (/api/files/{fileName})
+- [ ] Add soft-delete filtering to all repository queries
+- [ ] Capture user info on delete operations (DeletedBy = current user)
+
+**Chatbot Backend Foundation (35 hours - NEW):**
+- [ ] Add DbSets for 5 new chatbot tables to AppDbContext
+- [ ] Create AutoMapper profiles for chatbot DTOs
+- [ ] Create repositories for chatbot entities (ChatbotConversationRepository, etc.)
+- [ ] Implement conversation management service
+- [ ] Implement knowledge base search service (basic)
+- [ ] Create stubs for Azure AI service integrations (OpenAI, Speech, Vision, Search, Prompt Flow)
+- [ ] Implement Azure AI resilience policies in Polly
+- [ ] Create AiUsageLog service for tracking API calls
+- [ ] Add database indexes for chatbot query optimization
+
+**Database Updates (5 hours):**
+- [ ] Run Liquibase migrations to create chatbot tables
+- [ ] Verify all foreign key relationships
+- [ ] Create any additional indexes for chatbot queries
+- [ ] Test soft-delete functionality on all new tables
 
 **📁 Documentation:** [phase-4-backend-api/01-architecture-and-infrastructure.md](../03-phase-specific/phase-4-backend-api/01-architecture-and-infrastructure.md)
 
@@ -122,6 +150,57 @@
 ✅ Handles Azure AI rate limiting automatically  
 ✅ Centralized configuration and monitoring  
 ✅ Zero vulnerabilities (Polly 8.4.1)
+
+---
+
+## 🤖 Phase 4 Extension: Chatbot Database Infrastructure (NEW)
+
+**Status:** ✅ Completed - January 25, 2026  
+**Scope:** 5 new tables + 17 indexes + 15+ DTOs + 5 domain entities  
+**Hours:** 35 (extends Phase 4 from 100h to 135h)
+
+### Database Schema (5 New Tables)
+
+| Table | Purpose | Rows | Indexes |
+|-------|---------|------|---------|
+| **ChatbotConversations** | AI conversation sessions per user | 0-1M | 3 (user_id, started_at, is_deleted) |
+| **ChatbotMessages** | Individual messages within conversations | 0-10M | 4 (conversation_id, user_id, created_at, is_deleted) |
+| **ChatbotKnowledgeBase** | Knowledge base Q&A for RAG retrieval | 0-100K | 4 (category, is_training, priority, is_deleted) |
+| **AiImageAnalyses** | Vision API results for uploaded images | 0-500K | 4 (message_id, user_id, analysis_type, is_deleted) |
+| **AiUsageLogs** | Azure AI service call tracking | 0-1M | 4 (user_id, service_name, created_at, is_deleted) |
+
+### Domain Entities Created
+- `ChatbotConversation.cs` - Session management, cost tracking, satisfaction ratings
+- `ChatbotMessage.cs` - Message storage, intent recognition, confidence scores, thinking mode support
+- `ChatbotKnowledgeBase.cs` - Knowledge base items, embeddings, training data, effectiveness tracking
+- `AiImageAnalysis.cs` - Image analysis results, damage detection, parts identification, recommendations
+- `AiUsageLog.cs` - API usage logging, token tracking, cost tracking, quota management
+
+### DTOs Created (15 Total)
+- ChatbotConversation: ChatbotConversationDto, CreateChatbotConversationRequest, UpdateChatbotConversationRequest
+- ChatbotMessage: ChatbotMessageDto, CreateChatbotMessageRequest, UpdateChatbotMessageRequest
+- ChatbotKnowledgeBase: ChatbotKnowledgeBaseDto, CreateChatbotKnowledgeBaseRequest, UpdateChatbotKnowledgeBaseRequest
+- AiImageAnalysis: AiImageAnalysisDto, CreateAiImageAnalysisRequest, UpdateAiImageAnalysisRequest
+- AiUsageLog: AiUsageLogDto, CreateAiUsageLogRequest, UpdateAiUsageLogRequest
+
+### Key Design Features
+✅ Soft-delete support on all tables  
+✅ Audit columns (CreatedAt, UpdatedAt, DeletedAt, DeletedBy)  
+✅ Foreign key relationships with CASCADE delete for conversation hierarchy  
+✅ Composite indexes for fast filtering (user_id, created_at, is_deleted)  
+✅ Support for 4 chatbot modes (text, voice, image, deep-thinking)  
+✅ JSON columns for complex data (thinking process, detected objects, recommendations)  
+✅ Cost & token tracking for each interaction  
+✅ Knowledge base effectiveness scoring & training data flagging  
+✅ Rate limiting quota tracking for Azure AI services  
+
+### Next Steps in Phase 4
+1. Add DbSets to AppDbContext for all 5 new tables
+2. Create AutoMapper profiles for chatbot DTOs
+3. Implement repository & service layer for chatbot entities
+4. Create Azure AI integration layer (stubs for production Phase 7)
+5. Extend Polly policies for Azure AI services
+6. Run Liquibase migration: `003-create-chatbot-tables.xml`
 
 ---
 
@@ -420,7 +499,7 @@ Implemented enterprise-grade database logging system with background queue proce
 ### Architecture
 
 **New Utility Project** - Reusable infrastructure layer
-- Location: `server/Utility`
+- Location: `app/server/Utility`
 - Dependencies: Domain only (can be used by any layer)
 - Exports: Logging interfaces and queue infrastructure
 
@@ -675,3 +754,4 @@ public class UpdateVehicleHandler : IRequestHandler<UpdateVehicleCommand>
 **📁 For detailed phase information, see:** [Comprehensive Project Plan](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md)
 
 **Next Milestone:** Complete Application Services and Controllers
+

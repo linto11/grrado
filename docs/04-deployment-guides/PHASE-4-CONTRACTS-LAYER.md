@@ -87,7 +87,7 @@ API (Depends on: Domain, Contracts, Application, Infrastructure)
 
 ## Files Created
 ```
-server/Contracts/
+app/server/Contracts/
 ├─ Contracts.csproj
 ├─ DTOs/
 │  └─ BaseDto.cs
@@ -139,3 +139,4 @@ server/Contracts/
 ---
 **Created**: Phase 4 - Backend API Development (Contracts Layer)
 **Status**: ✅ COMPLETE - Ready for Application Services implementation
+

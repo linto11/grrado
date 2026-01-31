@@ -1,0 +1,227 @@
+# GRRADO AI Assistant Guidelines
+## MANDATORY INSTRUCTIONS FOR ALL AI ASSISTANTS (Including Copilot)
+
+### 🚨 CRITICAL - READ FIRST
+
+**BEFORE making ANY code changes, analysis, or recommendations:**
+
+1. ✅ READ: [.vscode/rulebook.md](.vscode/rulebook.md) - This is the MANDATORY standards document
+2. ✅ VERIFY: [README.md](../README.md) - Project overview and structure
+3. ✅ CHECK: [docs/pr-checklist.md](../docs/pr-checklist.md) - Code review enforcement rules
+4. ✅ REFERENCE: [docs/02-progress-tracking/current-status.md](../docs/02-progress-tracking/current-status.md) - Current project status
+
+**If you don't understand a standard, ASK before proceeding.**
+
+---
+
+## GRRADO Project Context
+
+**Project:** Vehicle Service Portal with AI Chatbot  
+**Current Phase:** Phase 4 - REST API Development (53% complete)  
+**Architecture:** Clean Architecture (Domain → Application → Infrastructure → API)  
+**Tech Stack:** .NET 9, PostgreSQL 16, Flutter, Keycloak  
+**Standards:** MANDATORY - All code MUST follow .vscode/rulebook.md  
+
+---
+
+## BEFORE MAKING CHANGES - CHECKLIST
+
+### Architecture
+- [ ] Does this code belong in the correct Clean Architecture layer?
+  - Domain: Business rules, entities, interfaces only
+  - Application: DTOs, services, business logic
+  - Infrastructure: Data access, repositories, EF Core
+  - API: REST controllers, middleware
+  - Utility: Shared utilities only
+- [ ] Does my change respect layer dependencies? (Dependencies flow downward only)
+- [ ] Am I using interfaces for all external dependencies?
+
+### Naming Conventions
+- [ ] Are all NEW filenames in kebab-case? (user-service.cs, not UserService.cs)
+- [ ] Are class names in PascalCase? (class UserService { })
+- [ ] Are method names in PascalCase (C#) or camelCase (Dart)?
+- [ ] Are constants in SCREAMING_SNAKE_CASE?
+
+### No Hard-Coding Rule
+- [ ] Have I extracted ALL magic values to constants files?
+- [ ] No hard-coded URLs, endpoints, or API paths?
+- [ ] No hard-coded timeouts, page sizes, or thresholds?
+- [ ] No hard-coded colors in UI code?
+- [ ] Using ApiEndpoints, AuthConstants, TimeoutConstants, ErrorCodes?
+
+### Async/Await (Backend)
+- [ ] Are all I/O operations (database, HTTP) async?
+- [ ] Do async methods end with `Async` suffix?
+- [ ] No blocking calls like `.GetAwaiter().GetResult()`?
+
+### Logging & Correlation IDs
+- [ ] Do all public API endpoints log with Correlation ID?
+- [ ] Does error logging include context for debugging?
+- [ ] No sensitive data (passwords, tokens) in logs?
+
+### Error Handling
+- [ ] Using ErrorCodes constants (never bare exceptions)?
+- [ ] Returning Result<T> pattern instead of throwing?
+- [ ] Validation errors use error codes from ErrorCodes class?
+
+### Documentation
+- [ ] Do public classes/methods have XML documentation comments?
+- [ ] Are complex logic sections explained (WHY, not WHAT)?
+- [ ] Are related files/sections linked?
+
+### Versioning & Changelog
+- [ ] If this is a new feature, is there a changelog entry in docs/06-changelogs/?
+- [ ] Is version bump text lowercase (major/minor/patch)?
+- [ ] Does changelog follow semantic versioning?
+
+---
+
+## CRITICAL VIOLATIONS - WILL CAUSE REJECTION
+
+| Violation | Example | Fix |
+|-----------|---------|-----|
+| **Hard-coded value** | `if (role == "Admin")` | Use `RoleConstants.ADMIN` |
+| **Wrong filename case** | `UserService.cs` | Rename to `user-service.cs` |
+| **Code in wrong layer** | Business logic in controller | Move to service |
+| **Missing Async suffix** | `public Task<User> GetUser()` | Change to `GetUserAsync()` |
+| **No error code** | `throw new Exception()` | Use `Result.Failure(ErrorCode.X)` |
+| **Missing Correlation ID** | API endpoint without logging | Add CorrelationId to log |
+
+---
+
+## REFERENCE DOCUMENTS
+
+### Standards & Enforcement
+- **.vscode/rulebook.md** - MANDATORY standards document (Section 1-11)
+- **docs/pr-checklist.md** - Code review enforcement checklist
+- **docs/04-validation-system/validation-error-messages.md** - Error handling system
+
+### Project Documentation
+- **README.md** - Project overview and navigation
+- **docs/00-getting-started/quick-start.md** - 30-second getting started
+- **docs/00-getting-started/how-to-run-and-test-api.md** - Complete API testing guide
+- **docs/02-progress-tracking/current-status.md** - Current phase status
+- **docs/implementation-plan.md** - Full roadmap (Phases 1-12)
+
+### Technical Details
+- **docs/03-phase-specific/phase-4-backend-api/** - REST API implementation
+- **docs/06-changelogs/changelog.01022026.001** - Release notes and versioning
+- **docs/01-requirements/error-codes.json** - All error codes in system
+
+---
+
+## HOW TO USE THIS GUIDE
+
+### For Code Review
+1. Read the CRITICAL checklist above
+2. Check each violation against the code
+3. Reference specific sections of .vscode/rulebook.md
+4. Link to pr-checklist.md for enforcement
+
+### For Feature Implementation
+1. Identify which layer(s) are affected
+2. Read relevant .vscode/rulebook.md sections
+3. Follow naming conventions
+4. Extract all magic values to constants
+5. Add Correlation ID logging
+6. Create changelog entry
+
+### For Bug Fixes
+1. Identify root cause (which layer?)
+2. Follow standard patterns (repositories, services, etc.)
+3. Add error handling with error codes
+4. Verify no hard-coded values introduced
+5. Update changelog with patch entry
+
+### For Refactoring
+1. Maintain Clean Architecture structure
+2. Keep interfaces for external dependencies
+3. Use error codes consistently
+4. Preserve logging/Correlation ID
+5. Update relevant documentation
+
+---
+
+## COMMON PATTERNS TO FOLLOW
+
+### Repository Pattern
+```csharp
+// Always use interfaces
+public interface IUserRepository {
+    Task<User?> GetByIdAsync(int id);
+    Task<IEnumerable<User>> GetAllAsync();
+}
+
+public class UserRepository : IUserRepository {
+    // Implementation using DbContext
+}
+```
+
+### Service Layer
+```csharp
+public class UserService {
+    private readonly IUserRepository _repository;
+    private readonly ILogger<UserService> _logger;
+    
+    public async Task<Result<UserDto>> GetUserAsync(int userId) {
+        _logger.LogInformation($"Fetching user {userId}");
+        
+        var user = await _repository.GetByIdAsync(userId);
+        if (user == null)
+            return Result<UserDto>.Failure(ErrorCodes.USER_NOT_FOUND);
+        
+        return Result<UserDto>.Success(_mapper.Map<UserDto>(user));
+    }
+}
+```
+
+### API Controller
+```csharp
+[ApiController]
+[Route("api/v1/users")]
+public class UsersController : ControllerBase {
+    private readonly IUserService _service;
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(int id) {
+        var result = await _service.GetUserAsync(id);
+        
+        if (!result.Success)
+            return BadRequest(new { error = result.ErrorCode });
+        
+        return Ok(new { success = true, data = result.Data });
+    }
+}
+```
+
+---
+
+## QUESTIONS?
+
+- **"Which layer should this go in?"** → See .vscode/rulebook.md Section 1 (Architecture)
+- **"How should I name this file?"** → See .vscode/rulebook.md Section 3 (Naming Conventions)
+- **"Should I hard-code this?"** → NO. Always use constants. See .vscode/rulebook.md Section 2.1
+- **"How do I handle errors?"** → Use Result<T> pattern with ErrorCodes. See .vscode/rulebook.md Section 8
+- **"What version bump should I use?"** → See .vscode/rulebook.md Section 10.5 (Version Bump Guidelines)
+- **"Where do I put the changelog?"** → docs/06-changelogs/changelog.ddmmyyyy.<sequence>. See .vscode/rulebook.md Section 10.2
+
+**If uncertain, reference .vscode/rulebook.md first. If still unclear, ask before proceeding.**
+
+---
+
+## ENFORCEMENT
+
+**All code MUST follow these standards. Code review is MANDATORY.**
+
+- ✅ Standards are enforced through pr-checklist.md
+- ✅ Violations result in automatic PR rejection
+- ✅ Exceptions require 2+ senior developer approval (documented in PR)
+- ✅ This document is MANDATORY reading for all AI assistants
+
+---
+
+**Last Updated:** February 1, 2026  
+**Status:** ACTIVE AND MANDATORY  
+**Applies To:** All developers, AI assistants, code reviewers  
+
+🚨 **BEFORE MAKING ANY CHANGES, READ .vscode/rulebook.md** 🚨

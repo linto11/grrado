@@ -63,7 +63,7 @@ RuleFor(x => x.Name)
 }
 ```
 
-**Location:** `API/Configuration/error-codes.json`
+**Location:** `docs/01-requirements/error-codes.json`
 
 ### Layer 3: Database (GUID Storage)
 Error messages are stored with GUID keys for uniqueness and referential integrity:
@@ -234,7 +234,7 @@ using Application.Common.Configuration;
 
 // Load error codes configuration from JSON
 builder.Configuration.AddJsonFile(
-    "Configuration/error-codes.json", 
+    "docs/01-requirements/error-codes.json", 
     optional: false, 
     reloadOnChange: true);
 
@@ -280,7 +280,7 @@ builder.Services.AddHostedService<ErrorMessageCacheRefreshService>();
 
 ```xml
 <ItemGroup>
-  <None Update="Configuration\error-codes.json">
+  <None Update="..\..\docs\01-requirements\error-codes.json">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </None>
 </ItemGroup>

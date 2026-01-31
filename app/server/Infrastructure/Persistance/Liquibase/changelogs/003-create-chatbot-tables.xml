@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="003-create-chatbot-tables" author="system">
+        <comment>Create chatbot-related tables for AI conversation management</comment>
+        
+        <!-- Create ChatbotConversations table -->
+        <createTable tableName="ChatbotConversations">
+            <column name="Id" type="SERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="UserId" type="INTEGER" remarks="Reference to User">
+                <constraints nullable="false" foreignKeyName="fk_chatbot_conversations_user" 
+                            references="Users(Id)" onDelete="RESTRICT"/>
+            </column>
+            <column name="Title" type="VARCHAR(255)" remarks="Conversation title">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Summary" type="TEXT" remarks="Conversation summary">
+                <constraints nullable="true"/>
+            </column>
+            <column name="StartedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Conversation start time">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="EndedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Conversation end time">
+                <constraints nullable="true"/>
+            </column>
+            <column name="MessageCount" type="INTEGER" remarks="Total messages in conversation">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="TotalTokensUsed" type="NUMERIC(12,2)" remarks="Total AI tokens used">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="TotalCostUsd" type="NUMERIC(10,4)" remarks="Total cost in USD">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="SatisfactionRating" type="INTEGER" remarks="User satisfaction 1-5 stars">
+                <constraints nullable="true"/>
+            </column>
+            <column name="SatisfactionComment" type="TEXT" remarks="User satisfaction feedback">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ConversationMode" type="VARCHAR(50)" remarks="text, voice, image, deep-thinking">
+                <constraints nullable="false" defaultValue="text"/>
+            </column>
+            <column name="IsArchived" type="BOOLEAN" remarks="Archive flag">
+                <constraints nullable="false" defaultValue="false"/>
+            </column>
+            <column name="CreatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Creation timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="UpdatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Last update timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="IsDeleted" type="BOOLEAN" remarks="Soft delete flag">
+                <constraints nullable="false" defaultValue="false"/>
+            </column>
+            <column name="DeletedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Soft delete timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="DeletedBy" type="VARCHAR(255)" remarks="User who deleted record">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_chatbot_conversations_user_id" tableName="ChatbotConversations">
+            <column name="UserId"/>
+        </createIndex>
+        <createIndex indexName="idx_chatbot_conversations_started_at" tableName="ChatbotConversations">
+            <column name="StartedAt"/>
+        </createIndex>
+        <createIndex indexName="idx_chatbot_conversations_is_deleted" tableName="ChatbotConversations">
+            <column name="IsDeleted"/>
+        </createIndex>
+        
+        <!-- Create ChatbotMessages table -->
+        <createTable tableName="ChatbotMessages">
+            <column name="Id" type="SERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ConversationId" type="INTEGER" remarks="Reference to ChatbotConversation">
+                <constraints nullable="false" foreignKeyName="fk_chatbot_messages_conversation" 
+                            references="ChatbotConversations(Id)" onDelete="CASCADE"/>
+            </column>
+            <column name="UserId" type="INTEGER" remarks="Reference to User">
+                <constraints nullable="false" foreignKeyName="fk_chatbot_messages_user" 
+                            references="Users(Id)" onDelete="RESTRICT"/>
+            </column>
+            <column name="UserMessage" type="TEXT" remarks="User's message content">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BotResponse" type="TEXT" remarks="Bot's response content">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MessageType" type="VARCHAR(50)" remarks="text, voice, image, deep-thinking">
+                <constraints nullable="false" defaultValue="text"/>
+            </column>
+            <column name="TokensUsed" type="INTEGER" remarks="Tokens used for this message">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="CostUsd" type="NUMERIC(10,4)" remarks="Cost in USD for this message">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="DetectedIntent" type="VARCHAR(255)" remarks="AI-detected user intent">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ConfidenceScore" type="NUMERIC(3,2)" remarks="Intent confidence 0-1">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ExtractionEntities" type="TEXT" remarks="JSON extracted entities">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ResponseTimeMs" type="INTEGER" remarks="Response latency in milliseconds">
+                <constraints nullable="true"/>
+            </column>
+            <column name="IsThinkingMode" type="BOOLEAN" remarks="Deep thinking flag">
+                <constraints nullable="false" defaultValue="false"/>
+            </column>
+            <column name="ThinkingProcess" type="TEXT" remarks="JSON thinking steps for deep mode">
+                <constraints nullable="true"/>
+            </column>
+            <column name="IsHelpful" type="BOOLEAN" remarks="User feedback helpful/not helpful">
+                <constraints nullable="true"/>
+            </column>
+            <column name="UserFeedback" type="TEXT" remarks="Detailed user feedback">
+                <constraints nullable="true"/>
+            </column>
+            <column name="CreatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Creation timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="UpdatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Last update timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="IsDeleted" type="BOOLEAN" remarks="Soft delete flag">
+                <constraints nullable="false" defaultValue="false"/>
+            </column>
+            <column name="DeletedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Soft delete timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="DeletedBy" type="VARCHAR(255)" remarks="User who deleted record">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_chatbot_messages_conversation_id" tableName="ChatbotMessages">
+            <column name="ConversationId"/>
+        </createIndex>
+        <createIndex indexName="idx_chatbot_messages_user_id" tableName="ChatbotMessages">
+            <column name="UserId"/>
+        </createIndex>
+        <createIndex indexName="idx_chatbot_messages_created_at" tableName="ChatbotMessages">
+            <column name="CreatedAt"/>
+        </createIndex>
+        <createIndex indexName="idx_chatbot_messages_is_deleted" tableName="ChatbotMessages">
+            <column name="IsDeleted"/>
+        </createIndex>
+        
+        <!-- Create ChatbotKnowledgeBase table -->
+        <createTable tableName="ChatbotKnowledgeBase">
+            <column name="Id" type="SERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Category" type="VARCHAR(100)" remarks="Knowledge category">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Question" type="TEXT" remarks="Knowledge base question">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Answer" type="TEXT" remarks="Knowledge base answer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Tags" type="TEXT" remarks="Comma-separated search tags">
+                <constraints nullable="true"/>
+            </column>
+            <column name="UsageCount" type="INTEGER" remarks="Times this knowledge was referenced">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="EffectivenessScore" type="NUMERIC(3,2)" remarks="Effectiveness 0-1">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="EmbeddingVector" type="TEXT" remarks="Vector embedding JSON">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Synonyms" type="TEXT" remarks="Alternative phrasings JSON">
+                <constraints nullable="true"/>
+            </column>
+            <column name="RelatedTopics" type="TEXT" remarks="Related topic IDs">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Priority" type="INTEGER" remarks="Retrieval priority">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="IsTrainingData" type="BOOLEAN" remarks="Used for model training">
+                <constraints nullable="false" defaultValue="false"/>
+            </column>
+            <column name="ModelVersionUsedFor" type="INTEGER" remarks="Model version this trained">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Confidence" type="NUMERIC(3,2)" remarks="Knowledge confidence 0-1">
+                <constraints nullable="true"/>
+            </column>
+            <column name="CreatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Creation timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="UpdatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Last update timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="IsDeleted" type="BOOLEAN" remarks="Soft delete flag">
+                <constraints nullable="false" defaultValue="false"/>
+            </column>
+            <column name="DeletedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Soft delete timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="DeletedBy" type="VARCHAR(255)" remarks="User who deleted record">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_chatbot_kb_category" tableName="ChatbotKnowledgeBase">
+            <column name="Category"/>
+        </createIndex>
+        <createIndex indexName="idx_chatbot_kb_is_training" tableName="ChatbotKnowledgeBase">
+            <column name="IsTrainingData"/>
+        </createIndex>
+        <createIndex indexName="idx_chatbot_kb_priority" tableName="ChatbotKnowledgeBase">
+            <column name="Priority"/>
+        </createIndex>
+        <createIndex indexName="idx_chatbot_kb_is_deleted" tableName="ChatbotKnowledgeBase">
+            <column name="IsDeleted"/>
+        </createIndex>
+        
+        <!-- Create AiImageAnalyses table -->
+        <createTable tableName="AiImageAnalyses">
+            <column name="Id" type="SERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ChatbotMessageId" type="INTEGER" remarks="Reference to ChatbotMessage">
+                <constraints nullable="false" foreignKeyName="fk_ai_image_analyses_message" 
+                            references="ChatbotMessages(Id)" onDelete="CASCADE"/>
+            </column>
+            <column name="UserId" type="INTEGER" remarks="Reference to User">
+                <constraints nullable="false" foreignKeyName="fk_ai_image_analyses_user" 
+                            references="Users(Id)" onDelete="RESTRICT"/>
+            </column>
+            <column name="OriginalImageFileName" type="VARCHAR(255)" remarks="Original filename">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OriginalImagePath" type="TEXT" remarks="Path to original image">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AnnotatedImagePath" type="TEXT" remarks="Path to annotated image">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ThumbnailPath" type="TEXT" remarks="Path to thumbnail">
+                <constraints nullable="true"/>
+            </column>
+            <column name="FileSizeBytes" type="BIGINT" remarks="File size in bytes">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ImageMimeType" type="VARCHAR(50)" remarks="Image MIME type">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AnalysisType" type="VARCHAR(100)" remarks="Type of analysis performed">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DetectedObjects" type="TEXT" remarks="JSON array of detected objects">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SeverityLevel" type="VARCHAR(50)" remarks="low, medium, high, critical">
+                <constraints nullable="true"/>
+            </column>
+            <column name="DamageType" type="VARCHAR(100)" remarks="Type of damage detected">
+                <constraints nullable="true"/>
+            </column>
+            <column name="PartsIdentified" type="TEXT" remarks="JSON array of parts">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ConfidenceScore" type="NUMERIC(3,2)" remarks="Confidence 0-1">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Recommendations" type="TEXT" remarks="JSON array of recommendations">
+                <constraints nullable="true"/>
+            </column>
+            <column name="VehiclePartLocation" type="VARCHAR(100)" remarks="Vehicle part location">
+                <constraints nullable="true"/>
+            </column>
+            <column name="EstimatedRepairCostRange" type="INTEGER" remarks="Estimated repair cost">
+                <constraints nullable="true"/>
+            </column>
+            <column name="RequiresExpertReview" type="BOOLEAN" remarks="Requires expert review">
+                <constraints nullable="false" defaultValue="false"/>
+            </column>
+            <column name="ResponseTimeMs" type="INTEGER" remarks="Analysis response time">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="TokensUsed" type="INTEGER" remarks="Tokens used for analysis">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="CostUsd" type="NUMERIC(10,4)" remarks="Cost in USD">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="CreatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Creation timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="UpdatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Last update timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="IsDeleted" type="BOOLEAN" remarks="Soft delete flag">
+                <constraints nullable="false" defaultValue="false"/>
+            </column>
+            <column name="DeletedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Soft delete timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="DeletedBy" type="VARCHAR(255)" remarks="User who deleted record">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_ai_image_analyses_message_id" tableName="AiImageAnalyses">
+            <column name="ChatbotMessageId"/>
+        </createIndex>
+        <createIndex indexName="idx_ai_image_analyses_user_id" tableName="AiImageAnalyses">
+            <column name="UserId"/>
+        </createIndex>
+        <createIndex indexName="idx_ai_image_analyses_analysis_type" tableName="AiImageAnalyses">
+            <column name="AnalysisType"/>
+        </createIndex>
+        <createIndex indexName="idx_ai_image_analyses_is_deleted" tableName="AiImageAnalyses">
+            <column name="IsDeleted"/>
+        </createIndex>
+        
+        <!-- Create AiUsageLogs table -->
+        <createTable tableName="AiUsageLogs">
+            <column name="Id" type="SERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="UserId" type="INTEGER" remarks="Reference to User">
+                <constraints nullable="true" foreignKeyName="fk_ai_usage_logs_user" 
+                            references="Users(Id)" onDelete="SET NULL"/>
+            </column>
+            <column name="ServiceName" type="VARCHAR(100)" remarks="Azure service name">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ApiEndpoint" type="VARCHAR(255)" remarks="API endpoint called">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OperationType" type="VARCHAR(100)" remarks="Type of operation">
+                <constraints nullable="false"/>
+            </column>
+            <column name="InputTokens" type="INTEGER" remarks="Input tokens used">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="OutputTokens" type="INTEGER" remarks="Output tokens used">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="TotalTokens" type="INTEGER" remarks="Total tokens used">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="Model" type="VARCHAR(100)" remarks="AI model used">
+                <constraints nullable="true"/>
+            </column>
+            <column name="CostUsd" type="NUMERIC(10,4)" remarks="Cost in USD">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="DurationMs" type="INTEGER" remarks="Request duration milliseconds">
+                <constraints nullable="false" defaultValue="0"/>
+            </column>
+            <column name="IsSuccessful" type="BOOLEAN" remarks="Success flag">
+                <constraints nullable="false" defaultValue="true"/>
+            </column>
+            <column name="ErrorMessage" type="TEXT" remarks="Error message if failed">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ErrorCode" type="VARCHAR(100)" remarks="Error code if failed">
+                <constraints nullable="true"/>
+            </column>
+            <column name="RemainingQuotaPercentage" type="INTEGER" remarks="Remaining quota %">
+                <constraints nullable="true"/>
+            </column>
+            <column name="QuotaResetAt" type="TIMESTAMP WITH TIME ZONE" remarks="Quota reset time">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ConversationId" type="VARCHAR(100)" remarks="Related conversation ID">
+                <constraints nullable="true"/>
+            </column>
+            <column name="MessageId" type="VARCHAR(100)" remarks="Related message ID">
+                <constraints nullable="true"/>
+            </column>
+            <column name="Tags" type="TEXT" remarks="Comma-separated tags">
+                <constraints nullable="true"/>
+            </column>
+            <column name="CreatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Creation timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="UpdatedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Last update timestamp">
+                <constraints nullable="false" defaultValue="CURRENT_TIMESTAMP"/>
+            </column>
+            <column name="IsDeleted" type="BOOLEAN" remarks="Soft delete flag">
+                <constraints nullable="false" defaultValue="false"/>
+            </column>
+            <column name="DeletedAt" type="TIMESTAMP WITH TIME ZONE" remarks="Soft delete timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="DeletedBy" type="VARCHAR(255)" remarks="User who deleted record">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_ai_usage_logs_user_id" tableName="AiUsageLogs">
+            <column name="UserId"/>
+        </createIndex>
+        <createIndex indexName="idx_ai_usage_logs_service_name" tableName="AiUsageLogs">
+            <column name="ServiceName"/>
+        </createIndex>
+        <createIndex indexName="idx_ai_usage_logs_created_at" tableName="AiUsageLogs">
+            <column name="CreatedAt"/>
+        </createIndex>
+        <createIndex indexName="idx_ai_usage_logs_is_deleted" tableName="AiUsageLogs">
+            <column name="IsDeleted"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

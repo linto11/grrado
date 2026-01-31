@@ -16,7 +16,7 @@ AI-ML-Project/
     ├── README.md ← Master Index (Full Overview)
     │
     └── 00-getting-started/
-        └── 00-START-HERE.md ← You Are Here! ✅
+        └── 00-start-here.md ← You Are Here! ✅
 ```
 
 ---
@@ -42,7 +42,7 @@ Choose Based On Your Role:
 ### 👨‍💻 **If You're A Developer**
 
 1. **Start Here:**
-   - [../../../IMPLEMENTATION_PLAN.md](../../../IMPLEMENTATION_PLAN.md) - Master development plan
+   - [../../root-docs/implementation-plan.md](../../root-docs/implementation-plan.md) - Master development plan
    - [../03-phase-specific/README.md](../03-phase-specific/README.md) - Phase overview
 
 2. **For Phase 4 Backend Development:**
@@ -84,7 +84,7 @@ Here's where everything lives (use as reference):
 ```
 docs/
 ├── 00-getting-started/        ← You Are In This Folder
-│   ├── 00-START-HERE.md       ← This File
+│   ├── 00-start-here.md       ← This File
 │   ├── 01-PROJECT-OVERVIEW.md ← Read Next
 │   └── 02-FOLDER-STRUCTURE.md ← Then Read This
 │
@@ -117,7 +117,7 @@ docs/
 | Understand the project | [01-PROJECT-OVERVIEW.md](01-PROJECT-OVERVIEW.md) | 10 min |
 | See all tasks | [../01-requirements/01-ALL-REQUIREMENTS.md](../01-requirements/01-ALL-REQUIREMENTS.md) | 20 min |
 | Check progress | [../02-progress-tracking/PROGRESS-TRACKER.md](../02-progress-tracking/PROGRESS-TRACKER.md) | 5 min |
-| Deploy Phase 3 | [../04-deployment-guides/01-LIQUIBASE-DEPLOYMENT-QUICK-START.md](../04-deployment-guides/01-LIQUIBASE-DEPLOYMENT-QUICK-START.md) | 10 min |
+| Deploy Phase 3 | [../04-deployment-guides/01-LIQUIBASE-DEPLOYMENT-quick-start.md](../04-deployment-guides/01-LIQUIBASE-DEPLOYMENT-quick-start.md) | 10 min |
 
 ---
 
@@ -139,7 +139,7 @@ A: 70 Tasks Remaining (31 of 101 Complete)
 A: [../03-phase-specific/phase-03-database/](../03-phase-specific/phase-03-database/)
 
 **Q: How Do I Deploy Liquibase?**  
-A: [../04-deployment-guides/01-LIQUIBASE-DEPLOYMENT-QUICK-START.md](../04-deployment-guides/01-LIQUIBASE-DEPLOYMENT-QUICK-START.md)
+A: [../04-deployment-guides/01-LIQUIBASE-DEPLOYMENT-quick-start.md](../04-deployment-guides/01-LIQUIBASE-DEPLOYMENT-quick-start.md)
 
 ---
 

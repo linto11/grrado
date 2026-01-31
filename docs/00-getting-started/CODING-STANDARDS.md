@@ -55,7 +55,7 @@ final apiUrl = ApiEndpoints.BASE_URL;
 ## 📂 3. CONSTANTS ORGANIZATION
 
 ### Backend (.NET)
-`server/Application/Common/Constants/`
+`app/server/Application/Common/Constants/`
 - `ApiEndpoints.cs`
 - `AuthConstants.cs`
 - `ErrorCodes.cs`
@@ -63,7 +63,7 @@ final apiUrl = ApiEndpoints.BASE_URL;
 - `TimeoutConstants.cs`
 
 ### Frontend (Flutter)
-`client/shared/core/lib/constants/` (Shared constants)
+`app/client/shared/core/lib/constants/` (Shared constants)
 - `api_endpoints.dart`
 - `auth_constants.dart`
 - `error_codes.dart`
@@ -131,3 +131,4 @@ When generating code:
 
 ## 🎯 8. ENFORCEMENT
 Violations of these standards will result in PR rejection. Consistency across the unified Flutter frontend and .NET backend is critical for the success of GRRADO.
+

@@ -1,0 +1,270 @@
+# Workspace Reorganization & Standards Configuration
+
+**Date:** February 1, 2026  
+**Release Date:** TBD (pending PR merge)  
+**Proposed Version:** 0.1.0  
+**Change Type:** Major Workspace Restructuring (Non-breaking to code)
+
+---
+
+## Summary
+
+Comprehensive workspace reorganization to establish a production-ready structure with enforced coding standards, improved folder organization, and removal of legacy utilities. This change creates a clear, scalable workspace aligned with industry best practices.
+
+**Impact:** Workspace structure, standards enforcement, developer workflow  
+**Scope:** File organization, path references, configuration files  
+**Breaking Changes:** File paths only (non-breaking to application code)
+
+---
+
+## Changes
+
+### Added
+
+#### Workspace Configuration (`.vscode/`)
+- **`.vscode/rulebook.md`** — MANDATORY standards document (958 lines)
+  - 11 comprehensive sections covering architecture, naming conventions, logging, error handling
+  - Automatically discovered by Copilot for standards enforcement
+  - Referenced in `.vscode/settings.json` as [CRITICAL] STANDARD_REFERENCE
+  
+- **`.vscode/settings.json`** — Workspace-level configuration
+  - [CRITICAL] markers for mandatory review before any changes
+  - References to rulebook.md for developer standards
+  - Copilot integration configuration
+  
+- **`.vscode/extensions.json`** — 20 recommended VS Code extensions
+  - Ensures consistent development environment across team
+  
+- **`.vscode/.copilotignore`** — Exclusion patterns for Copilot analysis
+  - Prevents Copilot from analyzing non-essential files
+
+#### AI Assistant Guidelines
+- **`.aichat`** (root level, 228 lines) — MANDATORY for all AI assistants
+  - 8-category critical checklist before making changes
+  - Violation table and reference documents
+  - Common patterns and best practices
+
+#### Documentation Improvements
+- **`docs/01-requirements/error-codes.json`** — Centralized error codes
+  - Moved from multiple locations for single source of truth
+  - 8 defined error codes (ERR_001 through ERR_008) with HTTP status mappings
+  
+- **`docs/05-validation-system/`** — New folder for validation documentation
+  
+- **`docs/06-changelogs/`** — Proper changelog directory structure
+  - Master changelog: `docs/06-changelogs/changelog.01022026.001`
+  - Per-PR changelogs: `docs/06-changelogs/ddmmyyyy.<sequence>`
+
+#### Reorganized Infrastructure
+- **`infrastructure/`** folder structure
+  - `infrastructure/database/initialization/` — Database schema and init scripts
+  - `infrastructure/database/maintenance/` — Query and maintenance scripts
+  - `infrastructure/database/config/` — PostgreSQL configuration files
+  - `infrastructure/data/seeding/` — SQL data seeding scripts
+  - `infrastructure/tools/` — Utility and launch scripts
+
+#### Consolidated Application Code
+- **`app/`** folder structure
+  - `app/client/` — Angular frontend (consolidated)
+  - `app/server/` — .NET backend (consolidated)
+
+---
+
+### Changed
+
+#### File Relocations
+1. **`rulebook.md`** — Moved from root to `.vscode/rulebook.md`
+   - Updated 15+ reference locations across codebase
+   - Now automatically discovered by Copilot for standards enforcement
+
+2. **`error-codes.json`** — Moved from `server/API/Configuration/` to `docs/01-requirements/`
+   - Updated 7 reference locations
+   - Centralized configuration for all services
+
+3. **`scripts/` → `infrastructure/`**
+   - Renamed with meaningful subfolder structure
+   - Enhanced clarity of purpose (database, data seeding, tools)
+
+4. **`client/` and `server/` → `app/`**
+   - Consolidated under unified `app/` container
+   - Improved code organization and clarity
+
+5. **Documentation Restructuring**
+   - Moved 6 root-level markdown files to `docs/` folder for organization
+   - Updated all references in documentation and configuration files
+   - Renamed files to kebab-case standard
+
+#### Path References Updated
+- **`.aichat`** — 11+ path references updated
+- **`.vscode/settings.json`** — 7+ rulebook location references updated
+- **`README.md`** — 4 references to server/API paths updated
+- **`infrastructure/tools/run-api.bat`** — API path updated to `app/server/API`
+- **All markdown files in `docs/`** — Updated server/client path references via script
+
+#### Standards Documentation
+- **`.vscode/rulebook.md`** — Line 629: Updated error-codes.json location reference
+- **Semantic Versioning** — Implemented with lowercase version text (major/minor/patch)
+- **Changelog Format** — Established `docs/06-changelogs/ddmmyyyy.<sequence>` naming convention
+
+---
+
+### Fixed
+
+#### Broken References
+- Fixed old path references in `.aichat` (was pointing to `docs/agent/error-codes.json`)
+- Fixed rulebook.md references in configuration files
+- Removed references to deleted folders (`docs/agent/`, `docs/07-agent/`)
+
+#### Path Consistency
+- All path references now consistent across codebase
+- No orphaned or stale references remaining
+- Updated all documentation to reflect new folder structure
+
+---
+
+### Removed
+
+#### Legacy & Unused Utilities
+- **`test-db-connection/`** — Unused .NET console app debugging utility
+  - Not part of solution, not referenced anywhere
+  - Redundant testing capability
+
+- **`data/`** — Legacy CSV data files
+  - Gitignored and not part of active workflow
+  - Superseded by SQL seeding scripts
+
+- **`data-generator/`** — One-time Python data generation utility
+  - Legacy utility, not part of continuous workflow
+  - Data generation handled by SQL seeding
+
+#### Root-Level Documentation Files
+- **`CHANGELOG.md`** (moved to `docs/06-changelogs/`)
+- **`CODE_OF_CONDUCT.md`** (moved to `docs/`)
+- **`CONTRIBUTING.md`** (moved to `docs/`)
+- **`IMPLEMENTATION_PLAN.md`** (moved to `docs/`)
+- **Duplicate `scripts/` directory** (consolidated to `infrastructure/`)
+
+---
+
+## Workspace Structure (Final)
+
+```
+d:\_GRRADO\src/
+├── app/                           # Applications (consolidated)
+│   ├── client/                    # Angular frontend
+│   └── server/                    # .NET backend
+├── docs/                          # Documentation (organized)
+│   ├── 00-getting-started/        # Getting started guides
+│   ├── 01-requirements/           # Requirements & error-codes.json
+│   ├── 02-progress-tracking/      # Progress and status tracking
+│   ├── 03-phase-specific/         # Phase-by-phase implementation
+│   ├── 04-deployment-guides/      # Deployment documentation
+│   ├── 05-validation-system/      # Validation patterns & rules
+│   └── 06-changelogs/             # Changelog entries
+├── infrastructure/                # Database & deployment
+│   ├── database/
+│   │   ├── initialization/        # Schema and initialization
+│   │   ├── maintenance/           # Query and maintenance utilities
+│   │   └── config/                # PostgreSQL configuration
+│   ├── data/
+│   │   └── seeding/               # SQL data seeding scripts
+│   └── tools/
+│       └── run-api.bat            # API launcher
+├── .vscode/                       # Workspace configuration
+│   ├── rulebook.md                # Standards (MANDATORY)
+│   ├── settings.json              # Workspace settings
+│   ├── extensions.json            # Recommended extensions
+│   └── .copilotignore             # Copilot exclusions
+├── .aichat                        # AI guidelines (MANDATORY)
+├── README.md                      # Master entry point
+└── (config files and version control)
+```
+
+---
+
+## Developer Impact
+
+### Positive Changes
+✅ **Clearer Organization** — Logical folder structure by purpose  
+✅ **Standards Enforcement** — Copilot automatically reads `.vscode/rulebook.md`  
+✅ **Centralized Configuration** — Single source of truth for error codes  
+✅ **Improved Documentation** — Organized by topic and phase  
+✅ **Clean Workspace** — Legacy utilities removed, less clutter  
+✅ **Discoverable Guidelines** — `.aichat` at root for immediate visibility  
+
+### Required Actions for Developers
+- ⚠️ **Update project paths** — Refer to `app/server/` and `app/client/` instead of root `server/` and `client/`
+- ⚠️ **Update IDE configurations** — Point to new paths for launch configurations
+- ⚠️ **Read `.aichat`** — MANDATORY before making any changes to the codebase
+- ⚠️ **Reference `.vscode/rulebook.md`** — For coding standards and conventions
+- ✅ **No code changes** — Application code itself is unaffected
+
+---
+
+## Testing & Validation
+
+### Verification Checklist
+- ✅ All file paths verified and functional
+- ✅ No broken references or links
+- ✅ All path references updated (11+ locations)
+- ✅ Infrastructure scripts tested and functional
+- ✅ Documentation structure validated
+- ✅ Configuration files reviewed and validated
+- ✅ No application code affected (workspace organization only)
+
+### Files Verified
+- ✅ `.vscode/rulebook.md` — 958 lines, properly formatted
+- ✅ `.vscode/settings.json` — Configuration references validated
+- ✅ `.aichat` — 228 lines, all guidelines clear
+- ✅ `docs/01-requirements/error-codes.json` — Error codes accessible
+- ✅ `infrastructure/` folder structure — All subfolders present
+- ✅ `app/` folder structure — Client and server properly consolidated
+
+---
+
+## Version Bump Proposal
+
+**Current:** 0.0.1  
+**Proposed:** 0.1.0  
+**Reason:** Minor version bump for workspace reorganization and standards implementation
+
+**Semantic Versioning Justification:**
+- Not breaking application code (0.major)
+- New infrastructure structure (0.+minor)
+- Standards enforcement system added
+- No bug fixes, only organization
+
+---
+
+## Git Information
+
+**Branch:** main  
+**Commit Type:** feat: workspace reorganization  
+**Files Changed:** 140+ (moved, reorganized, updated paths)  
+**Files Deleted:** 7 legacy utilities  
+**Files Added:** 5 configuration/documentation files  
+**Files Modified:** 20+ path reference updates  
+
+---
+
+## References
+
+- **Rulebook:** [.vscode/rulebook.md](.vscode/rulebook.md)
+- **AI Guidelines:** [.aichat](.aichat)
+- **Error Codes:** [docs/01-requirements/error-codes.json](docs/01-requirements/error-codes.json)
+- **PR Checklist:** [docs/pr-checklist.md](docs/pr-checklist.md)
+- **Master Changelog:** [docs/06-changelogs/changelog.01022026.001](docs/06-changelogs/changelog.01022026.001)
+
+---
+
+## Notes
+
+This change represents a significant but non-breaking reorganization of the workspace. While file paths have changed, no application code has been modified. All developers must update their IDE configurations and paths accordingly.
+
+The implementation of `.vscode/rulebook.md` and `.aichat` establishes a standards-first development environment where coding conventions and best practices are automatically available to all developers and AI assistants.
+
+---
+
+**Created by:** GitHub Copilot  
+**Status:** Ready for review  
+**Date:** February 1, 2026

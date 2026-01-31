@@ -47,7 +47,7 @@ Phase 3 established the complete database infrastructure using a **database-firs
 
 **✅ Directory Structure**
 ```
-server/Infrastructure/Database/
+app/server/Infrastructure/Database/
 ├── liquibase.properties          ✅ Connection configuration
 └── liquibase/
     ├── master-changelog.xml       ✅ Main orchestrator
@@ -341,7 +341,7 @@ ImageDiagnostics (independent)
 
 To deploy the schema:
 ```bash
-cd server/Infrastructure/Database
+cd app/server/Infrastructure/Database
 
 # Check status
 liquibase status --verbose
@@ -434,3 +434,4 @@ For issues with Phase 3:
 3. Verify PostgreSQL container is running
 4. Review Liquibase logs
 5. Consult database team
+

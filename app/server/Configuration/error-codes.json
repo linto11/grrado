@@ -1,0 +1,44 @@
+{
+  "errors": [
+    {
+      "code": "ERR_001",
+      "message": "Invalid request parameters",
+      "statusCode": 400
+    },
+    {
+      "code": "ERR_002",
+      "message": "Resource not found",
+      "statusCode": 404
+    },
+    {
+      "code": "ERR_003",
+      "message": "Unauthorized access",
+      "statusCode": 401
+    },
+    {
+      "code": "ERR_004",
+      "message": "Forbidden",
+      "statusCode": 403
+    },
+    {
+      "code": "ERR_005",
+      "message": "Internal server error",
+      "statusCode": 500
+    },
+    {
+      "code": "ERR_006",
+      "message": "Database connection failed",
+      "statusCode": 500
+    },
+    {
+      "code": "ERR_007",
+      "message": "Validation error",
+      "statusCode": 400
+    },
+    {
+      "code": "ERR_008",
+      "message": "Duplicate record",
+      "statusCode": 409
+    }
+  ]
+}

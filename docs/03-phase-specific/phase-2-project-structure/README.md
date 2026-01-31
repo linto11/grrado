@@ -27,7 +27,7 @@ Phase 2 established the complete project structure with .NET Core backend follow
 
 **✅ Solution Architecture**
 ```
-server/
+app/server/
 ├── VehicleServicePortal.sln     ✅ Solution file
 ├── Domain/                       ✅ Entity models layer
 │   └── Domain.csproj
@@ -74,7 +74,7 @@ dotnet add Infrastructure reference Domain
 
 **✅ Project Configuration**
 ```
-client/
+app/client/
 ├── angular.json                  ✅ Angular workspace config
 ├── package.json                  ✅ Dependencies
 ├── tsconfig.json                 ✅ TypeScript config
@@ -151,7 +151,7 @@ Components created in `src/app/shared/ui/`:
 
 **✅ Backend Upload Folder**
 ```
-server/API/
+app/server/API/
 └── uploads/
     └── images/              ✅ Image storage directory
         ├── .gitkeep         ✅ Git tracking
@@ -385,3 +385,4 @@ For issues with Phase 2:
 2. Check package versions compatibility
 3. Verify all dependencies installed
 4. Consult architecture documentation in `docs/01-requirements/`
+

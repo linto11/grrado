@@ -1,210 +1,395 @@
-# 📚 Vehicle Service Portal - Documentation
+# 📚 GRRADO Documentation
 
-**Complete documentation organized by category and phase.**
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
+[![Documentation](https://img.shields.io/badge/Docs-Consolidated%202.0-blue)]()
+[![Standards](https://img.shields.io/badge/Standards-Unified%20Rulebook-green)]()
 
----
-
-## 🚀 Quick Navigation
-
-### 👋 Getting Started
-- **[00-start-here.md](00-getting-started/00-start-here.md)** - Read This First! (5 Min)
-- **[01-project-overview.md](00-getting-started/01-project-overview.md)** - Project Vision and Tech Stack
-- **[02-folder-structure.md](00-getting-started/02-folder-structure.md)** - How This Documentation Is Organized
-
-### 📋 Requirements & Specifications
-- **[01-ALL-REQUIREMENTS.md](01-requirements/01-ALL-REQUIREMENTS.md)** - Complete Feature List (21.3 KB)
-  - 101 Tasks Across 11 Phases
-  - All Completed Items Marked With ✅
-  - Detailed Descriptions and Time Estimates
-- **[02-COMPLETION-STATUS.md](01-requirements/02-COMPLETION-STATUS.md)** - Completion Summary
-
-### 📊 Progress & Task Tracking
-- **[progress-tracker.md](02-progress-tracking/progress-tracker.md)** - Daily Task Management
-  - Current Phase: Phase 4 Backend API (Ready to Start)
-  - Phases 1-3: Complete ✅ (33 of 33 tasks)
-  - Overall: 14% Complete (100 of 735 hours)
-
-### 🗄️ Phase-Specific Documentation
-
-#### Phases 1-3: Environment, Architecture & Database (✅ COMPLETE)
-- **Phase 1:** [phase-1-environment-setup/README.md](03-phase-specific/phase-1-environment-setup/README.md)
-- **Phase 2:** [phase-2-project-structure/README.md](03-phase-specific/phase-2-project-structure/README.md)
-- **Phase 3:** [phase-3-database-liquibase/README.md](03-phase-specific/phase-3-database-liquibase/README.md)
-  - [phase-03-liquibase-starter.md](03-phase-specific/phase-3-database-liquibase/phase-03-liquibase-starter.md)
-  - [phase-03-liquibase-implementation.md](03-phase-specific/phase-3-database-liquibase/phase-03-liquibase-implementation.md)
-
-### 🚀 Deployment & Implementation Guides
-- **[01-liquibase-deployment-quick-start.md](04-deployment-guides/01-liquibase-deployment-quick-start.md)** - Step-by-Step Deployment
-- **[02-liquibase-detailed-guide.md](04-deployment-guides/02-liquibase-detailed-guide.md)** - Comprehensive Liquibase Guide
-- **[03-phase-3-implementation-checklist.md](04-deployment-guides/03-phase-3-implementation-checklist.md)** - What Was Built
+**Status:** ✅ Fully Consolidated | ✅ All Files Kebab-Case | ✅ Unified Standards | Last Updated: January 31, 2026
 
 ---
 
-## 📁 Folder Structure
+## 🚀 START HERE
+
+**👉 New to the project?** Start with the [master documentation index](../docs-index.md) at the workspace root.
+
+**Key entry points:**
+- **Quick Start (30 sec):** [quick-start.md](../quick-start.md)
+- **Status Check (5 min):** [02-progress-tracking/current-status.md](02-progress-tracking/current-status.md)
+- **Development Rules:** [.vscode/rulebook.md](../.vscode/rulebook.md) — **MANDATORY**
+- **Master Plan:** [implementation-plan.md](../implementation-plan.md)
+- **API Testing:** [how-to-run-and-test-api.md](../docs/how-to-run-and-test-api.md)
+
+---
+
+## 📖 Documentation Organization
+
+This folder contains detailed reference material. For a quick overview, see:
+
+### **At Workspace Root** (Top-level entry points)
+- [.vscode/rulebook.md](../.vscode/rulebook.md) — Development standards & enforcement
+- [quick-start.md](../quick-start.md) — 30-second quick start
+- [02-progress-tracking/current-status.md](02-progress-tracking/current-status.md) — 5-minute status update
+- [implementation-plan.md](../implementation-plan.md) — Master development plan
+- [phase-4-rest-api-completion.md](../phase-4-rest-api-completion.md) — What's been built
+- [build-verification.md](../build-verification.md) — Build status proof
+- [docs-index.md](../docs-index.md) — Master documentation index
+
+### **In docs/ folder**
+- [how-to-run-and-test-api.md](how-to-run-and-test-api.md) — Complete API testing guide
+- [pr-checklist.md](pr-checklist.md) — Code review enforcement
+- **Phase-specific docs** → [03-phase-specific/](03-phase-specific/)
+- **Requirements** → [01-requirements/](01-requirements/)
+- **Progress tracking** → [02-progress-tracking/progress-tracker.md](02-progress-tracking/progress-tracker.md)
+
+---
+
+## 🎯 Quick Links
+
+- **📋 Implementation Plan:** [../implementation-plan.md](../implementation-plan.md) ← Master development guide
+- **📊 Progress Tracker:** [02-progress-tracking/progress-tracker.md](02-progress-tracking/progress-tracker.md) ← Single source of truth
+- **🏗️ Phase Documentation:** [03-phase-specific/](03-phase-specific/) ← Detailed phase completions
+- **💾 Database Design:** [03-phase-specific/phase-3-database-liquibase/](03-phase-specific/phase-3-database-liquibase/) ← Database schema & Liquibase
+- **✅ Standards:** [../.vscode/rulebook.md](../.vscode/rulebook.md) ← **MANDATORY** development rules
+
+## Tech Stack
+
+**Backend:**
+- .NET Core 9 (C#)
+- Clean Architecture (Domain, Application, Infrastructure, API layers)
+- Entity Framework Core 9 + PostgreSQL 16
+- Redis (distributed caching with error message support)
+- Liquibase (database version control)
+- MediatR (CQRS pattern)
+- FluentValidation (validation with error codes)
+- AutoMapper (DTO mapping)
+
+**Frontend:**
+- Flutter (Unified Web + Mobile)
+- Clean Architecture (Domain, Data, Presentation layers)
+- Bloc/Cubit (State Management)
+- Tailwind-inspired styling
+- ngx-echarts (Angular version) → local_charts/community widgets (Flutter version)
+
+**Infrastructure:**
+- PostgreSQL 16 (database)
+- Redis 7 (distributed caching)
+- Liquibase (schema management)
+- Keycloak (authentication/authorization)
+- Docker & Docker Compose (containerization)
+- Serilog (structured logging with correlation tracking)
+
+**Development Tools:**
+- VS Code (recommended IDE)
+- .NET CLI 9
+- Node.js 20 LTS
+- npm / Angular CLI 19
+
+## Project Status
+
+**Phases Completed:** 1, 2, 3 (Environment, Architecture, Database)  
+**Total Progress:** 21% (155 of 735 hours)  
+**Current Phase:** 4 - Backend API Development (57% Foundation Complete)
+
+| Phase | Status | Tasks | Time |
+|-------|--------|-------|------|
+| 1: Environment Setup | ✅ Complete | 7/7 | 5 hrs |
+| 2: Project Structure | ✅ Complete | 13/13 | 8 hrs |
+| 3: Database & Liquibase | ✅ Complete | 13/13 | 15 hrs |
+| 4: Backend API | 🔄 In Progress | 8/14 | 55 hrs |
+| 5: Frontend UI | ⏳ Pending | 0/10 | 30 hrs |
+## Documentation
+
+- **[implementation-plan.md](implementation-plan.md)** - Detailed implementation plan for all phases (start here for development)
+- **[docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md)** - Task-by-task progress tracking
+- **[docs/03-phase-specific/](docs/03-phase-specific/)** - Complete documentation for each phase
+- **[docs/00-getting-started/](docs/00-getting-started/)** - Setup and getting started guides
+- **[changelog.md](changelog.md)** - Version history and release notes
+- **[code-of-conduct.md](code-of-conduct.md)** - Community guidelines
+- **[contributing.md](contributing.md)** - Contribution guidelines
+
+## Community
+
+- **Issues:** Report bugs or request features via GitHub issues
+- **Discussions:** Ask questions and share ideas
+- **Contributing:** See [contributing.md](contributing.md)
+
+## License
+
+This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
+
+---
+
+**Last Updated:** January 18, 2026  
+**Current Phase:** 4 - Backend API Development (57% Foundation)  
+**Overall Progress:** 21% (155 of 735 hours)
+
+## Latest Achievements (January 18, 2026)
+
+✅ **Error Code Management System**
+- JSON-based configuration with 32 error codes
+- String code names (e.g., `USER_NAME_REQUIRED`) instead of GUIDs
+- Redis distributed caching with 6-hour automatic refresh
+- Code name to GUID resolution with O(1) dictionary lookup
+- Hot reload support for runtime configuration updates
+
+✅ **Architecture Foundation**
+- Abstractions layer with 24 DTOs (Read/Create/Update)
+- Repository + Unit of Work patterns
+- AutoMapper with CQRS profile
+- Serilog structured logging with correlation IDs
+- Keycloak authentication services
+- Layer-specific dependency injection
+
+✅ **Validation System**
+- FluentValidation with error codes
+- 32 error codes mapped to use cases
+- Result and ValidationError models
+- 5 User validators with comprehensive rules
+
+✅ **Database**
+- 8 tables with soft-delete pattern
+- 3,400+ seed records via Liquibase
+- Composite indexes for performance
+- Error message table with UseCase support
+
+## Getting Started
+
+### Prerequisites
+- .NET Core 9 SDK
+- Node.js 20 LTS
+- PostgreSQL 16 (Docker)
+- VS Code (recommended)
+- Docker Desktop
+
+### Setup (Phases 1-3 already complete)
+
+```bash
+# Clone repository
+git clone <repo-url>
+cd AI-ML-Project
+
+# Start database
+docker-compose up -d
+
+# Verify database
+psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"Users\";"
+# Should show: 100 users
+
+# Build backend
+cd server
+dotnet restore
+dotnet build
+
+# Build frontend
+cd ../client
+npm install
+ng build
+```
+
+## Project Structure
 
 ```
-docs/
-├── README.md (this file) ← You are here
+AI-ML-Project/
+├── app/                            # Applications (Backend + Frontend)
+│   ├── app/server/                      # .NET Backend
+│   ├── Domain/                      # Entity models
+│   ├── Application/                 # Business logic
+│   ├── Infrastructure/              # Data access & Liquibase
+│   │   ├── Database/
+│   │   │   └── liquibase/          # Schema migrations
+│   │   ├── Data/                    # EF Core DbContext
+│   │   └── Services/                # Infrastructure services
+│   └── API/                         # REST API
 │
-├── 00-getting-started/
-│   ├── 00-start-here.md                  ← First document to read
-│   ├── 01-project-overview.md            ← Project description
-│   └── 02-folder-structure.md            ← How docs are organized
+│   └── app/client/                      # Angular Frontend
+│   ├── src/app/
+│   │   ├── core/                    # Services, interceptors
+│   │   ├── shared/                  # UI components
+│   │   └── features/                # Feature modules (8 entities)
+│   └── styles.css                   # Tailwind CSS
 │
-├── 01-requirements/
-│   ├── README.md                         ← Folder overview
-│   └── (01-all-requirements.md - when added)
+├── scripts/
+│   ├── database-setup/              # Database initialization
+│   │   ├── init-db.sql
+│   │   └── create_migration_user.sql
+│   ├── seeding/                     # Manual seed data scripts
+│   │   ├── seed-data-corrected.sql
+│   │   ├── seed-data-final.sql
+│   │   └── seed-sample-data.sql
+│   ├── db-maintenance/              # Utility SQL (truncate, verify, health checks)
+│   │   ├── check-seeded.sql
+│   │   ├── test-query.sql
+│   │   ├── truncate-tables.sql
+│   │   └── verify-data.sql
+│   └── utilities/
+│       └── run-api.bat
 │
-├── 02-progress-tracking/
-│   ├── README.md                         ← Folder overview
-│   └── (progress-tracker.md - when added)
+├── docs/                            # Documentation
+│   ├── 00-getting-started/
+│   ├── 01-requirements/
+│   ├── 02-progress-tracking/        # Task tracking
+│   ├── 03-phase-specific/           # Phase documentation
+│   └── 04-deployment-guides/
 │
-├── 03-phase-specific/
-│   ├── README.md                         ← Folder overview
-│   ├── phase-1-environment-setup/        ← Phase 1 ✅
-│   ├── phase-2-project-structure/        ← Phase 2 ✅
-│   └── phase-3-database-liquibase/       ← Phase 3 ✅
-│
-└── 04-deployment-guides/
-    ├── README.md                         ← Folder overview
-    └── (deployment documentation - when added)
+├── data/                            # CSV seed data
+├── docker-compose.yml               # Docker services
+└── implementation-plan.md           # THIS PLAN
 ```
 
----
+## Manual Database Seeding
 
-## 🎯 How To Use This Documentation
+Use this when you need a lightweight dataset without running the full Liquibase seed pipeline.
 
-### For New Team Members
-1. Read: [00-start-here.md](00-getting-started/00-start-here.md) (5 min)
-2. Understand: [01-project-overview.md](00-getting-started/01-project-overview.md) (10 min)
-3. Review: [progress-tracker.md](02-progress-tracking/progress-tracker.md) (5 min)
-4 Backend API Development
-1. Read: [IMPLEMENTATION_PLAN.md](../../IMPLEMENTATION_PLAN.md) - Master development plan
-2. Reference: [phase-3-database-liquibase/README.md](03-phase-specific/phase-3-database-liquibase/README.md)
-3. Deep Dive: [phase-03-liquibase-implementation.md](03-phase-specific/phase-3-database-liquibase/phase-03-liquibase-implementationt-quick-start.md)
-3. Reference: [02-liquibase-detailed-guide.md](04-deployment-guides/02-liquibase-detailed-guide.md)
+1. **Start the database**
+    - Bring up PostgreSQL using your preferred workflow (Docker Compose, `docker run`, or local install)
+    - The default Docker container name is `vehicle-service-postgres`; confirm with `docker ps`
+2. **Copy the script into the container**
+    - `docker cp scripts/seeding/seed-data-corrected.sql vehicle-service-postgres:/tmp/seed-data.sql`
+3. **Execute the seed script**
+    - `docker exec -it vehicle-service-postgres psql -U postgres -d vehicle_service_db -f /tmp/seed-data.sql`
+4. **Verify the insert counts**
+    - The script ends with `SELECT COUNT(*)` statements for `Users`, `Vehicles`, `Garages`, `Services`, and `DiagnosticRules`
+    - Re-run `docker exec -it vehicle-service-postgres psql -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM ""Users"";"` if you want to double-check later
 
-### For Task Management
-1. Open: [progress-tracker.md](02-progress-tracking/progress-tracker.md)
-2. Check: Current Phase Status
-3. Update: Checkboxes As Work Completes
+> `seed-data-corrected.sql` matches the current PostgreSQL schema (no `DeletedAt`/`FamilyType` columns) and is the recommended script. The other files in `scripts/seeding/` are archival references of earlier iterations.
 
-### For Requirements Review
-1. Read: [01-all-requirements.md](01-requirements/01-all-requirements.md)
-2. Find: Specific Phase or Task
-3. Check: Completion Status With ✅ Marks
+Additional helpers live in `scripts/db-maintenance/`:
+- `truncate-tables.sql` to clear all tables safely (schema stays intact)
+- `verify-data.sql` / `test-query.sql` quick sanity checks
+- `check-seeded.sql` validation query collection
 
----
+Use these whenever you need to reset or inspect the database outside of Liquibase.
 
-## 📊 Current Status
+## Database Schema
 
-| Aspect | Status |
-|--------|--------|
-| **Phase 1** | ✅ Complete (7/7) |
-| **Phase 2** | ✅ Complete (12/12) |
-| **Phase 3** | 🔄 In Progress (12/13) |
-| **Phases 4-11** | ⏳ Blocked (waiting for Phase 3) |
-| **Overall Progress** | 31% Complete (31 of 101 tasks) |
+**8 Tables:**
+- **Users** (100 records) - Customer profiles
+- **Vehicles** (650+ records) - Vehicle inventory
+- **Garages** - Service provider locations
+- **Services** - Service offerings by garage
+- **VehicleIssues** - Reported issues
+- **ServiceHistories** - Service appointments
+- **DiagnosticRules** - AI diagnostic rules
+- **ImageDiagnostics** - Image analysis results
 
----
+**Features:**
+- 12 composite indexes for performance
+- 5 foreign key relationships
+- Soft-delete pattern on all tables
+- 3,400+ seed records via Liquibase
 
-## 🔗 Key Files at a Glance
+## Database Management
 
-| Document | Purpose | Size | Read Time |
-|----------|---------|------|-----------|
-| [00-start-here.md](00-getting-started/00-start-here.md) | Quick orientation | 5 KB | 5 min |
-| [01-all-requirements.md](01-requirements/01-all-requirements.md) | Complete specifications | 21.3 KB | 20 min |
-| [progress-tracker.md](02-progress-tracking/progress-tracker.md) | Task tracking | 12.5 KB | 10 min |
-| [01-liquibase-deployment-quick-start.md](04-deployment-guides/01-liquibase-deployment-quick-start.md) | Deployment steps | 6 KB | 10 min |
-| [01-database-first-migration.md](03-phase-specific/phase-03-database/01-database-first-migration.md) | Phase 3 overview | 7 KB | 10 min |
-| [01-DATABASE-FIRST-MIGRATION.md](03-phase-specific/phase-03-database/01-DATABASE-FIRST-MIGRATION.md) | Phase 3 overview | 7 KB | 10 min |
+**Version Control:** Liquibase (not EF Core migrations)
 
----
+```bash
+# Check status
+cd app/server/Infrastructure/Database
+liquibase status
 
-## 📝 Naming Convention
+# Deploy schema and seed data
+liquibase update
 
-All documents follow this naming pattern:
+# View changelog
+liquibase history
 ```
-[NUMBER]-[descriptive-name].md
+
+**Setup Scripts** (environment configuration only):
+- `scripts/prerequisites/00-database-init/init-db.sql` - Creates database
+- `scripts/prerequisites/00-database-init/create_migration_user.sql` - Creates migration user
+
+## Development Workflow
+
+### Backend (Phase 4)
+```bash
+cd app/server/API
+
+# Build
+dotnet build
+
+# Run API
+dotnet run
+
+# Test
+dotnet test
 ```
 
-**Examples:**
-- `00-start-here.md` - First document to read
-- `01-all-requirements.md` - Main requirements file
-- `02-liquibase-setup.md` - Supporting document
-- `03-schema-design.md` - Detailed technical info
+**API will be available at:** http://localhost:5000  
+**Swagger UI:** http://localhost:5000/swagger
 
-**Benefits:**
-- ✅ Numbers show reading order
-- ✅ Lowercase names for consistency
-- ✅ Easy to sort alphabetically
-- ✅ Professional organization
+### Frontend (Phases 5+)
+```bash
+cd client
 
----
+# Install dependencies
+npm install
 
-## 🎓 Documentation Principles
+# Development server
+ng serve
 
-### Organization
-- Numbered folders for logical grouping
-- Numbered files for clear reading order
-- Descriptive names for easy searching
+# Build
+ng build
+```
 
-### Clarity
-- Each document has a single purpose
-- Cross-references between related docs
-- Quick links at the top of each section
+**Application will be available at:** http://localhost:4200
 
-### Maintainability
-- Easy to add new sections
-- Clear folder structure scales well
-- Consistent naming throughout
+## Key Features
 
----
+### Authentication
+- OAuth 2.0 / OIDC via Keycloak
+- Role-based access control (RBAC)
+- Token refresh and session management
 
-## 🔍 Finding What You Need
+### API
+- 32 REST endpoints (4 per entity)
+- Full CRUD operations
+- Soft-delete with restore
+- File upload for images
+- Search and filtering
+- Pagination support
 
-**Looking for...**
-- Project overview? → [01-project-overview.md](00-getting-started/01-project-overview.md)
-- Current progress? → [progress-tracker.md](02-progress-tracking/progress-tracker.md)
-- All requirements? → [01-all-requirements.md](01-requirements/01-all-requirements.md)
-- Deployment steps? → [01-liquibase-deployment-quick-start.md](04-deployment-guides/01-liquibase-deployment-quick-start.md)
-- Phase 3 details? → [03-phase-specific/phase-03-database/](03-phase-specific/phase-03-database/)
-- Database schema? → [03-schema-design.md](03-phase-specific/phase-03-database/03-schema-design.md)
-- Test data info? → [04-seed-data.md](03-phase-specific/phase-03-database/04-seed-data.md)
+### UI
+- Responsive design (mobile-first)
+- Tailwind CSS styling
+- Interactive charts (ngx-echarts)
+- Data grids with sorting/filtering
+- Modal dialogs for forms
+- Image upload and preview
 
----
+### Analytics
+- Service volume trends
+- Vehicle health metrics
+- Garage performance
+- Upcoming maintenance
+- Dashboard with real-time updates
 
-## ✅ What Was Moved
+## Next Steps (Phase 4)
 
-Old structure → New structure:
-- `START_HERE.md` → `docs/00-getting-started/00-start-here.md`
-- `INDEX.md` → `docs/README.md` (this file)
-- `requirements.md` → `docs/01-requirements/01-all-requirements.md`
-- `todo.md` → `docs/02-progress-tracking/progress-tracker.md`
-- `README.md` → `docs/00-getting-started/01-project-overview.md`
-- `PHASE_3_LIQUIBASE.md` → `docs/03-phase-specific/phase-03-database/01-database-first-migration.md`
-- `LIQUIBASE_QUICK_REFERENCE.md` → `docs/04-deployment-guides/01-liquibase-deployment-quick-start.md`
-- `COMPLETION_SUMMARY.md` → `docs/01-requirements/02-completion-status.md`
-- `liquibase/README.md` → `docs/04-deployment-guides/02-liquibase-detailed-guide.md`
+See [implementation-plan.md](implementation-plan.md) for detailed Phase 4 tasks:
 
-Old files (removed from root):
-- `INDEX.md` (consolidated)
-- `DOCUMENTATION_CONSOLIDATED.md` (obsolete)
-- Other phase-specific docs (organized into Phase 3 folder)
+1. Configure Keycloak authentication
+2. Scaffold DbContext from database
+3. Build repository pattern
+4. Create DTOs and mappings
+5. Implement service layer
+6. Build REST API controllers
+7. Add file upload endpoint
+8. Create Swagger documentation
 
----
+## Documentation
+- Activation blocked? Allow for the session:
+  ```pwsh
+  Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+  ```
+- Install errors? Upgrade pip then retry:
+  ```pwsh
+  python -m pip install --upgrade pip
+  pip install -r _requirements.txt
+  ```
 
-## 📚 Total Documentation
+## Contributing
+See contributing.md and code-of-conduct.md. Open issues/PRs using the templates in .github/.
 
-- **Total Files:** 13 markdown documents
-- **Total Size:** 85+ KB
-- **Organization:** 5 main categories
-- **Coverage:** All 11 phases
+## License
+Apache-2.0. See LICENSE.
 
----
-
-**Start Here:** [00-getting-started/00-START-HERE.md](00-getting-started/00-START-HERE.md)
-
-**Last Updated:** January 11, 2026  
-**Status:** Documentation reorganized and consolidated  
-**Next:** Phase 3 deployment (Liquibase CLI installation)

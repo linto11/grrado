@@ -267,7 +267,7 @@ Add the new file to `master-changelog.xml`:
 
 ```bash
 # Navigate to Infrastructure/Database
-cd server/Infrastructure/Database
+cd app/server/Infrastructure/Database
 
 # Preview SQL (dry run)
 liquibase update-sql > preview-003.sql
@@ -300,8 +300,8 @@ liquibase update
 ### Step 5: Commit Changes
 
 ```bash
-git add server/Infrastructure/Database/liquibase/changelogs/003-add-payment-table.xml
-git add server/Infrastructure/Database/liquibase/master-changelog.xml
+git add app/server/Infrastructure/Database/liquibase/changelogs/003-add-payment-table.xml
+git add app/server/Infrastructure/Database/liquibase/master-changelog.xml
 git commit -m "feat: add Payments table for service payment tracking"
 git push
 ```
@@ -544,7 +544,7 @@ on:
   push:
     branches: [main, develop]
     paths:
-      - 'server/Infrastructure/Database/**'
+      - 'app/server/Infrastructure/Database/**'
 
 jobs:
   migrate:
@@ -558,7 +558,7 @@ jobs:
           tar -xzf liquibase-4.20.0.tar.gz
       
       - name: Run Migrations
-        working-directory: server/Infrastructure/Database
+        working-directory: app/server/Infrastructure/Database
         env:
           DB_URL: ${{ secrets.DB_URL }}
           DB_USER: ${{ secrets.DB_USER }}
@@ -577,7 +577,7 @@ jobs:
 # Dockerfile for migration container
 FROM liquibase/liquibase:4.20
 
-COPY server/Infrastructure/Database /liquibase/changelog
+COPY app/server/Infrastructure/Database /liquibase/changelog
 
 CMD ["liquibase", "update"]
 ```
@@ -613,3 +613,4 @@ For questions or issues:
 3. Consult the official Liquibase documentation
 4. Contact the database team
 5. Create an issue in the project tracker
+

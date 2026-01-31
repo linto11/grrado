@@ -29,7 +29,7 @@ This project uses **Liquibase** for database version control and migrations inst
 ### Location
 All Liquibase files are located in the **Infrastructure layer**:
 ```
-server/Infrastructure/Database/
+app/server/Infrastructure/Database/
 ├── liquibase.properties          # Connection configuration
 └── liquibase/
     ├── master-changelog.xml       # Main orchestrator
@@ -134,7 +134,7 @@ logLevel=INFO
 Navigate to the Infrastructure/Database folder:
 
 ```bash
-cd server/Infrastructure/Database
+cd app/server/Infrastructure/Database
 ```
 
 **Check Migration Status:**
@@ -225,3 +225,4 @@ For issues or questions:
 - Review Liquibase logs: `liquibase-<timestamp>.log`
 - Contact the database team
 - Create an issue in the project tracker
+

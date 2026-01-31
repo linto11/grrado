@@ -11,7 +11,7 @@ Welcome to the Vehicle Service Portal project! This quick guide gets you oriente
 This is your entry point. You're reading the most important document.
 
 ```
-AI-ML-Project/
+grrado/
 └── docs/
     ├── README.md ← Master Index (Full Overview)
     │

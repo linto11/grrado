@@ -313,7 +313,7 @@ vehicle_service_history
 ## 📁 Repository Structure
 
 ```
-AI-ML-Project/
+grrado/
 ├── docs/                          ← You Are Here
 │   ├── README.md                  ← Main Documentation Index
 │   ├── 00-getting-started/        ← Orientation Guides

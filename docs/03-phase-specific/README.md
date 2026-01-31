@@ -4,7 +4,7 @@
 
 This folder contains detailed phase-specific documentation organized by phase number. Each phase folder includes a complete README with objectives, tasks, deliverables, and verification checklists.
 
-**Note:** The project scope has been expanded from 11 phases (735 hours) to 12 phases (1,168 hours) to include AI chatbot, CMS, ML platform, and dual mobile apps. See [COMPREHENSIVE-PROJECT-PLAN.md](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md) for complete specifications.
+**Note:** The project scope has been expanded from 11 phases (735 hours) to 12 phases (1,168 hours) to include AI chatbot, CMS, ML platform, and dual mobile apps. See [comprehensive-project-plan.md](../00-getting-started/comprehensive-project-plan.md) for complete specifications.
 
 ---
 
@@ -119,7 +119,7 @@ Planned deliverables:
 **Overall Project Progress:** 9% (103 of 1,168 hours complete)
 
 **Expanded Scope:** The project now includes AI chatbot, CMS, ML platform, and dual mobile apps.  
-See [COMPREHENSIVE-PROJECT-PLAN.md](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md) for details.
+See [comprehensive-project-plan.md](../00-getting-started/comprehensive-project-plan.md) for details.
 
 ---
 

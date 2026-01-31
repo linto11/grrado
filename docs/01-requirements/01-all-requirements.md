@@ -277,7 +277,7 @@ All folder structures, projects, and configurations created:
 - Dependencies and blockers
 - Current phase details
 
-→ See **[COMPREHENSIVE-PROJECT-PLAN.md](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md)** for:
+→ See **[comprehensive-project-plan.md](../00-getting-started/comprehensive-project-plan.md)** for:
 - Complete platform specifications
 - 4-tier role hierarchy details
 - AI chatbot and ML platform features

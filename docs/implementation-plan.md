@@ -548,7 +548,7 @@ psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"U
 | Document | Purpose |
 |----------|---------|
 | [README.md](README.md) | Project overview |
-| [COMPREHENSIVE-PROJECT-PLAN.md](docs/00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md) | Complete platform specifications |
+| [comprehensive-project-plan.md](docs/00-getting-started/comprehensive-project-plan.md) | Complete platform specifications |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
 | [docs/00-getting-started/](docs/00-getting-started/) | Setup guides |
 | [docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md) | Detailed task tracking |
@@ -610,7 +610,7 @@ psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"U
 7. Document all APIs with OpenAPI annotations
 
 **When implementing Phases 5-12:**
-1. Reference [COMPREHENSIVE-PROJECT-PLAN.md](docs/00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md) for complete specifications
+1. Reference [comprehensive-project-plan.md](docs/00-getting-started/comprehensive-project-plan.md) for complete specifications
 2. Follow Flutter Clean Architecture patterns
 3. Implement role-based access control carefully
 4. Test AI features thoroughly

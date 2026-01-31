@@ -218,7 +218,7 @@
 - [ ] Impersonation feature with audit trail
 - [ ] API endpoint protection by role
 
-**📁 Documentation:** [Comprehensive Project Plan - Phase 5](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md#phase-5-role-based-access--permissions-new)
+**📁 Documentation:** [Comprehensive Project Plan - Phase 5](../00-getting-started/comprehensive-project-plan.md#phase-5-role-based-access--permissions-new)
 
 ---
 
@@ -236,7 +236,7 @@
 - [ ] Multi-language support
 - [ ] Version control & publish workflow
 
-**📁 Documentation:** [Comprehensive Project Plan - Phase 6](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md#phase-6-content-management-system-new)
+**📁 Documentation:** [Comprehensive Project Plan - Phase 6](../00-getting-started/comprehensive-project-plan.md#phase-6-content-management-system-new)
 
 ---
 
@@ -283,7 +283,7 @@
   - [ ] Thinking indicators
   - [ ] Conversation history
 
-**📁 Documentation:** [Comprehensive Project Plan - Phase 7](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md#phase-7-ai-platform--chatbot-new)
+**📁 Documentation:** [Comprehensive Project Plan - Phase 7](../00-getting-started/comprehensive-project-plan.md#phase-7-ai-platform--chatbot-new)
 
 ---
 
@@ -305,7 +305,7 @@
 - [ ] Push notifications
 - [ ] Service history
 
-**📁 Documentation:** [Comprehensive Project Plan - Phase 8](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md#phase-8-mobile-app---customer-new)
+**📁 Documentation:** [Comprehensive Project Plan - Phase 8](../00-getting-started/comprehensive-project-plan.md#phase-8-mobile-app---customer-new)
 
 ---
 
@@ -324,7 +324,7 @@
 - [ ] AI chatbot assistant
 - [ ] Push notifications & real-time updates
 
-**📁 Documentation:** [Comprehensive Project Plan - Phase 9](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md#phase-9-mobile-app---admin-new)
+**📁 Documentation:** [Comprehensive Project Plan - Phase 9](../00-getting-started/comprehensive-project-plan.md#phase-9-mobile-app---admin-new)
 
 ---
 
@@ -357,7 +357,7 @@
   - [ ] Service history
   - [ ] AI chatbot integration
 
-**📁 Documentation:** [Comprehensive Project Plan - Phase 10](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md#phase-10-web-portals-new)
+**📁 Documentation:** [Comprehensive Project Plan - Phase 10](../00-getting-started/comprehensive-project-plan.md#phase-10-web-portals-new)
 
 ---
 
@@ -376,7 +376,7 @@
 - [ ] Security testing & penetration testing
 - [ ] User acceptance testing
 
-**📁 Documentation:** [Comprehensive Project Plan - Phase 11](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md#phase-11-integration--testing-new)
+**📁 Documentation:** [Comprehensive Project Plan - Phase 11](../00-getting-started/comprehensive-project-plan.md#phase-11-integration--testing-new)
 
 ---
 
@@ -394,7 +394,7 @@
 - [ ] Backup strategies
 - [ ] App store submission (iOS + Android)
 
-**📁 Documentation:** [Comprehensive Project Plan - Phase 12](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md#phase-12-deployment--devops-new)
+**📁 Documentation:** [Comprehensive Project Plan - Phase 12](../00-getting-started/comprehensive-project-plan.md#phase-12-deployment--devops-new)
 
 ---
 
@@ -434,7 +434,7 @@
 - ✅ 4 GitHub commits pushed successfully
 
 ### Planning & Documentation
-- ✅ Comprehensive Project Plan created (COMPREHENSIVE-PROJECT-PLAN.md)
+- ✅ Comprehensive Project Plan created (comprehensive-project-plan.md)
 - ✅ Expanded scope documented (CMS, AI, Mobile Apps)
 - ✅ Azure AI Foundry integration plan
 - ✅ Advanced AI Chatbot specifications (text + voice + vision + deep thinking)
@@ -782,7 +782,7 @@ public class UpdateVehicleHandler : IRequestHandler<UpdateVehicleCommand>
 
 ---
 
-**📁 For detailed phase information, see:** [Comprehensive Project Plan](../00-getting-started/COMPREHENSIVE-PROJECT-PLAN.md)
+**📁 For detailed phase information, see:** [Comprehensive Project Plan](../00-getting-started/comprehensive-project-plan.md)
 
 **Next Milestone:** Complete Application Services and Controllers
 

@@ -38,6 +38,9 @@
 
 ### Naming Conventions
 - [ ] Are all NEW filenames in kebab-case? (user-service.cs, not UserService.cs)
+- [ ] Are ALL filenames lowercase? (github-repo-description.md NOT GITHUB_REPO_DESCRIPTION.md)
+- [ ] NEVER mixed case in filenames (User-Service.cs, API-Endpoints.md are FORBIDDEN)
+- [ ] NEVER uppercase in filenames (even for acronyms: api-endpoints.cs NOT API-Endpoints.cs)
 - [ ] Are class names in PascalCase? (class UserService { })
 - [ ] Are method names in PascalCase (C#) or camelCase (Dart)?
 - [ ] Are constants in SCREAMING_SNAKE_CASE?
@@ -81,7 +84,9 @@
 | Violation | Example | Fix |
 |-----------|---------|-----|
 | **Hard-coded value** | `if (role == "Admin")` | Use `RoleConstants.ADMIN` |
-| **Wrong filename case** | `UserService.cs` | Rename to `user-service.cs` |
+| **Wrong filename case** | `UserService.cs` or `GITHUB_REPO_DESCRIPTION.md` | Rename to `user-service.cs` or `github-repo-description.md` |
+| **Uppercase in filename** | `API-Endpoints.cs` or `COMPREHENSIVE-PROJECT-PLAN.md` | Use `api-endpoints.cs` or `comprehensive-project-plan.md` |
+| **Mixed case filename** | `User-Service.cs` | Use all lowercase: `user-service.cs` |
 | **Code in wrong layer** | Business logic in controller | Move to service |
 | **Missing Async suffix** | `public Task<User> GetUser()` | Change to `GetUserAsync()` |
 | **No error code** | `throw new Exception()` | Use `Result.Failure(ErrorCode.X)` |

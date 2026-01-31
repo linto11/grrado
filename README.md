@@ -28,7 +28,7 @@ dotnet run
 |------|-----------|------|
 | **Run API instantly** | [docs/quick-start.md](docs/quick-start.md) | 30 sec |
 | **Understand the project** | [docs/02-progress-tracking/current-status.md](docs/02-progress-tracking/current-status.md) | 5 min |
-| **Learn development rules** | [.vscode/rulebook.md](.vscode/rulebook.md) — **MANDATORY** | 15 min |
+| **Learn development rules** | [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md) — **MANDATORY** | 15 min |
 | **See what was built** | [docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md](docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md) | 10 min |
 | **Test all endpoints** | [docs/how-to-run-and-test-api.md](docs/how-to-run-and-test-api.md) | 30 min |
 | **Review implementation plan** | [docs/implementation-plan.md](docs/implementation-plan.md) | 20 min |
@@ -38,15 +38,15 @@ dotnet run
 ## 🎯 By Your Role
 
 ### **👨‍💻 Developers**
-1. Read: [.vscode/rulebook.md](.vscode/rulebook.md) — Learn the 3 core rules
+1. Read: [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md) — Learn the 3 core rules
 2. Run: `dotnet run` in app/server/API folder
 3. Test: http://localhost:5000/swagger/index.html
 4. Reference: [docs/how-to-run-and-test-api.md](docs/how-to-run-and-test-api.md)
 
 ### **👀 Code Reviewers**
-1. Check: [.vscode/rulebook.md](.vscode/rulebook.md#10-enforcement--code-review) — Review checklist
-2. Verify: [docs/pr-checklist.md](docs/pr-checklist.md) — Enforcement guide
-3. Test: Run API and verify endpoints work
+1. Check: [.vscode/rules/pr-checklist-enforcement.md](.vscode/rules/pr-checklist-enforcement.md) — Enforcement system
+2. Reference: [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md#11-enforcement--code-review) — Review criteria
+3. Verify: [docs/pr-checklist.md](docs/pr-checklist.md) — Additional enforcement guide
 
 ### **📊 Project Managers**
 1. Track: [docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md)
@@ -55,14 +55,15 @@ dotnet run
 
 ### **🤖 AI Assistants (Copilot)**
 1. Master Plan: [docs/implementation-plan.md](docs/implementation-plan.md)
-2. Standards: [.vscode/rulebook.md](.vscode/rulebook.md)
-3. Error Codes: [docs/01-requirements/error-codes.json](docs/01-requirements/error-codes.json)
+2. Standards: [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md)
+3. Enforcement: [.vscode/rules/pr-checklist-enforcement.md](.vscode/rules/pr-checklist-enforcement.md)
+4. Error Codes: [docs/01-requirements/error-codes.json](docs/01-requirements/error-codes.json)
 
 ---
 
 ## 📋 The 3 Core Rules
 
-**Read [.vscode/rulebook.md](.vscode/rulebook.md) for complete details.**
+**Read [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md) for complete details.**
 
 ### 1. ✅ Kebab-Case ALL Filenames
 ```
@@ -94,7 +95,13 @@ API (controllers/endpoints)
 ```
 workspace-root/
 ├── README.md                    ← YOU ARE HERE
-├── .vscode/rulebook.md          ← MANDATORY standards
+├── .vscode/
+│   ├── index.md                 ← START HERE for all docs
+│   └── rules/
+│       ├── rulebook.md          ← MANDATORY standards
+│       ├── quick-reference.md   ← One-page cheat sheet
+│       ├── pr-checklist-enforcement.md
+│       └── ... (4 more guides)
 │
 └── docs/
     ├── quick-start.md           ← 30-second guide
@@ -233,7 +240,7 @@ http://localhost:5000/swagger/index.html
 ### Quick References
 | Document | Purpose | Location |
 |----------|---------|----------|
-| **Rulebook** | Development standards & enforcement | [.vscode/rulebook.md](.vscode/rulebook.md) |
+| **Rulebook** | Development standards & enforcement | [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md) |
 | **Quick Start** | 30-second API startup | [docs/quick-start.md](docs/quick-start.md) |
 | **Orientation** | 5-minute project status | [docs/02-progress-tracking/current-status.md](docs/02-progress-tracking/current-status.md) |
 | **Testing Guide** | Complete API testing | [docs/how-to-run-and-test-api.md](docs/how-to-run-and-test-api.md) |
@@ -354,8 +361,9 @@ DELETE /api/v1/{resource}/{id}      (soft delete)
 ### Quick Questions
 - **How to run API?** → [docs/quick-start.md](docs/quick-start.md)
 - **How to test?** → [docs/how-to-run-and-test-api.md](docs/how-to-run-and-test-api.md)
-- **Development rules?** → [.vscode/rulebook.md](.vscode/rulebook.md)
-- **Code review?** → [docs/pr-checklist.md](docs/pr-checklist.md)
+- **Development rules?** → [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md)
+- **Code review?** → [.vscode/rules/pr-checklist-enforcement.md](.vscode/rules/pr-checklist-enforcement.md)
+- **PR checklist details?** → [docs/pr-checklist.md](docs/pr-checklist.md)
 
 ### Detailed Information
 - **What was built?** → [docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md](docs/03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md)
@@ -401,4 +409,4 @@ http://localhost:5000/swagger/index.html
 **Build:** ✅ Success (0 errors, 2 non-critical warnings)  
 **Documentation:** ✅ Consolidated & Organized  
 
-For detailed information, see [docs/README.md](docs/README.md) or [.vscode/rulebook.md](.vscode/rulebook.md).
+For detailed information, see [docs/README.md](docs/README.md), [.vscode/index.md](.vscode/index.md), or [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md).

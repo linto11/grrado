@@ -1,0 +1,25 @@
+{
+  "recommendations": [
+    "ms-dotnettools.csharp",
+    "ms-dotnettools.vscode-dotnet-runtime",
+    "Dart-Code.dart-code",
+    "Dart-Code.flutter",
+    "esbenp.prettier-vscode",
+    "ms-vscode.makefile-tools",
+    "ms-vscode.powershell",
+    "ms-vscode.vscode-node-debug2",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "charliermarsh.ruff",
+    "GitHub.Copilot",
+    "GitHub.Copilot-Chat",
+    "eamodio.gitlens",
+    "ms-vscode.hexeditor",
+    "ms-vscode-remote.remote-containers",
+    "ms-vscode-remote.remote-ssh",
+    "redhat.vscode-yaml",
+    "ms-azuretools.vscode-docker",
+    "hashicorp.terraform",
+    "ms-vscode.makefile-tools"
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "// ": "GRRADO Development Standards - Read .vscode/rulebook.md BEFORE making changes",
+  "[CRITICAL] STANDARD_REFERENCE": ".vscode/rulebook.md",
+  "[CRITICAL] ENFORCEMENT": "All code MUST follow .vscode/rulebook.md standards - NO EXCEPTIONS",
+  
+  "// PROJECT GUIDELINES": {
+    "RulebookLocation": "d:\\_GRRADO\\src\\.vscode\\rulebook.md",
+    "ReadmeLocation": "d:\\_GRRADO\\src\\README.md",
+    "MandatoryReview": [
+      "Section 1: Clean Architecture layers (Domain → Application → Infrastructure → API)",
+      "Section 3: Naming Conventions (kebab-case files, PascalCase classes)",
+      "Section 4: Constants Organization (NO hard-coding)",
+      "Section 10: Versioning & Changelog (semantic versioning with lowercase major/minor/patch)",
+      "Section 11: Code Review Enforcement (mandatory checklist)"
+    ]
+  },
+
+  "// COPILOT INSTRUCTIONS": {
+    "BEFORE_ANY_CHANGES": [
+      "1. READ: .vscode/rulebook.md (MANDATORY)",
+      "2. VERIFY: Which layer does this change belong to? (Domain/Application/Infrastructure/API/Utility)",
+      "3. CHECK: Are you using constants or hard-coding values?",
+      "4. CONFIRM: Filenames use kebab-case, classes use PascalCase",
+      "5. VALIDATE: Does this follow Clean Architecture principles?"
+    ],
+    "CRITICAL_RULES": [
+      "❌ ZERO HARD-CODING: Every literal must be a constant",
+      "✅ KEBAB-CASE: All filenames (user-service.cs, not UserService.cs)",
+      "✅ CLEAN_ARCHITECTURE: Code in correct layer only",
+      "✅ ASYNC_SUFFIX: Async methods end with Async (GetUserAsync)",
+      "✅ ERROR_CODES: Use ErrorCodes constants, never throw bare exceptions",
+      "✅ CORRELATION_ID: All public endpoints log with Correlation ID",
+      "✅ CONSTANTS: Use ApiEndpoints, AuthConstants, TimeoutConstants, ErrorCodes"
+    ]
+  },
+
+  "// VSCODE CORE SETTINGS": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-dotnettools.csharp",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+    },
+    "files.exclude": {
+      "**/*.orig": true,
+      "**/bin": true,
+      "**/obj": true,
+      "**/node_modules": true,
+      "**/.git": true
+    },
+    "search.exclude": {
+      "**/bin": true,
+      "**/obj": true,
+      "**/node_modules": true,
+      "**/.git": true
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+
+  "// DART/FLUTTER SETTINGS": {
+    "[dart]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "Dart-Code.dart-code"
+    }
+  },
+
+  "// CSHARP SETTINGS": {
+    "[csharp]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "ms-dotnettools.csharp",
+      "editor.tabSize": 4,
+      "editor.insertSpaces": true
+    }
+  },
+
+  "// MARKDOWN SETTINGS": {
+    "[markdown]": {
+      "editor.wordWrap": "on",
+      "editor.formatOnSave": true
+    }
+  },
+
+  "// YAML SETTINGS (for Docker/K8s configs)": {
+    "[yaml]": {
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true
+    }
+  },
+
+  "// JSON SETTINGS": {
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    }
+  },
+
+  "// NAMING CONVENTION RULES": {
+    "files.autoSave": "off",
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+      "*.cs": "${basename}.*.cs, ${basename}.xaml",
+      "*.ts": "${basename}.spec.ts",
+      "*.dart": "${basename}.g.dart"
+    }
+  },
+
+  "// GRRADO CUSTOM": {
+    "RulebookEnforcement": "MANDATORY - All developers MUST read .vscode/rulebook.md before making ANY changes",
+    "StandardsDocument": ".vscode/rulebook.md is the SINGLE SOURCE OF TRUTH for all development standards",
+    "ProjectPhase": "Phase 4 - REST API Development (docs/02-progress-tracking/current-status.md)",
+    "VersioningStandard": "Semantic versioning: major.minor.patch with lowercase version bump text (major/minor/patch)",
+    "ChangelogLocation": "docs/06-changelogs/changelog.ddmmyyyy.<sequence> (e.g., changelog.01022026.001)",
+    "EnforcementMechanism": "docs/pr-checklist.md - Mandatory code review with auto-rejection criteria"
+  },
+
+  "// GIT HOOKS - PR CHECKLIST ENFORCEMENT": {
+    "PreCommitHook": ".git/hooks/pre-commit - Validates code before committing (no hard-code, kebab-case files, no secrets)",
+    "PrePushHook": ".git/hooks/pre-push - Validates commits before pushing (no WIP commits, changelog exists)",
+    "PRChecklistLocation": "docs/pr-checklist.md - MANDATORY review before pushing to GitHub",
+    "AutomaticRejectionCriteria": [
+      "1. Hard-Coded Values - All literals must be extracted to Constants (❌ REJECTED)",
+      "2. File Naming Violations - All files must use kebab-case (❌ REJECTED)",
+      "3. Wrong Clean Architecture Layer - Code in correct layer only (❌ REJECTED)",
+      "4. Missing Async Suffix - Async methods must end with 'Async' (❌ REJECTED)",
+      "5. No XML Documentation - Public classes/methods must be documented (❌ REJECTED)",
+      "6. No Error Code Usage - Must use ErrorCodes constants, no bare exceptions (❌ REJECTED)",
+      "7. Missing Correlation ID - Public endpoints must log Correlation ID (❌ REJECTED)"
+    ],
+    "PRChecklistReminder": "BEFORE PUSHING TO GITHUB: Verify all items in docs/pr-checklist.md",
+    "ChangelogRequirement": "Every PR MUST include changelog entry in docs/changelogs/ddmmyyyy.<seq>",
+    "HookSetupInstructions": "Git hooks installed in .git/hooks/ (Windows: .bat files, Unix: shell scripts)"
+  }
+}

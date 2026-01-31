@@ -142,9 +142,11 @@ lerna-debug.log*
 
 # -----------------------------
 # IDE / Editor / Workspace
-# -----------------------------
-.vscode/
-.foundry/
+# Note: .vscode/ folder is included for project standards/documentation
+# Only ignore certain VS Code settings
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/*.workspace
 *.run.json
 *.swp
 *.swo

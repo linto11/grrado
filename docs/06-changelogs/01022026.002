@@ -1,0 +1,28 @@
+## [0.1.0] - 2026-02-01
+
+### Added
+- PR Checklist & Git Hooks Enforcement System
+  - Pre-commit hook: Blocks commits with hard-coded values, naming violations, async issues
+  - Pre-push hook: Validates WIP commits and changelog entries
+  - 7 auto-rejection criteria for code review
+  - Complete documentation: quick-reference, quick-setup, rulebook, enforcement system
+- Git hooks for Windows (batch scripts) and Linux/Mac (shell scripts)
+- Comprehensive documentation in `.vscode/rules/` subfolder
+  - quick-reference.md (printable cheat sheet)
+  - quick-setup.md (onboarding guide)
+  - documentation-guide.md (navigation by role)
+  - pr-checklist-enforcement.md (complete system details)
+  - implementation-summary.md (implementation status)
+  - executive-summary.md (high-level overview)
+  - rulebook.md (updated with enforcement section)
+- index.md as main entry point for documentation
+
+### Changed
+- Reorganized documentation: moved all .md files to `.vscode/rules/` subfolder
+- Updated .vscode/rulebook.md Section 11 with enforcement system details
+- Updated .vscode/settings.json with Git hooks references
+- All documentation filenames to lowercase kebab-case (per naming standards)
+
+### Version Bump
+**Proposed:** minor (0.0.1 → 0.1.0)
+**Reason:** New enforcement system with comprehensive documentation, backward compatible

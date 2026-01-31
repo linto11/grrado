@@ -29,8 +29,6 @@ dotnet run
 | **See the complete solution** | [docs/implementation-plan.md](docs/implementation-plan.md) — Master plan for all 12 phases | 10 min |
 | **Understand current progress** | [docs/02-progress-tracking/current-status.md](docs/02-progress-tracking/current-status.md) | 5 min |
 | **Learn development rules** | [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md) — **MANDATORY** | 15 min |
-| **Run API instantly** | [docs/quick-start.md](docs/quick-start.md) | 30 sec |
-| **Test all endpoints** | [docs/how-to-run-and-test-api.md](docs/how-to-run-and-test-api.md) | 30 min |
 
 ---
 

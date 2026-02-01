@@ -17,6 +17,7 @@
 
   "// COPILOT INSTRUCTIONS": {
     "BEFORE_ANY_CHANGES": [
+      "0. BRANCH: Create feature/<phase>-<name> branch BEFORE any file modification (see .vscode/rules/branching-rule.md)",
       "1. READ: .vscode/rulebook.md (MANDATORY)",
       "2. VERIFY: Which layer does this change belong to? (Domain/Application/Infrastructure/API/Utility)",
       "3. CHECK: Are you using constants or hard-coding values?",
@@ -109,17 +110,27 @@
 
   "// GRRADO CUSTOM": {
     "RulebookEnforcement": "MANDATORY - All developers MUST read .vscode/rulebook.md before making ANY changes",
+    "BranchingRulesEnforcement": "MANDATORY - All developers MUST follow .vscode/rules/branching-rule.md for branch naming and workflow",
+    "TaskTrackingEnforcement": "MANDATORY - All Phase 4+ tasks tracked in docs/03-phase-specific/phase-<N>-<name>/tasks/ with status (todo/in-progress/completed/failed)",
+    "AutomaticBranchCreation": "AI REQUIREMENT: Create feature/<phase>-<name> branch BEFORE any file modification",
+    "AutomaticTaskTracking": "AI REQUIREMENT: Update task status file before each commit and create changelog entry before each push",
     "StandardsDocument": ".vscode/rulebook.md is the SINGLE SOURCE OF TRUTH for all development standards",
+    "BranchingDocument": ".vscode/rules/branching-rule.md defines all git branching conventions and task lifecycle",
     "ProjectPhase": "Phase 4 - REST API Development (docs/02-progress-tracking/current-status.md)",
     "VersioningStandard": "Semantic versioning: major.minor.patch with lowercase version bump text (major/minor/patch)",
-    "ChangelogLocation": "docs/06-changelogs/changelog.ddmmyyyy.<sequence> (e.g., changelog.01022026.001)",
+    "ChangelogLocation": "docs/06-changelogs/changelog.ddmmyyyy.<sequence> (e.g., changelog.01022026.001) - REQUIRED before every push",
     "EnforcementMechanism": "docs/pr-checklist.md - Mandatory code review with auto-rejection criteria"
   },
 
   "// GIT HOOKS - PR CHECKLIST ENFORCEMENT": {
     "PreCommitHook": ".git/hooks/pre-commit - Validates code before committing (no hard-code, kebab-case files, no secrets)",
-    "PrePushHook": ".git/hooks/pre-push - Validates commits before pushing (no WIP commits, changelog exists)",
+    "PrePushHook": ".git/hooks/pre-push - Validates commits before pushing (branch naming, changelog exists, task marked completed)",
+    "BranchingRuleLocation": ".vscode/rules/branching-rule.md - MANDATORY enforcement for all git operations",
+    "TaskFileLocation": "docs/03-phase-specific/phase-4-backend-api/tasks/ - Track task status, blockers, and progress",
     "PRChecklistLocation": "docs/pr-checklist.md - MANDATORY review before pushing to GitHub",
+    "ChangelogRequirement": "MANDATORY before EVERY push: docs/06-changelogs/changelog.<date>.<seq> must include branch name",
+    "TaskStatusRequirement": "Update task file status before each commit: ⏳ TODO | 🔄 IN-PROGRESS | ✅ COMPLETED | ❌ FAILED",
+    "AutoRetryOnFailure": "Failed tasks auto-retry up to 3 times before requiring human review",
     "AutomaticRejectionCriteria": [
       "1. Hard-Coded Values - All literals must be extracted to Constants (❌ REJECTED)",
       "2. File Naming Violations - All files must use kebab-case (❌ REJECTED)",
@@ -127,10 +138,12 @@
       "4. Missing Async Suffix - Async methods must end with 'Async' (❌ REJECTED)",
       "5. No XML Documentation - Public classes/methods must be documented (❌ REJECTED)",
       "6. No Error Code Usage - Must use ErrorCodes constants, no bare exceptions (❌ REJECTED)",
-      "7. Missing Correlation ID - Public endpoints must log Correlation ID (❌ REJECTED)"
+      "7. Missing Correlation ID - Public endpoints must log Correlation ID (❌ REJECTED)",
+      "8. Wrong Branch Name - Must follow feature/<phase>-<name> convention (❌ REJECTED)",
+      "9. No Changelog Entry - Changelog must exist before push (❌ REJECTED)",
+      "10. Task Not Marked Complete - Task status must be ✅ COMPLETED (❌ REJECTED)"
     ],
-    "PRChecklistReminder": "BEFORE PUSHING TO GITHUB: Verify all items in docs/pr-checklist.md",
-    "ChangelogRequirement": "Every PR MUST include changelog entry in docs/changelogs/ddmmyyyy.<seq>",
+    "PRChecklistReminder": "BEFORE PUSHING TO GITHUB: Verify all items in docs/pr-checklist.md + branching rules + changelog + task status",
     "HookSetupInstructions": "Git hooks installed in .git/hooks/ (Windows: .bat files, Unix: shell scripts)"
   }
 }

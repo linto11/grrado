@@ -91,7 +91,74 @@ bugfix/<phase-number>-<component>/<issue-description>
 
 ---
 
-## 📊 Branch Lifecycle & Workflow
+## ⚠️ MANDATORY FILE NAMING VALIDATION (AI & Developer)
+
+**This rule exists to prevent the exact mistake that was made on 2026-02-01.**
+
+### Before Creating ANY File:
+
+1. **Filename Check:** Does your filename contain ANY uppercase letters?
+   - ❌ YES → STOP. Rename to lowercase. Use hyphens only.
+   - ✅ NO → Continue
+
+2. **Validation Pattern:** Filename must match:
+   ```regex
+   ^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$
+   ```
+   - ✅ Valid: `user-service.cs`, `implementation-complete.md`, `quick-start.md`
+   - ❌ Invalid: `UserService.cs`, `IMPLEMENTATION-COMPLETE.md`, `QuickStart.md`
+
+3. **AI Self-Check Before File Creation:**
+   ```
+   PSEUDO-CODE FOR AI:
+   
+   filename = "desired-filename.ext"
+   
+   if filename.contains(uppercase):
+       return ERROR("Filename contains uppercase - VIOLATES kebab-case rule")
+   
+   if not matches_regex(filename, "^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$"):
+       return ERROR("Filename format invalid - must be kebab-case")
+   
+   # If both checks pass, safe to create file
+   create_file(filename)
+   ```
+
+4. **Common Mistakes to Avoid:**
+   | ❌ WRONG | ✅ CORRECT | Reason |
+   |----------|-----------|--------|
+   | `UserController.cs` | `user-controller.cs` | No CamelCase |
+   | `IMPLEMENTATION-COMPLETE.md` | `implementation-complete.md` | No UPPERCASE |
+   | `quickStart.md` | `quick-start.md` | No camelCase |
+   | `MyFile.TXT` | `my-file.txt` | Extension must be lowercase |
+   | `file name.md` | `file-name.md` | Use hyphens, not spaces |
+
+5. **Zero Tolerance Policy:**
+   - This is not a warning
+   - This is not a suggestion
+   - This is a MANDATORY REQUIREMENT
+   - Violations will be caught in pre-commit hooks and rejected
+
+---
+
+## 🔍 Pre-File-Creation Checklist
+
+**Every developer AND AI must complete this before creating a file:**
+
+```checklist
+Before creating [filename]:
+
+□ Does filename contain ONLY lowercase letters, numbers, and hyphens?
+□ Does filename match pattern: ^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$ ?
+□ Does filename have NO spaces?
+□ Does filename extension match the file type?
+□ Have I NOT used: PascalCase, camelCase, UPPERCASE, or underscore?
+
+If ANY checkbox is unchecked → DO NOT CREATE FILE
+Fix the filename first, THEN create the file.
+```
+
+---
 
 ### Step 1: Branch Creation (Before Starting Work)
 

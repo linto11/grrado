@@ -16,6 +16,19 @@
   },
 
   "// COPILOT INSTRUCTIONS": {
+    "BEFORE_FILE_CREATION": [
+      "⚠️ MANDATORY FILE NAMING VALIDATION - DO NOT SKIP ⚠️",
+      "1. FILENAME MUST BE: lowercase-with-hyphens.ext (e.g., user-service.cs, implementation-complete.md)",
+      "2. FILENAME MUST NOT BE: camelCase, PascalCase, UPPERCASE, or mixed case",
+      "3. EXAMPLES OF VIOLATIONS (NEVER DO THESE):",
+      "   ❌ UserService.cs → ✅ user-service.cs",
+      "   ❌ IMPLEMENTATION-COMPLETE.md → ✅ implementation-complete.md",
+      "   ❌ quickStart.md → ✅ quick-start.md",
+      "   ❌ MyFile.txt → ✅ my-file.txt",
+      "4. VERIFY: Use regex check: ^[a-z0-9]+(-[a-z0-9]+)*\\.[a-z0-9]+$ for filename",
+      "5. IF UNSURE: Ask yourself 'Does this filename have any uppercase letters?' If YES → FIX IT FIRST",
+      "6. VALIDATION BEFORE CREATE: EVERY filename must pass kebab-case validation before creation"
+    ],
     "BEFORE_ANY_CHANGES": [
       "0. BRANCH: Create feature/<phase>-<name> branch BEFORE any file modification (see .vscode/rules/branching-rule.md)",
       "1. READ: .vscode/rulebook.md (MANDATORY)",

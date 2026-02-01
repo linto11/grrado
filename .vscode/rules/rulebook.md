@@ -111,6 +111,54 @@ final timeout = TimeoutConstants.API_REQUEST_TIMEOUT;
 
 ## 3. NAMING CONVENTIONS & FILE ORGANIZATION
 
+### 3.1 FILE NAMING - KEBAB-CASE (MANDATORY)
+
+**❌ ABSOLUTELY PROHIBITED:**
+- `UserService.cs` → ✅ Use `user-service.cs`
+- `IMPLEMENTATION-COMPLETE.md` → ✅ Use `implementation-complete.md`
+- `quickStart.md` → ✅ Use `quick-start.md`
+- `MyFile.txt` → ✅ Use `my-file.txt`
+- Any filename with UPPERCASE, CamelCase, or PascalCase
+
+**✅ MANDATORY FORMAT:**
+```
+Filename pattern: ^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$
+
+Examples:
+✅ user-service.cs
+✅ implementation-complete.md
+✅ quick-start.md
+✅ db-context.cs
+✅ entity-base.cs
+✅ user-validator.cs
+✅ my-helper-file.txt
+```
+
+**ENFORCEMENT:**
+- Pre-commit hook rejects any filename with uppercase
+- Pre-push hook validates all filenames in staged changes
+- PR checklist explicitly requires kebab-case validation
+- AI (Copilot) MUST validate filename before creation
+
+**INCIDENT:** On 2026-02-01, AI created `IMPLEMENTATION-COMPLETE.md` and `QUICK-START.md` violating this rule. This will not happen again due to enhanced validation.
+
+### 3.2 CLASS/INTERFACE NAMING - PascalCase (C#)
+
+```csharp
+// ✅ Correct
+public class UserService { }
+public interface IUserRepository { }
+public record UserDto { }
+public enum UserRole { Admin, User }
+
+// ❌ Wrong
+public class user_service { }
+public interface userRepository { }
+public record userdto { }
+```
+
+### 3.3 Method/Property NAMING - PascalCase (C#)
+
 ### 3.1 File Naming: KEBAB-CASE (UNIVERSAL - CRITICAL RULE)
 
 🚨 **CRITICAL ENFORCEMENT RULE:** ALL filenames MUST be lowercase kebab-case with NO EXCEPTIONS.

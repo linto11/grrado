@@ -1,5 +1,5 @@
 using Abstractions.DTOs.Vehicle;
-using Application.Services.Core;
+using Application.Services.Vehicles;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Vehicles;

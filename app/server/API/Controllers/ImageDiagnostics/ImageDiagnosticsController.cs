@@ -1,5 +1,5 @@
 using Abstractions.DTOs.ImageDiagnostic;
-using Application.Services.Core;
+using Application.Services.ImageDiagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.ImageDiagnostics;

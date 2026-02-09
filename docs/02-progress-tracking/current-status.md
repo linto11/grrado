@@ -57,7 +57,7 @@ All 83 task files created across 7 directories:
 **CQRS Use Cases (Application Layer):**
 - 13 entities x 5 operations x 3 files = 195 use case files
 - Pattern: Request (MediatR IRequest) + Handler (IRequestHandler) + Validator (FluentValidation)
-- Categories: `UseCases/Core/` (8 entities) and `UseCases/Chatbot/` (5 entities)
+- Structure: `UseCases/{Entity}/{Operation}/` (entity-level folders, no category grouping)
 
 **Polly Resilience Policies (Infrastructure Layer):**
 - HTTP: Keycloak HttpClient wired with retry + circuit breaker policy via `AddPolicyHandler`

@@ -1,8 +1,19 @@
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using FluentValidation;
-using Application.Services.Core;
-using Application.Services.Chatbot;
+using Application.Services.Users;
+using Application.Services.Vehicles;
+using Application.Services.Garages;
+using Application.Services.Services;
+using Application.Services.ServiceHistories;
+using Application.Services.VehicleIssues;
+using Application.Services.DiagnosticRules;
+using Application.Services.ImageDiagnostics;
+using Application.Services.ChatbotConversations;
+using Application.Services.ChatbotMessages;
+using Application.Services.ChatbotKnowledgeBases;
+using Application.Services.AiImageAnalyses;
+using Application.Services.AiUsageLogs;
 
 namespace Application;
 

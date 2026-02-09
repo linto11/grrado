@@ -1,5 +1,5 @@
 using Abstractions.DTOs.ChatbotMessage;
-using Application.Services.Chatbot;
+using Application.Services.ChatbotMessages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.ChatbotMessages;

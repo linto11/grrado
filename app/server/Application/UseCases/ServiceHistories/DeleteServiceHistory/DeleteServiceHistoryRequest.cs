@@ -1,0 +1,18 @@
+using Application.Common.Models;
+using MediatR;
+
+namespace Application.UseCases.ServiceHistories.DeleteServiceHistory;
+
+public class DeleteServiceHistoryRequest : IRequest<Result>
+{
+    public int Id { get; set; }
+
+    public DeleteServiceHistoryRequest(int id)
+    {
+        Id = id;
+    }
+
+    public DeleteServiceHistoryRequest()
+    {
+    }
+}

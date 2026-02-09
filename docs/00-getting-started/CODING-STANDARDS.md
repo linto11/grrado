@@ -50,15 +50,15 @@ Controllers/
 Each entity gets 5 CQRS operations, each with Request + Handler + Validator:
 ```
 Application/UseCases/
-  Core/{Entity}/
-    Create{Entity}/    -- Request, Handler, Validator
-    GetAll{Entities}/  -- Request, Handler, Validator
-    Get{Entity}ById/   -- Request, Handler, Validator
-    Update{Entity}/    -- Request, Handler, Validator
-    Delete{Entity}/    -- Request, Handler, Validator
-  Chatbot/{Entity}/
-    (same pattern)
+  {Entity}/                -- Entity-level folder (e.g., Users/, Vehicles/)
+    Create{Entity}/        -- Request, Handler, Validator
+    GetAll{Entities}/      -- Request, Handler, Validator
+    Get{Entity}ById/       -- Request, Handler, Validator
+    Update{Entity}/        -- Request, Handler, Validator
+    Delete{Entity}/        -- Request, Handler, Validator
 ```
+
+**Cross-Layer Consistency Rule:** The folder structure MUST be consistent: `Controllers/Users/`, `UseCases/Users/`, `Services/Users/`. No category grouping folders (`Core/`, `Chatbot/`).
 
 ### 🧩 1.2 Frontend (Flutter) Layers
 Each Flutter app or shared package must follow this internal structure:

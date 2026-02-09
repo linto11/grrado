@@ -1,5 +1,5 @@
-using Abstractions.DTOs.Service;
-using Application.Services.Core;
+using Abstractions.DTOs.ServiceHistory;
+using Application.Services.ServiceHistories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.ServiceHistories;
@@ -7,40 +7,40 @@ namespace API.Controllers.ServiceHistories;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-public class ServicesController : ControllerBase
+public class ServiceHistoriesController : ControllerBase
 {
-    private readonly IServiceService _service;
-    private readonly ILogger<ServicesController> _logger;
+    private readonly IServiceHistoryService _service;
+    private readonly ILogger<ServiceHistoriesController> _logger;
 
-    public ServicesController(IServiceService service, ILogger<ServicesController> logger)
+    public ServiceHistoriesController(IServiceHistoryService service, ILogger<ServiceHistoriesController> logger)
     {
         _service = service;
         _logger = logger;
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ServiceDto>>> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 10, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<List<ServiceHistoryDto>>> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 10, CancellationToken cancellationToken = default)
     {
         var result = await _service.GetAllAsync(skip, take, cancellationToken);
         return Ok(result);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ServiceDto>> GetById(int id, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ServiceHistoryDto>> GetById(int id, CancellationToken cancellationToken = default)
     {
         var result = await _service.GetByIdAsync(id, cancellationToken);
         return result == null ? NotFound() : Ok(result);
     }
 
     [HttpPost]
-    public async Task<ActionResult<ServiceDto>> Create([FromBody] CreateServiceRequest request, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ServiceHistoryDto>> Create([FromBody] CreateServiceHistoryRequest request, CancellationToken cancellationToken = default)
     {
         var result = await _service.CreateAsync(request, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ServiceDto>> Update(int id, [FromBody] UpdateServiceRequest request, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ServiceHistoryDto>> Update(int id, [FromBody] UpdateServiceHistoryRequest request, CancellationToken cancellationToken = default)
     {
         try
         {

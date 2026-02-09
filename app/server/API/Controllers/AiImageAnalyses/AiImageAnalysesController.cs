@@ -1,5 +1,5 @@
 using Abstractions.DTOs.AiImageAnalysis;
-using Application.Services.Chatbot;
+using Application.Services.AiImageAnalyses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.AiImageAnalyses;

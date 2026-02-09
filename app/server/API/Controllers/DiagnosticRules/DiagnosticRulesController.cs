@@ -1,5 +1,5 @@
 using Abstractions.DTOs.DiagnosticRule;
-using Application.Services.Core;
+using Application.Services.DiagnosticRules;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.DiagnosticRules;

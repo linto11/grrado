@@ -1,5 +1,5 @@
 using Abstractions.DTOs.Service;
-using Application.Services.Core;
+using Application.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Services;

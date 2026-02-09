@@ -1,5 +1,5 @@
 using Abstractions.DTOs.VehicleIssue;
-using Application.Services.Core;
+using Application.Services.VehicleIssues;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.VehicleIssues;

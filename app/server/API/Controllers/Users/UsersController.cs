@@ -1,5 +1,5 @@
 using Abstractions.DTOs.User;
-using Application.Services.Core;
+using Application.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Users;

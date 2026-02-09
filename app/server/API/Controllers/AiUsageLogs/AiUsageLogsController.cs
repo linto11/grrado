@@ -1,5 +1,5 @@
 using Abstractions.DTOs.AiUsageLog;
-using Application.Services.Chatbot;
+using Application.Services.AiUsageLogs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.AiUsageLogs;

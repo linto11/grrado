@@ -1,5 +1,5 @@
 using Abstractions.DTOs.Garage;
-using Application.Services.Core;
+using Application.Services.Garages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Garages;

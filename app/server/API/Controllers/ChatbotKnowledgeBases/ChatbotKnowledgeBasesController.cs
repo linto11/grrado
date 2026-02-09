@@ -1,5 +1,5 @@
 using Abstractions.DTOs.ChatbotKnowledgeBase;
-using Application.Services.Chatbot;
+using Application.Services.ChatbotKnowledgeBases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.ChatbotKnowledgeBases;

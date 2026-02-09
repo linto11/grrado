@@ -443,6 +443,8 @@ logger.error(
 
 **Entity-Level Folder Segregation Rule:** Each entity MUST have its own folder in every layer (Controllers, UseCases, Services). Do NOT group entities into category subfolders like `Core/` or `Chatbot/`. This ensures clear separation of concerns and predictable file locations.
 
+**Cross-Layer Consistency Rule:** The folder structure MUST be consistent across all layers. If a controller is in `Controllers/Users/`, then its use cases MUST be in `UseCases/Users/` and its service MUST be in `Services/Users/`. Category grouping folders (`Core/`, `Chatbot/`, etc.) are PROHIBITED at any level. Violations result in PR rejection.
+
 ```
 server/
 ├── Domain/                              # Enterprise rules (NO dependencies)
@@ -472,19 +474,21 @@ server/
 │   │   │   └── ErrorCodes.cs
 │   │   └── Result.cs                    # Result<T> pattern
 │   ├── Services/                        # Service implementations (entity-level folders)
-│   │   ├── Core/                        # Portal entity services
-│   │   └── Chatbot/                     # Chatbot entity services
+│   │   ├── Users/UserService.cs
+│   │   ├── Vehicles/VehicleService.cs
+│   │   ├── Garages/GarageService.cs
+│   │   ├── ...                          # One folder per entity
+│   │   └── BaseService.cs               # Generic base service
 │   ├── UseCases/                        # CQRS per entity (entity-level folders)
-│   │   ├── Core/                        # Portal: Users, Vehicles, Garages, etc.
-│   │   │   └── {Entity}/
-│   │   │       ├── Create{Entity}/
-│   │   │       ├── GetAll{Entities}/
-│   │   │       ├── Get{Entity}ById/
-│   │   │       ├── Update{Entity}/
-│   │   │       └── Delete{Entity}/
-│   │   └── Chatbot/                     # Chatbot: Conversations, Messages, etc.
-│   │       └── {Entity}/
-│   │           └── (same 5 operations)
+│   │   ├── Users/
+│   │   │   ├── CreateUser/
+│   │   │   ├── GetAllUsers/
+│   │   │   ├── GetUserById/
+│   │   │   ├── UpdateUser/
+│   │   │   └── DeleteUser/
+│   │   ├── Vehicles/
+│   │   │   └── (same 5 operations)
+│   │   └── ...                          # One folder per entity
 │   └── Mapping/                         # AutoMapper profiles
 │       └── DomainToDtoProfile.cs
 │

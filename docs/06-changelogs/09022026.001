@@ -1,0 +1,31 @@
+## [0.3.0] - 2026-02-09
+
+### Added
+- 195 CQRS use case files (13 entities x 5 operations x 3 files) with MediatR + FluentValidation
+- Entity-level controller folder segregation (13 entity folders under Controllers/)
+- ServicesController for Service entity (previously missing)
+- Antiforgery middleware for CSRF protection
+- 12-rule ASP.NET Core middleware ordering in Program.cs
+- Polly resilience: HTTP policies on Keycloak HttpClient, DB policy in UnitOfWork
+- Middleware ordering documentation (Rulebook Section 12)
+- Temporary file cleanup rules (Rulebook Section 13)
+- Entity-level segregation rule documented across all standards
+
+### Changed
+- Reorganized controllers from Core/Chatbot subfolders to individual entity folders
+- Moved Liquibase scripts from API layer to Infrastructure/Persistance/Liquibase
+- Moved logs folder from API/logs to app/server/logs (shared location)
+- Updated log paths in appsettings.json and appsettings.Development.json
+- Updated AutoMapper DomainToDtoProfile with all 13 entity mappings
+- Expanded ErrorCodes.cs with ID validation codes for all entities
+- Updated Rulebook to v3.0 with middleware and cleanup rules
+
+### Removed
+- 124+ temporary files (tmpclaude-*, .bak, migration logs, nul)
+- Program.cs.bak backup file
+- Category subfolders Core/ and Chatbot/ under Controllers/
+- Ambiguous Polly singleton policy registrations from DI
+
+### Version Bump
+**Proposed:** minor (0.2.0 -> 0.3.0)
+**Reason:** New features (CQRS use cases, middleware pipeline, Polly wiring), backward compatible

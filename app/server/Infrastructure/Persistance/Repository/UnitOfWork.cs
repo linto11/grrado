@@ -2,6 +2,7 @@ using Domain.Entities;
 using Infrastructure.Persistance.DBContext;
 using Microsoft.EntityFrameworkCore.Storage;
 using Abstractions.Persistence;
+using Polly;
 
 namespace Infrastructure.Persistance.Repository;
 
@@ -11,6 +12,7 @@ namespace Infrastructure.Persistance.Repository;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly VehicleServiceDbContext _context;
+    private readonly IAsyncPolicy _databaseResiliencePolicy;
     private IDbContextTransaction? _transaction;
 
     // Repository instances (lazy-loaded)
@@ -29,9 +31,10 @@ public class UnitOfWork : IUnitOfWork
     private IRepository<AiImageAnalysis>? _aiImageAnalysisRepository;
     private IRepository<AiUsageLog>? _aiUsageLogRepository;
 
-    public UnitOfWork(VehicleServiceDbContext context)
+    public UnitOfWork(VehicleServiceDbContext context, IAsyncPolicy databaseResiliencePolicy)
     {
         _context = context;
+        _databaseResiliencePolicy = databaseResiliencePolicy;
     }
 
     // Repository properties with lazy initialization
@@ -53,19 +56,21 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<AiUsageLog> AiUsageLogs => _aiUsageLogRepository ??= new BaseRepository<AiUsageLog>(_context);
 
     /// <summary>
-    /// Save all pending changes to database
+    /// Save all pending changes to database, wrapped with Polly resilience policy
     /// </summary>
     public async Task<int> SaveChangesAsync()
     {
-        return await _context.SaveChangesAsync();
+        return await _databaseResiliencePolicy.ExecuteAsync(
+            async () => await _context.SaveChangesAsync());
     }
 
     /// <summary>
-    /// Begin a new database transaction
+    /// Begin a new database transaction, wrapped with Polly resilience policy
     /// </summary>
     public async Task BeginTransactionAsync()
     {
-        _transaction = await _context.Database.BeginTransactionAsync();
+        _transaction = await _databaseResiliencePolicy.ExecuteAsync(
+            async () => await _context.Database.BeginTransactionAsync());
     }
 
     /// <summary>

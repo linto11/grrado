@@ -12,9 +12,9 @@
 │    ❌ if (role == "Admin")                                      │
 │    ✅ if (role == RoleConstants.ADMIN)                          │
 ├─────────────────────────────────────────────────────────────────┤
-│ 2️⃣  KEBAB-CASE FILES ONLY                                       │
-│    ❌ UserService.cs                                            │
-│    ✅ user-service.cs                                           │
+│ 2️⃣  LANGUAGE-APPROPRIATE FILE NAMING                              │
+│    C#: ✅ UserService.cs   Dart: ✅ user_service.dart           │
+│    Docs: ✅ setup-guide.md   ❌ SetupGuide.md                   │
 ├─────────────────────────────────────────────────────────────────┤
 │ 3️⃣  CHANGELOG ENTRY REQUIRED                                    │
 │    Create: docs/changelogs/ddmmyyyy.<seq>                       │
@@ -38,8 +38,9 @@
 │                              │
 │ 🔍 PRE-COMMIT HOOK RUNS      │
 │ ✓ No hard-coded values?      │
-│ ✓ Kebab-case files?          │
+│ ✓ Language-appropriate files? │
 │ ✓ Async suffix on methods?   │
+│ ✓ Layer dependencies valid?  │
 └──────┬───────────┬──────────┘
        │ ✅ Pass  │ ❌ Block
        ▼           ▼
@@ -78,7 +79,7 @@
 │ Check 7 Auto-Rejection       │
 │ Criteria:                    │
 │ 1. No hard-coded values      │
-│ 2. Kebab-case files          │
+│ 2. Language-appropriate files │
 │ 3. Correct architecture      │
 │ 4. Async suffix              │
 │ 5. XML documentation         │
@@ -119,14 +120,19 @@ public static class RoleConstants { const string ADMIN = "Admin"; }
 
 ### File Naming
 ```
-❌ UserService.cs (PascalCase)
-❌ user_service.cs (snake_case)
-❌ UserService.dart (PascalCase)
+C# (.cs):     PascalCase matching class name
+              ✅ UserService.cs
+              ❌ user-service.cs (kebab-case wrong for C#)
 
-✅ user-service.cs (kebab-case)
-✅ user-service.dart (kebab-case)
+Dart (.dart): snake_case
+              ✅ user_service.dart
+              ❌ UserService.dart (PascalCase wrong for Dart)
 
-FIX: mv UserService.cs user-service.cs
+Docs (.md):   kebab-case (lowercase + hyphens)
+              ✅ setup-guide.md
+              ❌ SetupGuide.md (PascalCase wrong for docs)
+
+FIX: Use the convention for your file's language/type
 ```
 
 ### Async Methods
@@ -199,11 +205,14 @@ _logger.LogInformation(
 ✅ Hard-coded literals found
    → Extract to Constants
 
-✅ File not in kebab-case
-   → Rename file
+✅ File not matching language convention
+   → Rename file (C#=PascalCase, Dart/Py=snake_case, docs=kebab-case)
 
 ✅ Async method without "Async" suffix
    → Add "Async" to method name
+
+✅ Clean Architecture layer violation
+   → Move code to correct layer (Domain/App/Infra/API)
 
 ⚠️  Missing public member documentation
    → Add /// comments (warning only)
@@ -236,7 +245,7 @@ _logger.LogInformation(
    → All literals must be Constants
 
 2. Wrong File Naming
-   → All files must be kebab-case
+   → Files must match language convention (C#=PascalCase, Dart/Py=snake_case, docs=kebab-case)
 
 3. Wrong Architecture Layer
    → Code must be in correct layer (Domain/App/Infra/API)
@@ -275,12 +284,13 @@ git push --force-with-lease
 
 ```
 1. ALWAYS use Constants, NEVER hard-code
-2. ALWAYS use kebab-case for filenames
+2. ALWAYS use language-appropriate file naming (C#=PascalCase, Dart/Py=snake_case, docs=kebab-case)
 3. ALWAYS add Async suffix to async methods
 4. ALWAYS document public members
 5. ALWAYS use ErrorCodes, NEVER throw exceptions
 6. ALWAYS log with CorrelationId
 7. ALWAYS create changelog entry
+8. ALWAYS respect Clean Architecture layer boundaries
 ```
 
 ---

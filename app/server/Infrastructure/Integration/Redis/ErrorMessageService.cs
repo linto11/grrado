@@ -1,6 +1,6 @@
 using Abstractions.Persistence;
 using Abstractions.Services;
-using Application.Common.Configuration;
+using Abstractions.Configuration;
 using Domain.Entities;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;

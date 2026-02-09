@@ -91,68 +91,60 @@ bugfix/<phase-number>-<component>/<issue-description>
 
 ---
 
-## ⚠️ MANDATORY FILE NAMING VALIDATION (AI & Developer)
+## MANDATORY FILE NAMING VALIDATION (AI & Developer)
 
-**This rule exists to prevent the exact mistake that was made on 2026-02-01.**
+**This rule exists to prevent naming convention violations.**
 
 ### Before Creating ANY File:
 
-1. **Filename Check:** Does your filename contain ANY uppercase letters?
-   - ❌ YES → STOP. Rename to lowercase. Use hyphens only.
-   - ✅ NO → Continue
+1. **Identify the file type** to determine which convention applies:
+   - **Documentation/Config** (.md, .txt, .json, .yml, .yaml, .sql) → **kebab-case**
+   - **C# source** (.cs) → **PascalCase** (match class name)
+   - **Dart source** (.dart) → **snake_case**
+   - **Python source** (.py) → **snake_case**
+   - **TypeScript/JavaScript** (.ts, .js, .tsx, .jsx) → **kebab-case** or **camelCase**
 
-2. **Validation Pattern:** Filename must match:
-   ```regex
-   ^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$
-   ```
-   - ✅ Valid: `user-service.cs`, `implementation-complete.md`, `quick-start.md`
-   - ❌ Invalid: `UserService.cs`, `IMPLEMENTATION-COMPLETE.md`, `QuickStart.md`
+2. **Validation patterns by type:**
 
-3. **AI Self-Check Before File Creation:**
-   ```
-   PSEUDO-CODE FOR AI:
-   
-   filename = "desired-filename.ext"
-   
-   if filename.contains(uppercase):
-       return ERROR("Filename contains uppercase - VIOLATES kebab-case rule")
-   
-   if not matches_regex(filename, "^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$"):
-       return ERROR("Filename format invalid - must be kebab-case")
-   
-   # If both checks pass, safe to create file
-   create_file(filename)
-   ```
+   | File Type | Valid Example | Invalid Example | Why Invalid |
+   |-----------|---------------|-----------------|-------------|
+   | Docs/Config | `setup-guide.md` | `SetupGuide.md` | Docs use kebab-case |
+   | C# (.cs) | `UserService.cs` | `user-service.cs` | C# uses PascalCase |
+   | Dart (.dart) | `user_service.dart` | `UserService.dart` | Dart uses snake_case |
+   | Python (.py) | `user_service.py` | `UserService.py` | Python uses snake_case |
 
-4. **Common Mistakes to Avoid:**
-   | ❌ WRONG | ✅ CORRECT | Reason |
-   |----------|-----------|--------|
-   | `UserController.cs` | `user-controller.cs` | No CamelCase |
-   | `IMPLEMENTATION-COMPLETE.md` | `implementation-complete.md` | No UPPERCASE |
-   | `quickStart.md` | `quick-start.md` | No camelCase |
-   | `MyFile.TXT` | `my-file.txt` | Extension must be lowercase |
-   | `file name.md` | `file-name.md` | Use hyphens, not spaces |
+3. **Common Mistakes to Avoid:**
 
-5. **Zero Tolerance Policy:**
-   - This is not a warning
-   - This is not a suggestion
-   - This is a MANDATORY REQUIREMENT
-   - Violations will be caught in pre-commit hooks and rejected
+   | WRONG | CORRECT | Reason |
+   |-------|---------|--------|
+   | `user-service.cs` | `UserService.cs` | C# uses PascalCase |
+   | `UserService.dart` | `user_service.dart` | Dart uses snake_case |
+   | `IMPLEMENTATION-COMPLETE.md` | `implementation-complete.md` | Docs use kebab-case |
+   | `UserService.py` | `user_service.py` | Python uses snake_case |
+
+4. **Zero Tolerance Policy:**
+   - This is MANDATORY for all file types
+   - Each language follows its OWN official convention
+   - Pre-commit hooks enforce per-language rules
+   - Violations will be caught and rejected
 
 ---
 
-## 🔍 Pre-File-Creation Checklist
+## Pre-File-Creation Checklist
 
 **Every developer AND AI must complete this before creating a file:**
 
 ```checklist
 Before creating [filename]:
 
-□ Does filename contain ONLY lowercase letters, numbers, and hyphens?
-□ Does filename match pattern: ^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$ ?
+□ Have I identified the file type? (source code vs. documentation/config)
+□ Am I using the CORRECT convention for this file type?
+  - .md/.txt/.json/.yml/.yaml/.sql → kebab-case (lowercase-with-hyphens)
+  - .cs → PascalCase (matching class name)
+  - .dart/.py → snake_case (lowercase_with_underscores)
+  - .ts/.js/.tsx/.jsx → kebab-case or camelCase
 □ Does filename have NO spaces?
 □ Does filename extension match the file type?
-□ Have I NOT used: PascalCase, camelCase, UPPERCASE, or underscore?
 
 If ANY checkbox is unchecked → DO NOT CREATE FILE
 Fix the filename first, THEN create the file.

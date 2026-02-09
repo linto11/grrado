@@ -1,7 +1,10 @@
-# Kebab-Case Enforcement Summary
+# File Naming Enforcement Summary - Documentation & Configuration Files
 
-**Question:** How to make sure AI follows the rulebook?  
+**Question:** How to make sure AI follows the rulebook?
 **Answer:** Multi-layer enforcement with mandatory validation at every stage.
+
+> **SCOPE:** Kebab-case enforcement applies to documentation and configuration files only.
+> Source code follows language-specific conventions (see rulebook.md Section 3.1).
 
 ---
 
@@ -60,7 +63,9 @@
 
 ## 📋 Pre-File-Creation Validation Checklist
 
-**I must complete this before creating EVERY file:**
+For documentation and configuration files (.md, .txt, .json, .yml, .yaml, .sql):
+
+**I must complete this before creating EVERY doc/config file:**
 
 ```
 □ Does filename contain ONLY lowercase letters, numbers, and hyphens?
@@ -163,8 +168,15 @@ A: Pre-commit hooks will reject the commit. You'll be forced to fix it.
 **Q: What if I create a file with uppercase by mistake?**  
 A: It will be caught by pre-commit or pre-push hooks. The file will have to be renamed.
 
-**Q: Is there an exception?**  
-A: NO. Zero tolerance policy. All filenames must be kebab-case without exception.
+**Q: Is there an exception?**
+A: Kebab-case is mandatory for documentation/config files with no exceptions.
+   Source code files follow their language convention instead:
+   - C# (.cs) → PascalCase (e.g., `UserService.cs`)
+   - Dart (.dart) → snake_case (e.g., `user_service.dart`)
+   - Python (.py) → snake_case (e.g., `user_service.py`)
+
+**Q: Does kebab-case apply to source code files?**
+A: NO. Source code files follow their language's official convention. See rulebook.md Section 3.1.
 
 **Q: How does this differ from before?**  
 A: Before: Rules existed but weren't validated at creation time.  
@@ -183,10 +195,6 @@ Now: Four-layer enforcement ensures validation BEFORE creation (not after).
 5. ✅ **Add automation** → Pre-commit/pre-push hooks catch violations
 6. ✅ **Document the incident** → Learn from 2026-02-01 mistake
 
-**Result:** Kebab-case violations become nearly impossible.
+**Result:** Naming convention violations become nearly impossible.
 
----
-
-**Status:** ✅ ENFORCEMENT COMPLETE  
-**Effective:** February 1, 2026  
-**Policy:** ZERO TOLERANCE for kebab-case violations
+**Policy:** ZERO TOLERANCE for doc/config kebab-case violations; language conventions for source code

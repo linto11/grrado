@@ -1,5 +1,6 @@
 ﻿namespace API.Middleware;
 
+using Application.Common.Constants;
 using Utility.Abstractions.Logging;
 using System.Net;
 
@@ -35,25 +36,45 @@ public class ExceptionHandlingMiddleware
         var userAgent = context.Request.Headers["User-Agent"].ToString();
         var userId = ExtractUserId(context);
 
-        await errorLogService.LogErrorAsync(
-            errorCode: exception.GetType().Name,
-            errorMessage: exception.Message,
-            stackTrace: exception.StackTrace ?? "No stack trace available",
-            innerException: exception.InnerException?.ToString(),
-            source: context.Request.Path.ToString(),
-            severity: DetermineSeverity(exception),
-            userId: userId,
-            requestId: requestId,
-            ipAddress: ipAddress,
-            userAgent: userAgent
-        );
+        // Log to error log service (non-blocking - don't crash if DB is down)
+        try
+        {
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    await errorLogService.LogErrorAsync(
+                        errorCode: exception.GetType().Name,
+                        errorMessage: exception.Message,
+                        stackTrace: exception.StackTrace ?? "No stack trace available",
+                        innerException: exception.InnerException?.ToString(),
+                        source: context.Request.Path.ToString(),
+                        severity: DetermineSeverity(exception),
+                        userId: userId,
+                        requestId: requestId,
+                        ipAddress: ipAddress,
+                        userAgent: userAgent
+                    );
+                }
+                catch (Exception dbEx)
+                {
+                    _logger.LogWarning(dbEx, "Failed to log error to database - DB may be unavailable");
+                    // Silently continue
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Exception in error logging - continuing");
+            // Silently continue
+        }
 
-        context.Response.ContentType = "application/json";
+        context.Response.ContentType = System.Net.Mime.MediaTypeNames.Application.Json;
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
         var response = new
         {
-            message = "An error occurred processing your request",
+            message = ErrorCodes.GENERIC_ERROR_MESSAGE,
             requestId = requestId,
             status = context.Response.StatusCode
         };

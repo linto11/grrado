@@ -3,7 +3,7 @@ using Polly.CircuitBreaker;
 using Polly.Extensions.Http;
 using Polly.Retry;
 using Polly.Timeout;
-using Application.Common.Constants;
+using Abstractions.Constants;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Integration.Resilience;

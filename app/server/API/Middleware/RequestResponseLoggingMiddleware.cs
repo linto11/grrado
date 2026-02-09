@@ -37,26 +37,38 @@ public class RequestResponseLoggingMiddleware
                 stopwatch.Stop();
                 var responseBody = await ReadResponseBodyAsync(context.Response);
 
-                await requestResponseLogService.LogRequestResponseAsync(
-                    requestId: requestId,
-                    httpMethod: request.Method,
-                    endpoint: request.Path.ToString(),
-                    queryString: request.QueryString.ToString(),
-                    requestBody: requestBody,
-                    statusCode: context.Response.StatusCode,
-                    responseBody: responseBody,
-                    responseTimeMs: stopwatch.ElapsedMilliseconds,
-                    userId: userId,
-                    ipAddress: ipAddress,
-                    userAgent: userAgent
-                );
+                // Log asynchronously without blocking the response
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await requestResponseLogService.LogRequestResponseAsync(
+                            requestId: requestId,
+                            httpMethod: request.Method,
+                            endpoint: request.Path.ToString(),
+                            queryString: request.QueryString.ToString(),
+                            requestBody: requestBody,
+                            statusCode: context.Response.StatusCode,
+                            responseBody: responseBody,
+                            responseTimeMs: stopwatch.ElapsedMilliseconds,
+                            userId: userId,
+                            ipAddress: ipAddress,
+                            userAgent: userAgent
+                        );
+                    }
+                    catch (Exception dbEx)
+                    {
+                        _logger.LogWarning(dbEx, "Failed to log request/response - DB may be unavailable");
+                    }
+                });
 
                 await responseStream.CopyToAsync(originalBodyStream);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in request/response logging middleware");
-                throw;
+                // Don't rethrow - allow the response to be sent
+                await responseStream.CopyToAsync(originalBodyStream);
             }
             finally
             {

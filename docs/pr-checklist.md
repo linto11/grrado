@@ -17,7 +17,7 @@ Every Pull Request MUST pass all these checks before merging. Use this checklist
 - [ ] **Changelog Updated** - Entry added to [docs/06-changelogs/changelog.ddmmyyyy.<seq>](../06-changelogs/) with proposed version bump (major/minor/patch)
 - [ ] **Architecture & Layers** - Code in correct Clean Architecture layer (Domain/Application/Infrastructure/API)
 - [ ] **No Circular Dependencies** - Dependencies flow downward, no reverse dependencies
-- [ ] **File Naming** - All filenames use kebab-case (✅ user-service.cs, ❌ UserService.cs)
+- [ ] **File Naming** - All filenames use language-appropriate convention (C#=PascalCase, Dart/Py=snake_case, docs=kebab-case)
 - [ ] **Class/Method Naming** - PascalCase for backend; camelCase for frontend
 - [ ] **No Hard-Coding** - All magic strings/numbers extracted to constants
 - [ ] **Constants Organization** - Constants in correct constants files (not scattered)
@@ -58,22 +58,22 @@ var apiUrl = ApiEndpoints.BASE_URL;
 **Action:** Extract all literals to constants. Use grep to find patterns: `"string"`, `\d{4,}`, hardcoded URLs.
 
 ### 2. **File Naming Violations** 🚫
-**Example:** Files not in kebab-case
+**Example:** Files not following their language's naming convention
 
 ```
 REJECTED:
-- UserService.cs        ❌ PascalCase
-- user_service.cs       ❌ snake_case
-- UserService.dart      ❌ PascalCase
-- user_service.dart     ❌ snake_case (for public APIs)
+- user-service.cs       ❌ kebab-case (C# must be PascalCase)
+- user_service.cs       ❌ snake_case (C# must be PascalCase)
+- UserService.dart      ❌ PascalCase (Dart must be snake_case)
+- SetupGuide.md         ❌ PascalCase (docs must be kebab-case)
 
 APPROVED:
-- user-service.cs       ✅ kebab-case
-- user-service.dart     ✅ kebab-case
-- api-endpoints.dart    ✅ kebab-case
+- UserService.cs        ✅ PascalCase (C# convention)
+- user_service.dart     ✅ snake_case (Dart convention)
+- setup-guide.md        ✅ kebab-case (docs convention)
 ```
 
-**Action:** Rename file before pushing.
+**Action:** Use the language-appropriate convention for each file type.
 
 ### 3. **Wrong Clean Architecture Layer** 🚫
 **Example:** Business logic in controller, repository in application layer, etc.
@@ -211,9 +211,12 @@ PRs with automatic rejection criteria:
 Validate before pushing:
 
 ```bash
-# Check for kebab-case filenames
-git diff --cached --name-only | grep -E '[A-Z_].*\.(cs|dart|md)$'
-# If matches, REJECT with message about kebab-case
+# Check for file naming violations per language convention
+# Docs/config: reject uppercase
+git diff --cached --name-only | grep -E '\.(md|txt|json|yml|yaml|sql)$' | grep -E '[A-Z]'
+# C# files: reject kebab-case (hyphens)
+git diff --cached --name-only | grep -E '\.cs$' | grep -E '-'
+# If matches, REJECT with message about language-appropriate naming
 
 # Check for common hard-coded patterns
 git diff --cached | grep -E '(if|=) "[A-Za-z_]+"' | grep -v 'ErrorCodes\|Constants\|Endpoints'

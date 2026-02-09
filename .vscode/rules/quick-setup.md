@@ -15,7 +15,7 @@ GRRADO enforces a **mandatory PR checklist system** with automatic Git hooks to 
 | # | Rule | When | Example |
 |---|------|------|---------|
 | **1** | 🚫 NO hard-coded values | Before commit | ❌ `if (role == "Admin")` → ✅ `if (role == RoleConstants.ADMIN)` |
-| **2** | 📝 Kebab-case files | Before commit | ❌ `UserService.cs` → ✅ `user-service.cs` |
+| **2** | 📝 Language-appropriate filenames | Before commit | C#=PascalCase, Dart/Py=snake_case, docs=kebab-case |
 | **3** | 📋 Changelog entry | Before push | Create `docs/changelogs/01022026.001` |
 
 ---
@@ -63,14 +63,14 @@ git commit -m "feat: add new feature"
 
 Please fix the issues above before committing:
   1. Hard-coded values → Extract to Constants
-  2. File naming → Rename to kebab-case
+  2. File naming → Use language-appropriate convention
   3. Async methods → Add 'Async' suffix
 ```
 
 **Fix and retry:**
 ```bash
 # 1. Extract hard-coded "Admin" to RoleConstants.ADMIN
-# 2. Rename UserService.cs to user-service.cs
+# 2. Ensure C# files use PascalCase, docs use kebab-case
 # 3. Rename GetUser() to GetUserAsync()
 
 git add .
@@ -124,7 +124,7 @@ In GitHub, include checklist:
 - [x] Changelog Updated
 - [x] Architecture & Layers
 - [x] No Hard-Coding
-- [x] File Naming (kebab-case)
+- [x] File Naming (language-appropriate)
 - [x] Async Suffix
 - [x] XML Documentation
 - [x] Error Codes Used
@@ -137,7 +137,7 @@ In GitHub, include checklist:
 Reviewers check **7 auto-rejection criteria:**
 
 1. ✅ No hard-coded values?
-2. ✅ Kebab-case filenames?
+2. ✅ Language-appropriate filenames?
 3. ✅ Correct architecture layer?
 4. ✅ Async suffix on async methods?
 5. ✅ XML documentation present?
@@ -183,19 +183,17 @@ public static class TimeoutConstants
 
 ```
 ❌ BAD:
-- UserService.cs (PascalCase)
-- user_service.cs (snake_case)
-- UserService.dart (PascalCase)
+- user-service.cs (kebab-case for C#)
+- UserService.dart (PascalCase for Dart)
+- SetupGuide.md (PascalCase for docs)
 
 ✅ GOOD:
-- user-service.cs (kebab-case)
-- user-service.dart (kebab-case)
+- UserService.cs (PascalCase for C#)
+- user_service.dart (snake_case for Dart)
+- setup-guide.md (kebab-case for docs)
 ```
 
-**Fix:** Rename file
-```bash
-mv UserService.cs user-service.cs
-```
+**Fix:** Use language-appropriate convention
 
 ### Missing Async Suffix
 
@@ -288,8 +286,8 @@ A: Fix the violations (extract constants, rename files, etc.) and try again.
 **Q: Can I bypass the hooks?**  
 A: Yes, with `git commit --no-verify` or `git push --force-with-lease`, but code review will catch violations and reject your PR.
 
-**Q: Why is kebab-case required for files?**  
-A: It's GRRADO standard for consistency across all layers and languages.
+**Q: Why does file naming vary by language?**
+A: Each language has its own official convention. C# uses PascalCase, Dart/Python use snake_case, and docs use kebab-case. See rulebook.md Section 3.1.
 
 **Q: What if my async method should not have "Async" suffix?**  
 A: It must have it anyway. GRRADO requires it for all async methods.

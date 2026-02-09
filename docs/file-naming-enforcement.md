@@ -1,8 +1,11 @@
-# File Naming Enforcement - How to Ensure Compliance
+# File Naming Enforcement - Documentation & Configuration Files
 
-**Date:** February 1, 2026  
-**Purpose:** Prevent kebab-case naming violations  
-**Status:** ✅ ENFORCEMENT ACTIVE  
+**Date:** February 1, 2026
+**Purpose:** Prevent naming violations in documentation and configuration files
+**Status:** ✅ ENFORCEMENT ACTIVE
+
+> **SCOPE:** This document applies to documentation and configuration files (.md, .txt, .json, .yml, .yaml, .sql).
+> Source code files follow their language's official convention. See `.vscode/rules/rulebook.md` Section 3.1.
 
 ---
 
@@ -84,25 +87,25 @@ Includes:
 
 **Layer 1: Pre-Commit Hook**
 ```
-Rejects any filename with uppercase letters
+Validates filenames per language convention (docs=kebab-case, C#=PascalCase, Dart/Py=snake_case)
 ```
 
 **Layer 2: Pre-Push Hook**
 ```
-Validates all staged filenames against kebab-case pattern
+Validates all staged filenames match their language's convention
 ```
 
 **Layer 3: PR Checklist** (in `docs/pr-checklist.md`)
 ```
-□ All filenames follow kebab-case convention?
+□ All filenames follow language-appropriate convention?
 ```
 
 **Layer 4: AI Validation**
 ```
 Before creating ANY file:
-1. Check for uppercase → Fail if found
-2. Check regex pattern → Fail if not matched
-3. Only create if BOTH checks pass
+1. Identify file type (source code vs docs/config)
+2. Apply correct convention for that type
+3. Only create if naming check passes
 ```
 
 ---
@@ -139,7 +142,9 @@ Action: Safe to create file now.
 
 ---
 
-## 🔍 Validation Checklist (For Every File Creation)
+## 🔍 Validation Checklist (For Documentation & Config Files)
+
+For documentation and configuration files (.md, .txt, .json, .yml, .yaml, .sql):
 
 Before I create a file, I MUST complete:
 
@@ -160,13 +165,14 @@ Fix the filename first, THEN create the file.
 
 | ❌ WRONG | ✅ CORRECT | Reason |
 |----------|-----------|--------|
-| `UserService.cs` | `user-service.cs` | No PascalCase |
 | `IMPLEMENTATION-COMPLETE.md` | `implementation-complete.md` | No UPPERCASE |
 | `quickStart.md` | `quick-start.md` | No camelCase |
 | `MyFile.TXT` | `my-file.txt` | Extension lowercase |
 | `file name.md` | `file-name.md` | Use hyphens, not spaces |
-| `UserController_v2.cs` | `user-controller-v2.cs` | No underscores |
 | `Constants.json` | `constants.json` | Filename lowercase |
+
+> **Note:** C# files (.cs) use PascalCase (e.g., `UserService.cs`), Dart files (.dart) use snake_case (e.g., `user_service.dart`),
+> Python files (.py) use snake_case. These follow their language conventions and are NOT violations.
 
 ---
 
@@ -185,12 +191,12 @@ Fix the filename first, THEN create the file.
 - `[a-z0-9]+` — Extension must be lowercase
 - `$` — End of string
 
-**Examples:**
-- ✅ `user-service.cs` — Matches
-- ✅ `implementation-complete.md` — Matches
-- ✅ `my-file-v2.txt` — Matches
-- ❌ `UserService.cs` — Uppercase U
-- ❌ `my_file.txt` — Contains underscore
+**Examples (for documentation/config files):**
+- ✅ `setup-guide.md` — Matches kebab-case
+- ✅ `implementation-complete.md` — Matches kebab-case
+- ✅ `my-file-v2.txt` — Matches kebab-case
+- ❌ `SetupGuide.md` — Uppercase (docs must be kebab-case)
+- ❌ `my_file.txt` — Contains underscore (docs must use hyphens)
 - ❌ `my file.txt` — Contains space
 
 ---
@@ -240,10 +246,11 @@ If I ever create a file with uppercase/incorrect naming:
 
 ## 🎓 Key Takeaway
 
-**Kebab-case is NOT optional. It is MANDATORY.**
+**Kebab-case is MANDATORY for documentation and configuration files.**
+**Source code files follow their language's official naming convention** (C#=PascalCase, Dart/Python=snake_case).
 
-I (the AI) will not create files with uppercase letters, regardless of content.  
-Every filename will be validated before creation.  
+I (the AI) will validate the file type and apply the correct convention before creation.
+Every filename will be validated before creation.
 No exceptions, no shortcuts, no violations.
 
 ---

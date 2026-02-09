@@ -1,0 +1,25 @@
+using FluentValidation;
+using Abstractions.Services;
+using Application.Common.Constants;
+
+namespace Application.UseCases.Core.Vehicles.GetVehicleById;
+
+public class GetVehicleByIdValidator : AbstractValidator<GetVehicleByIdRequest>
+{
+    private readonly IErrorMessageService _errorMessageService;
+
+    public GetVehicleByIdValidator(IErrorMessageService errorMessageService)
+    {
+        _errorMessageService = errorMessageService;
+
+        RuleFor(x => x.Id)
+            .GreaterThan(0)
+            .WithErrorCode(ErrorCodes.VEHICLE_ID_INVALID)
+            .WithMessage(GetMessage(ErrorCodes.VEHICLE_ID_INVALID, "Invalid vehicle ID"));
+    }
+
+    private string GetMessage(string code, string defaultMessage)
+    {
+        return _errorMessageService.GetMessageAsync(code, defaultMessage).GetAwaiter().GetResult();
+    }
+}

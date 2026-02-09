@@ -25,16 +25,12 @@ On 2026-02-01:
 
 ```json
 "BEFORE_FILE_CREATION": [
-  "⚠️ MANDATORY FILE NAMING VALIDATION - DO NOT SKIP ⚠️",
-  "1. FILENAME MUST BE: lowercase-with-hyphens.ext (e.g., user-service.cs)",
-  "2. FILENAME MUST NOT BE: camelCase, PascalCase, UPPERCASE, or mixed case",
-  "3. EXAMPLES OF VIOLATIONS (NEVER DO THESE):",
-  "   ❌ UserService.cs → ✅ user-service.cs",
-  "   ❌ IMPLEMENTATION-COMPLETE.md → ✅ implementation-complete.md",
-  "   ❌ quickStart.md → ✅ quick-start.md",
-  "4. VERIFY: Use regex check: ^[a-z0-9]+(-[a-z0-9]+)*\\.[a-z0-9]+$ for filename",
-  "5. IF UNSURE: Ask yourself 'Does filename have uppercase letters?' If YES → FIX IT FIRST",
-  "6. VALIDATION BEFORE CREATE: EVERY filename must pass kebab-case validation before creation"
+  "MANDATORY FILE NAMING VALIDATION - DO NOT SKIP",
+  "1. IDENTIFY FILE TYPE: Is this source code or documentation/config?",
+  "2. SOURCE CODE: Use language convention (.cs=PascalCase, .dart=snake_case, .py=snake_case, .ts/.js=kebab-case)",
+  "3. DOCS/CONFIG: Use kebab-case (.md, .txt, .json, .yml, .yaml, .sql)",
+  "4. VERIFY: Does filename match the correct convention for its type?",
+  "5. IF C# FILE: Filename MUST match class name (e.g., UserService.cs for class UserService)"
 ]
 ```
 
@@ -50,7 +46,7 @@ On 2026-02-01:
 - Status: ✅ ACTIVE
 
 #### B. Rulebook (`.vscode/rules/rulebook.md`)
-- Section 3.1: **FILE NAMING - KEBAB-CASE (MANDATORY)**
+- Section 3.1: **FILE NAMING CONVENTIONS (PER-LANGUAGE)**
 - Content: Incident documentation, zero tolerance policy, enforcement details
 - Status: ✅ ACTIVE
 
@@ -66,9 +62,9 @@ On 2026-02-01:
 
 ### **3. Automated Enforcement** (Git Hooks)
 
-**Pre-Commit Hook:** Rejects any file with uppercase letters  
-**Pre-Push Hook:** Validates all staged filenames match kebab-case pattern  
-**PR Checklist:** Manual review item for filenames
+**Pre-Commit Hook:** Validates file naming per language convention (C#=PascalCase, Dart/Py=snake_case, docs=kebab-case)
+**Pre-Push Hook:** Validates all staged filenames match their language's convention
+**PR Checklist:** Manual review item for language-appropriate filenames
 
 ---
 
@@ -78,18 +74,34 @@ Before creating ANY file, I MUST:
 
 ```python
 def validate_before_file_creation(filename):
-    # Check 1: Contains uppercase?
-    if any(char.isupper() for char in filename.split('.')[0]):
-        STOP("Filename contains uppercase - VIOLATES kebab-case rule")
-        return FAIL
-    
-    # Check 2: Matches kebab-case pattern?
-    regex_pattern = r"^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$"
-    if not matches_regex(filename, regex_pattern):
-        STOP("Filename format invalid - must be kebab-case")
-        return FAIL
-    
-    # All checks passed
+    extension = filename.split('.')[-1]
+    name_part = filename.rsplit('.', 1)[0]
+
+    # Docs/config files (.md, .txt, .json, .yml, .yaml, .sql) → kebab-case
+    if extension in ('md', 'txt', 'json', 'yml', 'yaml', 'sql'):
+        if any(char.isupper() for char in name_part):
+            STOP("Doc/config filename contains uppercase - must be kebab-case")
+            return FAIL
+        regex_pattern = r"^[a-z0-9]+(-[a-z0-9]+)*$"
+        if not matches_regex(name_part, regex_pattern):
+            STOP("Doc/config filename must be kebab-case")
+            return FAIL
+
+    # C# files (.cs) → PascalCase matching class name
+    elif extension == 'cs':
+        if '-' in name_part:
+            STOP("C# filename contains hyphens - must be PascalCase")
+            return FAIL
+        if name_part[0].islower():
+            STOP("C# filename starts lowercase - must be PascalCase")
+            return FAIL
+
+    # Dart/Python files (.dart, .py) → snake_case
+    elif extension in ('dart', 'py'):
+        if any(char.isupper() for char in name_part) or '-' in name_part:
+            STOP("Dart/Python filename must be snake_case")
+            return FAIL
+
     return OK("Safe to create file")
 ```
 
@@ -149,11 +161,13 @@ def validate_before_file_creation(filename):
 ```
 Before creating [filename]:
 
-□ Does filename contain ONLY lowercase letters, numbers, and hyphens?
-□ Does filename match regex: ^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$ ?
+□ Have I identified the file type? (source code vs. docs/config)
+□ Does filename follow the correct convention for its type?
+  - C# (.cs): PascalCase matching class name
+  - Dart (.dart) / Python (.py): snake_case
+  - Docs (.md, .txt) / Config (.json, .yml, .yaml, .sql): kebab-case
 □ Does filename have NO spaces?
 □ Does filename extension match the file type?
-□ Have I verified: NO PascalCase, camelCase, UPPERCASE, or underscore?
 
 ⛔ If ANY checkbox is UNCHECKED → DO NOT CREATE FILE
 ✅ Only create if ALL checkboxes are CHECKED
@@ -176,15 +190,14 @@ Before creating [filename]:
 
 **Every file I create will:**
 - ✅ Be validated before creation
-- ✅ Pass kebab-case check
-- ✅ Match regex pattern
-- ✅ Have NO uppercase letters
-- ✅ Use hyphens (not underscores/spaces)
+- ✅ Follow the correct convention for its language/file type
+- ✅ Match the naming pattern (PascalCase for C#, snake_case for Dart/Py, kebab-case for docs)
+- ✅ Use the appropriate separator (none for C#, underscores for Dart/Py, hyphens for docs)
 
 **This ensures:**
-- ❌ No more `IMPLEMENTATION-COMPLETE.md` incidents
-- ❌ No uppercase filenames ever
-- ❌ No violations of the kebab-case cardinal rule
+- ❌ No more `IMPLEMENTATION-COMPLETE.md` incidents (docs must be kebab-case)
+- ❌ No C# files in kebab-case (C# must be PascalCase)
+- ❌ No violations of language-specific naming conventions
 
 ---
 
@@ -222,7 +235,7 @@ docs/
 
 ## 🎓 Key Takeaway
 
-**Kebab-case is not optional. It is MANDATORY.**
+**Language-appropriate file naming is MANDATORY.**
 
 To ensure AI follows rules:
 1. **Make them visible** (settings.json)
@@ -232,7 +245,7 @@ To ensure AI follows rules:
 5. **Document incidents** (learn from mistakes)
 6. **Enforce zero-tolerance** (no exceptions)
 
-This multi-layer approach makes kebab-case violations nearly impossible.
+This multi-layer approach makes file naming violations nearly impossible.
 
 ---
 

@@ -31,10 +31,11 @@ Runs automatically BEFORE creating a commit. **BLOCKS commit** if violations det
 
 ```
 ✅ Hard-coded literals          ❌ If found: block commit
-✅ File naming (kebab-case)     ❌ If found: block commit  
+✅ File naming (per-language)     ❌ If found: block commit
 ✅ Secret detection             ⚠️  If found: warning (allow commit)
 ✅ Async method naming          ❌ If found: block commit
 ✅ Public member documentation  ⚠️  If found: warning (allow commit)
+✅ Clean Architecture layers    ❌ If found: block commit
 ```
 
 ### Example: Hard-Coding Violation
@@ -49,7 +50,7 @@ var timeout = 30000;            // Hard-coded number!
 ```
 🔍 Running GRRADO Pre-Commit Checks...
 
-[1/5] Checking for hard-coded literals...
+[1/6] Checking for hard-coded literals...
   ❌ Potential hard-coded string in: API/Controllers/user-controller.cs
      Check these lines for extracted constants:
      + if (user.Role == "Admin") {
@@ -175,16 +176,19 @@ var apiUrl = ApiEndpoints.BASE_URL;
 
 ```
 REJECTED:
-- UserService.cs       ❌ PascalCase
-- user_service.cs      ❌ snake_case
-- UserService.dart     ❌ PascalCase
+- user-service.cs      ❌ kebab-case in C# (should be PascalCase)
+- UserService.dart     ❌ PascalCase in Dart (should be snake_case)
+- UserService.py       ❌ PascalCase in Python (should be snake_case)
+- SetupGuide.md        ❌ PascalCase in docs (should be kebab-case)
 
 APPROVED:
-- user-service.cs      ✅ kebab-case
-- user-service.dart    ✅ kebab-case
+- UserService.cs       ✅ PascalCase (C# convention)
+- user_service.dart    ✅ snake_case (Dart convention)
+- user_service.py      ✅ snake_case (Python convention)
+- setup-guide.md       ✅ kebab-case (documentation convention)
 ```
 
-**Action:** Rename file before pushing
+**Action:** Use the language-appropriate convention for each file type
 
 #### 3. **Wrong Clean Architecture Layer** 🚫
 
@@ -304,10 +308,11 @@ git commit -m "feat: add user authentication"
 
 # Pre-commit hook checks:
 # ✅ No hard-coded values
-# ✅ Kebab-case filenames
+# ✅ Language-appropriate filenames
 # ✅ No secrets
 # ✅ Async suffix
 # ✅ Documentation
+# ✅ Clean Architecture layer dependencies
 
 # If all pass: commit created ✅
 # If any fail: commit blocked ❌ → Fix → Retry
@@ -359,7 +364,7 @@ GitHub PR Description:
 - [x] **Changelog Updated** - Entry added to docs/06-changelogs/
 - [x] **Architecture & Layers** - Code in correct Clean Architecture layer
 - [x] **No Circular Dependencies** - Dependencies flow downward
-- [x] **File Naming** - All filenames use kebab-case
+- [x] **File Naming** - All filenames use their language's convention (see rulebook.md Section 3.1)
 - [x] **Class/Method Naming** - PascalCase for backend
 - [x] **No Hard-Coding** - All magic strings/numbers extracted to constants
 - [x] **Constants Organization** - Constants in correct constants files
@@ -380,7 +385,7 @@ See: docs/changelogs/01022026.001
 **Reviewer checks all 7 automatic rejection criteria:**
 
 1. ✅ No hard-coded values?
-2. ✅ Kebab-case filenames?
+2. ✅ Language-appropriate filenames?
 3. ✅ Correct architecture layer?
 4. ✅ Async suffix on async methods?
 5. ✅ XML documentation present?
@@ -471,8 +476,8 @@ git commit -m "test"
 **Q: Can I bypass the pre-commit hook?**  
 A: Yes, use `git commit --no-verify`, but code review will catch violations and reject your PR.
 
-**Q: What if my file should be PascalCase?**  
-A: GRRADO requires kebab-case for all source files. No exceptions.
+**Q: What if my file should be PascalCase?**
+A: C# files (.cs) MUST use PascalCase matching the class name. Dart/Python files use snake_case. Documentation/config files use kebab-case. See rulebook.md Section 3.1 for details.
 
 **Q: Can I hard-code configuration values?**  
 A: No. Use `Constants.cs`, `ApiEndpoints.cs`, or `configuration.json`.

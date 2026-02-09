@@ -20,7 +20,7 @@ Phase 4 Tasks: 83 Total
 
 TOTAL: 83 tasks × 10 minutes = 830 minutes ≈ 13.8 hours
 
-Current Sprint: Sprint 1 - Foundation
+Current Sprint: Sprint 2 - User API (Ready to begin)
 ```
 
 ---
@@ -31,51 +31,50 @@ Current Sprint: Sprint 1 - Foundation
 
 | Task ID | Name | Status | Time | Started | Completed | Blocker |
 |---------|------|--------|------|---------|-----------|---------|
-| 001 | Git Branching Strategy | ⏳ TODO | 10 min | — | — | None |
-| 002 | Keycloak Realm Setup | ⏳ TODO | 10 min | — | — | None |
-| 003 | Database Schema Alignment | ⏳ TODO | 10 min | — | — | **CRITICAL** |
-| 004 | NuGet Validation | ⏳ TODO | 5 min | — | — | Task 001 |
-| 005 | Dev Environment Verification | ⏳ TODO | 5 min | — | — | Tasks 001-003 |
+| 001 | Git Branching Strategy | ✅ COMPLETED | 10 min | 2026-02-01 14:00 | 2026-02-01 14:10 | None |
+| 002 | Keycloak Realm Setup | ⏸️ DEFERRED | — | — | — | Deferred to Sprint 6 |
+| 003 | Database Schema Alignment | ✅ COMPLETED | 30 min | 2026-02-08 09:00 | 2026-02-08 09:30 | None (RESOLVED) |
+| 004 | NuGet Validation | ✅ COMPLETED | 10 min | 2026-02-08 09:30 | 2026-02-08 09:40 | None |
+| 005 | Dev Environment Verification | ✅ COMPLETED | 15 min | 2026-02-08 09:40 | 2026-02-08 09:55 | None |
 
-**Foundational Progress:** 0/5 (0%)  
-**Foundational Time:** 0/50 minutes
+**Foundational Progress:** 4/5 (80%) — Task 002 deferred to Sprint 6
+**Foundational Time:** 65/50 minutes (Task 003 took longer due to schema recreation)
 
 ---
 
 ### Sprint 1: Foundation Tasks (001-005)
 
-**Duration:** 50 minutes  
-**Status:** ⏳ NOT STARTED  
-**Blocker:** PostgreSQL schema missing (Task 003 critical)  
+**Duration:** 65 minutes
+**Status:** ✅ COMPLETED (Task 002 deferred to Sprint 6)
+**Blocker:** None remaining
 
 #### Task Breakdown
 
 - **001** Git Branching Strategy
-  - Branch: Not yet created
-  - Completion: N/A
-  - Notes: Awaiting execution
+  - Branch: develop, feature/4-foundation ✅
+  - Completion: February 1, 2026 - 14:10 UTC
+  - Status: ✅ COMPLETED
+  - Notes: Both main and develop branches verified, naming conventions tested
 
 - **002** Keycloak Realm Setup
-  - Branch: Not yet created
-  - Completion: N/A
-  - Notes: Awaiting execution
+  - Status: ⏸️ DEFERRED to Sprint 6 (Authentication phase)
+  - Notes: Keycloak container available but not required for foundation. Will be configured alongside JWT/auth tasks (2001-2008).
 
-- **003** Database Schema Alignment ⚠️ CRITICAL
-  - Branch: Not yet created
-  - Completion: N/A
-  - Blocker: Schema missing DeletedAt, FamilyType, audit fields
-  - Issue: Causes HTTP 500 on all endpoints
-  - Fix: Run Liquibase migrations
+- **003** Database Schema Alignment ✅ RESOLVED
+  - Completion: February 8, 2026
+  - Status: ✅ COMPLETED
+  - Resolution: Discovered fundamental UUID vs int ID mismatch between create-schema.sql (UUID PKs) and EF models (int IDs). Dropped entire schema and recreated using EF `Database.EnsureCreated()`. All 18 tables created with correct int PKs, FK relationships, and indexes. Full CRUD verified (POST 201, GET 200, DELETE 204).
+  - Root Cause: create-schema.sql used UUID primary keys, Liquibase XML had SERIAL (int), EF models had int Id. Multiple column name mismatches also existed.
 
 - **004** NuGet Validation
-  - Branch: Not yet created
-  - Completion: N/A
-  - Notes: Awaiting execution
+  - Completion: February 8, 2026
+  - Status: ✅ COMPLETED
+  - Results: 0 vulnerabilities found. 6 deprecated packages noted (AutoMapper.Extensions.Microsoft.DependencyInjection, Microsoft.AspNetCore.Http, Microsoft.AspNetCore.Http.Abstractions, Microsoft.IdentityModel.Protocols.OpenIdConnect, Polly.Extensions.Http, System.IdentityModel.Tokens.Jwt). Build: 0 errors, 0 warnings.
 
 - **005** Dev Environment Verification
-  - Branch: Not yet created
-  - Completion: N/A
-  - Notes: Awaiting execution
+  - Completion: February 8, 2026
+  - Status: ✅ COMPLETED
+  - Results: PostgreSQL 15.15 responding (port 5433), Redis responding with PONG (port 6379), Keycloak not running (deferred). API builds and runs on port 5000. All endpoints tested: GET /api/Users 200, POST /api/Users 201, GET /api/Health/status 200, Scalar docs at /scalar/v1 200. 18 DB tables confirmed.
 
 ---
 
@@ -93,15 +92,15 @@ Current Sprint: Sprint 1 - Foundation
 
 ---
 
-## 🎯 Current Blockers
+## Current Blockers
 
 | Priority | Blocker | Task | Impact | Status | ETA Fix |
 |----------|---------|------|--------|--------|---------|
-| 🔴 CRITICAL | PostgreSQL schema missing columns | 003 | All API endpoints HTTP 500 | ⏳ PENDING | Task 003 |
-| 🔴 CRITICAL | Keycloak not configured | 002 | No auth validation | ⏳ PENDING | Task 002 |
-| 🔴 CRITICAL | No auth middleware | 2003 | All endpoints public | ⏳ PENDING | Task 2003 |
-| 🟡 HIGH | ClientSecret placeholder | 002 | Token validation fails | ⏳ PENDING | Task 002 |
+| ✅ RESOLVED | PostgreSQL schema missing columns | 003 | All API endpoints HTTP 500 | ✅ FIXED | Recreated from EF models |
+| ⏸️ DEFERRED | Keycloak not configured | 002 | No auth validation | ⏸️ Sprint 6 | Task 2002 |
+| 🟡 HIGH | No auth middleware | 2003 | All endpoints public | ⏳ PENDING | Task 2003 |
 | 🟡 HIGH | No [Authorize] attributes | 2004 | All endpoints public | ⏳ PENDING | Task 2004 |
+| 🟡 HIGH | Missing ServicesController | 401 | Service entity has no API | ⏳ PENDING | Task 401 |
 
 ---
 
@@ -166,7 +165,71 @@ Week 2:
 
 ### Active Entries
 
-*To be populated as tasks complete*
+## 2026-02-08 - Task 003: Database Schema Alignment
+
+**Branch:** feature/4-foundation
+**Time:** 30 minutes
+**Status:** ✅ COMPLETED
+**Blockers:** UUID vs int primary key mismatch — RESOLVED
+
+**Changes Made:**
+- Discovered root cause: `create-schema.sql` used UUID PKs, EF models use `int Id`
+- Dropped entire public schema and recreated using EF `Database.EnsureCreated()`
+- All 18 tables created with correct int primary keys
+- FK relationships and indexes correctly generated
+- Full CRUD verified: POST 201, GET 200, PUT 200, DELETE 204
+
+**Notes:**
+- `create-schema.sql` was the wrong schema source; Liquibase XML `001-initial-schema.xml` had correct SERIAL types but was never applied
+- `EnsureCreated()` was temporarily added to Program.cs, then removed after schema creation
+- Column names also differed (RegistrationNumber vs LicensePlate, etc.) — all resolved by using EF as source of truth
+
+---
+
+## 2026-02-08 - Task 004: NuGet Validation
+
+**Branch:** feature/4-foundation
+**Time:** 10 minutes
+**Status:** ✅ COMPLETED
+**Blockers:** None
+
+**Changes Made:**
+- Ran `dotnet restore` — all packages restored successfully
+- Ran `dotnet build` — 0 errors, 0 warnings
+- Ran `dotnet list package --vulnerable` — 0 vulnerabilities
+- Ran `dotnet list package --deprecated` — 6 deprecated packages identified
+
+**Notes:**
+- Deprecated packages (informational, not blocking):
+  - AutoMapper.Extensions.Microsoft.DependencyInjection → migrate to AutoMapper >= 13.0.0
+  - Microsoft.AspNetCore.Http/Abstractions → legacy, built into framework
+  - Microsoft.IdentityModel.Protocols.OpenIdConnect → has critical bugs
+  - Polly.Extensions.Http → migrate to Microsoft.Extensions.Http.Resilience
+  - System.IdentityModel.Tokens.Jwt → legacy
+
+---
+
+## 2026-02-08 - Task 005: Dev Environment Verification
+
+**Branch:** feature/4-foundation
+**Time:** 15 minutes
+**Status:** ✅ COMPLETED
+**Blockers:** None
+
+**Changes Made:**
+- PostgreSQL 15.15 verified (port 5433, healthy)
+- Redis verified (port 6379, PONG response)
+- Keycloak: not running — deferred to Sprint 6
+- API builds successfully (0 errors, 0 warnings)
+- API runs on http://localhost:5000
+- All endpoints verified: GET /api/Users 200, POST /api/Users 201, DELETE 204
+- Health endpoints: /api/Health/status 200, /api/Health/ready 200
+- Scalar API docs: /scalar/v1 200
+- 18 database tables confirmed
+
+**Notes:**
+- API listens on port 5000 (not 5176 as some config suggests)
+- Scalar API reference used instead of Swagger UI (MapScalarApiReference, not MapSwaggerUI)
 
 ---
 
@@ -194,9 +257,10 @@ Week 2:
 ### Current Metrics
 
 ```
-Sprint 1 Progress:  0/5 (0%)
-Total Phase 4:      0/83 (0%)
-Hours Completed:    0/13.8 (0%)
+Sprint 1 Progress:  4/5 (80% - Task 002 deferred)
+Total Phase 4:      4/83 (5%)
+Hours Completed:    ~1.1/13.8 (8%)
+Task Files Created: 83/83 (100%)
 ```
 
 ---

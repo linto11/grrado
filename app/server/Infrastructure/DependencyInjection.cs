@@ -16,8 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Polly;
-using Polly.Extensions.Http;
-using Application.Common.Constants;
+using Abstractions.Constants;
 
 namespace Infrastructure;
 
@@ -42,8 +41,9 @@ public static class DependencyInjection
         // Register Unit of Work and Repositories
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        // Register Keycloak HttpClient
-        services.AddHttpClient<IKeycloakService, KeycloakService>();
+        // Register Keycloak HttpClient with Polly resilience policy
+        services.AddHttpClient<IKeycloakService, KeycloakService>()
+            .AddPolicyHandler(PollyPolicies.GetKeycloakPolicy());
 
         // Register Keycloak Authentication Services
         services.AddScoped<IJwtTokenValidator, JwtTokenValidator>();
@@ -91,56 +91,16 @@ public static class DependencyInjection
     }
 
     /// <summary>
-    /// Registers all Polly resilience policies for HTTP integration and database operations
+    /// Registers Polly resilience policies consumed by infrastructure services.
+    /// HTTP policies are wired via AddPolicyHandler on HttpClient registrations above.
+    /// Database policies are injected into UnitOfWork for SaveChangesAsync resilience.
     /// </summary>
     private static void AddPollyPolicies(IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        // HTTP Resilience Policies (for external APIs)
-        services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(
-            _ => PollyPolicies.GetRetryPolicy()
-        );
-
-        services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(
-            _ => PollyPolicies.GetCircuitBreakerPolicy()
-        );
-
-        services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(
-            _ => PollyPolicies.GetTimeoutPolicy()
-        );
-
-        services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(
-            _ => PollyPolicies.GetHttpResiliencePolicy()
-        );
-
-        // Azure AI Services integration with custom retry and rate limit handling
-        services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(
-            _ => PollyPolicies.GetAzureAIServicesPolicy()
-        );
-
-        // Keycloak authentication with retry logic
-        services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(
-            _ => PollyPolicies.GetKeycloakPolicy()
-        );
-
-        // Database operations resilience
-        // Bulkhead isolation prevents connection pool exhaustion
-        services.AddSingleton<IAsyncPolicy>(
-            _ => PollyPolicies.GetDatabaseBulkheadPolicy()
-        );
-
-        // Database transaction retry policy for transient failures
-        services.AddSingleton<IAsyncPolicy>(
-            _ => PollyPolicies.GetDatabaseRetryPolicy()
-        );
-
-        // Integration service timeout policy
-        services.AddSingleton<IAsyncPolicy>(
-            _ => PollyPolicies.GetDatabaseTimeoutPolicy()
-        );
-
-        // Combined database resilience policy
+        // Combined database resilience policy (retry + bulkhead + timeout)
+        // Injected into UnitOfWork to wrap SaveChangesAsync
         services.AddSingleton<IAsyncPolicy>(
             _ => PollyPolicies.GetDatabaseResiliencePolicy()
         );

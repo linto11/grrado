@@ -62,10 +62,10 @@ dotnet run
 
 **Read [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md) for complete details.**
 
-### 1. ✅ Kebab-Case ALL Filenames
+### 1. ✅ Language-Appropriate File Naming
 ```
-✅ user-service.cs          ✅ user-service.dart
-❌ UserService.cs           ❌ user_service.dart
+C#:   ✅ UserService.cs          Dart: ✅ user_service.dart
+Docs: ✅ setup-guide.md          ❌ SetupGuide.md
 ```
 
 ### 2. ✅ ZERO Hard-Coded Values

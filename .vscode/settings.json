@@ -8,7 +8,7 @@
     "ReadmeLocation": "d:\\_GRRADO\\src\\README.md",
     "MandatoryReview": [
       "Section 1: Clean Architecture layers (Domain → Application → Infrastructure → API)",
-      "Section 3: Naming Conventions (kebab-case files, PascalCase classes)",
+      "Section 3: Naming Conventions (per-language file naming, PascalCase classes)",
       "Section 4: Constants Organization (NO hard-coding)",
       "Section 10: Versioning & Changelog (semantic versioning with lowercase major/minor/patch)",
       "Section 11: Code Review Enforcement (mandatory checklist)"
@@ -17,29 +17,24 @@
 
   "// COPILOT INSTRUCTIONS": {
     "BEFORE_FILE_CREATION": [
-      "⚠️ MANDATORY FILE NAMING VALIDATION - DO NOT SKIP ⚠️",
-      "1. FILENAME MUST BE: lowercase-with-hyphens.ext (e.g., user-service.cs, implementation-complete.md)",
-      "2. FILENAME MUST NOT BE: camelCase, PascalCase, UPPERCASE, or mixed case",
-      "3. EXAMPLES OF VIOLATIONS (NEVER DO THESE):",
-      "   ❌ UserService.cs → ✅ user-service.cs",
-      "   ❌ IMPLEMENTATION-COMPLETE.md → ✅ implementation-complete.md",
-      "   ❌ quickStart.md → ✅ quick-start.md",
-      "   ❌ MyFile.txt → ✅ my-file.txt",
-      "4. VERIFY: Use regex check: ^[a-z0-9]+(-[a-z0-9]+)*\\.[a-z0-9]+$ for filename",
-      "5. IF UNSURE: Ask yourself 'Does this filename have any uppercase letters?' If YES → FIX IT FIRST",
-      "6. VALIDATION BEFORE CREATE: EVERY filename must pass kebab-case validation before creation"
+      "MANDATORY FILE NAMING VALIDATION - DO NOT SKIP",
+      "1. IDENTIFY FILE TYPE: Is this source code or documentation/config?",
+      "2. SOURCE CODE: Use language convention (.cs=PascalCase, .dart=snake_case, .py=snake_case, .ts/.js=kebab-case)",
+      "3. DOCS/CONFIG: Use kebab-case (.md, .txt, .json, .yml, .yaml, .sql)",
+      "4. VERIFY: Does filename match the correct convention for its type?",
+      "5. IF C# FILE: Filename MUST match class name (e.g., UserService.cs for class UserService)"
     ],
     "BEFORE_ANY_CHANGES": [
       "0. BRANCH: Create feature/<phase>-<name> branch BEFORE any file modification (see .vscode/rules/branching-rule.md)",
       "1. READ: .vscode/rulebook.md (MANDATORY)",
       "2. VERIFY: Which layer does this change belong to? (Domain/Application/Infrastructure/API/Utility)",
       "3. CHECK: Are you using constants or hard-coding values?",
-      "4. CONFIRM: Filenames use kebab-case, classes use PascalCase",
+      "4. CONFIRM: Filenames use language-appropriate convention (C#=PascalCase, Dart/Py=snake_case, docs=kebab-case)",
       "5. VALIDATE: Does this follow Clean Architecture principles?"
     ],
     "CRITICAL_RULES": [
       "❌ ZERO HARD-CODING: Every literal must be a constant",
-      "✅ KEBAB-CASE: All filenames (user-service.cs, not UserService.cs)",
+      "✅ FILE_NAMING: Language-appropriate convention (C#=PascalCase, Dart/Py=snake_case, docs=kebab-case)",
       "✅ CLEAN_ARCHITECTURE: Code in correct layer only",
       "✅ ASYNC_SUFFIX: Async methods end with Async (GetUserAsync)",
       "✅ ERROR_CODES: Use ErrorCodes constants, never throw bare exceptions",
@@ -136,7 +131,7 @@
   },
 
   "// GIT HOOKS - PR CHECKLIST ENFORCEMENT": {
-    "PreCommitHook": ".git/hooks/pre-commit - Validates code before committing (no hard-code, kebab-case files, no secrets)",
+    "PreCommitHook": ".git/hooks/pre-commit - Validates code before committing (no hard-code, language-appropriate filenames, no secrets)",
     "PrePushHook": ".git/hooks/pre-push - Validates commits before pushing (branch naming, changelog exists, task marked completed)",
     "BranchingRuleLocation": ".vscode/rules/branching-rule.md - MANDATORY enforcement for all git operations",
     "TaskFileLocation": "docs/03-phase-specific/phase-4-backend-api/tasks/ - Track task status, blockers, and progress",
@@ -146,7 +141,7 @@
     "AutoRetryOnFailure": "Failed tasks auto-retry up to 3 times before requiring human review",
     "AutomaticRejectionCriteria": [
       "1. Hard-Coded Values - All literals must be extracted to Constants (❌ REJECTED)",
-      "2. File Naming Violations - All files must use kebab-case (❌ REJECTED)",
+      "2. File Naming Violations - Files must use their language's convention (❌ REJECTED)",
       "3. Wrong Clean Architecture Layer - Code in correct layer only (❌ REJECTED)",
       "4. Missing Async Suffix - Async methods must end with 'Async' (❌ REJECTED)",
       "5. No XML Documentation - Public classes/methods must be documented (❌ REJECTED)",

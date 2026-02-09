@@ -36,7 +36,7 @@ git commit -m "..."
 
 **Validates:**
 - ❌ Hard-coded values (strings, numbers)
-- ❌ File naming not kebab-case
+- ❌ File naming not matching language convention
 - ❌ Async methods without `Async` suffix
 - ⚠️ Missing documentation (warning)
 - ⚠️ Possible secrets (warning)
@@ -70,7 +70,7 @@ PR created on GitHub
 
 **Checks 7 Auto-Rejection Criteria:**
 1. Hard-Coded Values
-2. File Naming (kebab-case)
+2. File Naming (language-appropriate)
 3. Architecture Layer
 4. Async Suffix
 5. XML Documentation
@@ -116,9 +116,10 @@ Every developer MUST remember these 3 rules:
     All literal strings/numbers → Constants
     ❌ if (role == "Admin")     ✅ if (role == RoleConstants.ADMIN)
 
-2️⃣  KEBAB-CASE FILES ONLY
-    All source files in kebab-case
-    ❌ UserService.cs           ✅ user-service.cs
+2️⃣  LANGUAGE-APPROPRIATE FILE NAMING
+    Use each language's convention
+    C#: ✅ UserService.cs    Dart: ✅ user_service.dart
+    Docs: ✅ setup-guide.md  ❌ SetupGuide.md
 
 3️⃣  CHANGELOG ENTRY REQUIRED
     Create entry before pushing
@@ -134,7 +135,7 @@ PRs are **REJECTED WITHOUT REVIEW** if they violate:
 | # | Criteria | Example |
 |---|----------|---------|
 | **1** | Hard-Coded Values | ❌ `var timeout = 30000;` |
-| **2** | File Naming | ❌ `UserService.cs` |
+| **2** | File Naming | ❌ `SetupGuide.md` (docs must be kebab-case) |
 | **3** | Architecture Layer | ❌ Logic in controller |
 | **4** | Missing Async Suffix | ❌ `public Task GetUser()` |
 | **5** | No XML Documentation | ❌ Undocumented public class |

@@ -79,9 +79,9 @@
     ❌ if (role == "Admin")
     ✅ if (role == RoleConstants.ADMIN)
 
-2️⃣  KEBAB-CASE FILES ONLY
-    ❌ UserService.cs
-    ✅ user-service.cs
+2️⃣  LANGUAGE-APPROPRIATE FILE NAMING
+    C#: ✅ UserService.cs   Dart: ✅ user_service.dart
+    Docs: ✅ setup-guide.md   ❌ SetupGuide.md
 
 3️⃣  CHANGELOG ENTRY REQUIRED
     Create: docs/changelogs/ddmmyyyy.<seq>
@@ -95,7 +95,7 @@
 PRs are **REJECTED WITHOUT REVIEW** for:
 
 1. **Hard-Coded Values** — All literals must be Constants
-2. **File Naming** — All files must be kebab-case
+2. **File Naming** — Files must match language convention (C#=PascalCase, Dart/Py=snake_case, docs=kebab-case)
 3. **Wrong Layer** — Code in correct architecture layer only
 4. **No Async Suffix** — All async methods end with `Async`
 5. **No XML Docs** — Public members must be documented
@@ -193,8 +193,8 @@ A: Yes, with `git commit --no-verify` or `git push --force-with-lease`.
 **Q: What if I forgot to create a changelog entry?**  
 A: Create it before pushing. Pre-push hook will warn you.
 
-**Q: What does "kebab-case" mean?**  
-A: All files use lowercase with hyphens: `user-service.cs` (not `UserService.cs`)
+**Q: What does "language-appropriate naming" mean?**
+A: Each language follows its own convention: C# uses PascalCase (`UserService.cs`), Dart/Python use snake_case (`user_service.dart`), and documentation/config files use kebab-case (`setup-guide.md`).
 
 **Q: Why do async methods need "Async" suffix?**  
 A: It's GRRADO standard for clarity and consistency.

@@ -1,8 +1,8 @@
 # 📋 GRRADO Development Rulebook
 ## Vehicle Service Portal - Universal Standards & Enforcement
 
-**Document Version:** 2.0  
-**Last Updated:** January 31, 2026  
+**Document Version:** 3.0
+**Last Updated:** February 9, 2026
 **Applies To:** All developers, AI assistants, code reviewers  
 **Status:** ✅ **MANDATORY** - All code MUST follow these standards  
 **Enforcement:** Violations result in PR rejection; manual review required for exceptions
@@ -23,6 +23,8 @@
 9. [Documentation Standards](#9-documentation-standards)
 10. [Versioning & Changelog](#10-versioning--changelog)
 11. [Enforcement & Code Review](#11-enforcement--code-review)
+12. [ASP.NET Core Middleware Ordering](#12-aspnet-core-middleware-ordering-12-rules)
+13. [Temporary File Cleanup](#13-temporary-file-cleanup-mandatory)
 
 ---
 
@@ -30,17 +32,70 @@
 
 All projects (Backend & Frontend) **MUST** follow **Clean Architecture** principles to ensure separation of concerns, testability, and maintainability.
 
+**Reference:** [Clean Architecture Folder Structure — Milan Jovanovic](https://www.milanjovanovic.tech/blog/clean-architecture-folder-structure)
+
+### The Dependency Rule
+
+Dependencies MUST flow **inward only**. Inner layers define abstractions (interfaces); outer layers implement them.
+
+```
+API (Presentation) → Infrastructure → Application → Domain
+                                                      ↑
+                                          (NO outward dependencies)
+```
+
+- **Domain** knows nothing about any other layer
+- **Application** depends only on Domain (+ Abstractions)
+- **Infrastructure** depends on Domain + Abstractions (implements persistence and external services)
+- **API** depends on all layers (composes the application via Dependency Injection)
+
+Each layer is a **separate .csproj project**, so the compiler enforces dependency boundaries.
+
 ### 1.1 Backend (.NET 9) Layers
 
 The backend MUST follow this strict layering:
 
 | Layer | Purpose | Dependencies | Examples |
 |-------|---------|--------------|----------|
-| **Domain** | Enterprise business rules, Entities, Value Objects, Interfaces | NONE - Pure Dart/C# | `User`, `Vehicle`, `IUserRepository` |
-| **Application** | Use Cases, Business Logic, Commands/Queries, DTOs, Service interfaces | Domain only | `CreateUserHandler`, `UserDto`, `IUserService` |
-| **Infrastructure** | Data persistence (EF Core), External APIs, Caching, Repositories | Application | `UserRepository`, `ApiClient`, `RedisCache` |
-| **API** | REST Controllers, Middleware, Configuration, Dependency Injection | Infrastructure | `UsersController`, `ErrorHandlingMiddleware` |
-| **Utility** | Cross-cutting concerns, Logging, Extensions (shared by all) | None | `LoggingService`, `StringExtensions` |
+| **Domain** | Enterprise business rules, Entities, Value Objects | NONE - Pure C# | `User`, `Vehicle`, `Garage` |
+| **Abstractions** | Shared contracts: DTOs, Repository interfaces, Service interfaces | NONE | `UserDto`, `IRepository<T>`, `IUnitOfWork` |
+| **Application** | Use Cases, Business Logic, Commands/Queries, Service implementations | Domain + Abstractions | `UserService`, `CreateUserHandler`, `IUserService` |
+| **Infrastructure** | Data persistence (EF Core), External APIs (Keycloak, Redis), Repositories | Domain + Abstractions | `BaseRepository<T>`, `UnitOfWork`, `KeycloakService` |
+| **API** | REST Controllers, Middleware, Configuration, Dependency Injection | All layers | `UsersController`, `ExceptionHandlingMiddleware` |
+| **Utility** | Cross-cutting concerns, Logging abstractions (shared by all) | None | `LoggingService`, `Extensions` |
+
+> **Note:** The **Abstractions** layer is a GRRADO-specific extension to standard Clean Architecture. It separates shared contracts (DTOs, repository interfaces) from both Domain entities and Application logic, allowing Infrastructure and Application to depend on the same interfaces without depending on each other.
+
+#### Recommended Domain Sub-Folders
+
+As the project grows, the Domain layer should be organized into these sub-folders (per Milan Jovanovic's reference architecture):
+
+| Sub-Folder | Purpose | Status |
+|------------|---------|--------|
+| `Entities/` | Core business entities with behavior | Active |
+| `Abstractions/` | Base types and interfaces (e.g., `IEntity`) | Active |
+| `ValueObjects/` | Immutable types representing concepts (e.g., `Email`, `Money`) | Future |
+| `DomainEvents/` | Events raised by domain operations (e.g., `UserCreatedEvent`) | Future |
+| `Exceptions/` | Domain-specific exceptions (e.g., `UserNotFoundException`) | Future |
+
+#### Project Dependency Graph (.csproj References)
+
+```
+API ──→ Application
+ │  ──→ Infrastructure
+ │  ──→ Domain
+ │  ──→ Utility
+ │
+Application ──→ Domain
+            ──→ Abstractions
+ │
+Infrastructure ──→ Domain
+               ──→ Abstractions
+ │
+Domain ──→ (none)
+Abstractions ──→ (none)
+Utility ──→ (none)
+```
 
 **RULE:** Code MUST be placed in the correct layer. Violating this structure results in immediate PR rejection.
 
@@ -111,36 +166,77 @@ final timeout = TimeoutConstants.API_REQUEST_TIMEOUT;
 
 ## 3. NAMING CONVENTIONS & FILE ORGANIZATION
 
-### 3.1 FILE NAMING - KEBAB-CASE (MANDATORY)
+### 3.1 FILE NAMING CONVENTIONS (PER-LANGUAGE)
 
-**❌ ABSOLUTELY PROHIBITED:**
-- `UserService.cs` → ✅ Use `user-service.cs`
-- `IMPLEMENTATION-COMPLETE.md` → ✅ Use `implementation-complete.md`
-- `quickStart.md` → ✅ Use `quick-start.md`
-- `MyFile.txt` → ✅ Use `my-file.txt`
-- Any filename with UPPERCASE, CamelCase, or PascalCase
+File naming follows the **official convention of each language/file type**. There is no single universal rule.
 
-**✅ MANDATORY FORMAT:**
+#### Documentation & Configuration Files: kebab-case
+
+All non-source-code files MUST use lowercase kebab-case:
+
+| File Type | Convention | Example |
+|-----------|-----------|---------|
+| Markdown (.md) | kebab-case | `setup-guide.md`, `coding-standards.md` |
+| Text (.txt) | kebab-case | `my-notes.txt` |
+| JSON (.json) | kebab-case | `error-codes.json`, `appsettings.json` |
+| YAML (.yml/.yaml) | kebab-case | `docker-compose.yml` |
+| SQL (.sql) | kebab-case | `001-create-users-table.sql` |
+| Task files (.task.md) | kebab-case | `101-user-service-crud.task.md` |
+
+**Pattern:** `^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+)*\.[a-z0-9]+$`
+
+**Exceptions:** `README.md`, `LICENSE`, `CHANGELOG.md`, `Dockerfile`, `Makefile`
+
+#### C# Source Files (.cs): PascalCase
+
+Per Microsoft .NET convention, C# filenames MUST match the primary class/interface name:
+
 ```
-Filename pattern: ^[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+$
+✅ UserService.cs         → contains class UserService
+✅ IUserRepository.cs     → contains interface IUserRepository
+✅ ExceptionHandlingMiddleware.cs → contains class ExceptionHandlingMiddleware
+✅ ErrorCodes.cs           → contains class ErrorCodes
+❌ user-service.cs         (FORBIDDEN - not .NET convention)
+❌ user_service.cs         (FORBIDDEN - not .NET convention)
+```
 
-Examples:
-✅ user-service.cs
-✅ implementation-complete.md
-✅ quick-start.md
-✅ db-context.cs
-✅ entity-base.cs
-✅ user-validator.cs
-✅ my-helper-file.txt
+#### Dart/Flutter Files (.dart): snake_case
+
+Per Dart style guide (enforced by `dart analyze`):
+
+```
+✅ user_service.dart
+✅ vehicle_list_page.dart
+✅ user_bloc.dart
+❌ UserService.dart        (FORBIDDEN - not Dart convention)
+❌ user-service.dart       (FORBIDDEN - not Dart convention)
+```
+
+#### Python Files (.py): snake_case
+
+Per PEP 8:
+
+```
+✅ user_service.py
+✅ test_user_creation.py
+❌ UserService.py          (FORBIDDEN - not PEP 8)
+❌ user-service.py         (FORBIDDEN - hyphens invalid in Python imports)
+```
+
+#### TypeScript/JavaScript Files (.ts, .js, .tsx, .jsx): kebab-case or camelCase
+
+```
+✅ user-service.ts
+✅ userService.ts
+❌ UserService.ts          (FORBIDDEN - PascalCase)
 ```
 
 **ENFORCEMENT:**
-- Pre-commit hook rejects any filename with uppercase
-- Pre-push hook validates all filenames in staged changes
-- PR checklist explicitly requires kebab-case validation
-- AI (Copilot) MUST validate filename before creation
+- Pre-commit hook checks each file against its language convention
+- PR checklist requires language-appropriate filenames
+- AI (Copilot) MUST validate filename convention before creation
 
-**INCIDENT:** On 2026-02-01, AI created `IMPLEMENTATION-COMPLETE.md` and `QUICK-START.md` violating this rule. This will not happen again due to enhanced validation.
+**INCIDENT:** On 2026-02-01, AI created `IMPLEMENTATION-COMPLETE.md` and `QUICK-START.md` violating kebab-case for docs. This will not happen again due to enhanced validation.
 
 ### 3.2 CLASS/INTERFACE NAMING - PascalCase (C#)
 
@@ -157,61 +253,13 @@ public interface userRepository { }
 public record userdto { }
 ```
 
-### 3.3 Method/Property NAMING - PascalCase (C#)
-
-### 3.1 File Naming: KEBAB-CASE (UNIVERSAL - CRITICAL RULE)
-
-🚨 **CRITICAL ENFORCEMENT RULE:** ALL filenames MUST be lowercase kebab-case with NO EXCEPTIONS.
-
-**ALL filenames across the workspace MUST use lowercase kebab-case:**
-
-```
-✅ user-service.cs                      (Filename: kebab-case)
-✅ user-controller.cs                   (Filename: kebab-case)
-✅ user-service.dart                    (Filename: kebab-case)
-✅ github-repo-description.md           (Filename: lowercase kebab-case)
-✅ comprehensive-project-plan.md        (Filename: lowercase kebab-case)
-✅ validation-error-messages.md         (Documentation)
-✅ error-codes.json
-✅ README.md                            (Standard - exception)
-✅ LICENSE                              (Standard - exception)
-
-❌ UserService.cs                       (FORBIDDEN - uppercase)
-❌ GITHUB_REPO_DESCRIPTION.md           (FORBIDDEN - uppercase)
-❌ COMPREHENSIVE-PROJECT-PLAN.md        (FORBIDDEN - uppercase)
-❌ user_service.cs                      (FORBIDDEN - snake_case)
-❌ user_service.dart                    (FORBIDDEN for public packages - use kebab-case)
-❌ User-Service.cs                      (FORBIDDEN - mixed casing)
-```
-
-**Critical Details:**
-- **Filenames:** Always lowercase kebab-case (NEVER UPPERCASE, NEVER mixed case)
-- **Class Names:** Always PascalCase in C#, PascalCase in Dart (class name ≠ filename)
-- **No uppercase in filenames ever** - not even for acronyms (e.g., `api-endpoints.cs` NOT `API-Endpoints.cs`)
-- **No mixed casing** - not even readable names like `GitHub` should be `github-repo-description.md`
-
-**Distinction:**
-```csharp
-// Filename: user-service.cs (lowercase kebab-case)
-// Class Name Inside:
-public class UserService  // PascalCase - NOT kebab-case
-{
-    public async Task<UserDto> GetUserByIdAsync(int userId)
-    {
-        // ...
-    }
-}
-```
-
-**ENFORCEMENT:** Any PR with non-kebab-case filenames (including uppercase) will be rejected. This rule applies to ALL files across the project.
-
-### 3.2 Backend (.NET) - Naming Conventions
+### 3.3 Backend (.NET) - Naming Conventions
 
 | Element | Convention | Example | Notes |
 |---------|-----------|---------|-------|
-| **File** | kebab-case | `user-service.cs`, `user-controller.cs` | Filename only - NOT the class name |
-| **Class** | PascalCase | `UserService`, `IUserRepository` | **Class name** - different from filename |
-| **Folder** | kebab-case | `request-handlers/`, `repositories/` | |
+| **File** | PascalCase | `UserService.cs`, `UsersController.cs` | Must match class name |
+| **Class** | PascalCase | `UserService`, `IUserRepository` | Same as filename |
+| **Folder** | PascalCase | `Controllers/`, `Repositories/` | .NET convention |
 | **Method** | PascalCase | `GetUserByIdAsync`, `CreateUser` | Async methods end with `Async` |
 | **Property** | PascalCase | `FirstName`, `IsActive` | Boolean properties start with `Is`, `Has` |
 | **Field (Private)** | _camelCase | `_unitOfWork`, `_logger` | Start with underscore |
@@ -219,23 +267,21 @@ public class UserService  // PascalCase - NOT kebab-case
 | **Constant** | SCREAMING_SNAKE_CASE | `MAX_PAGE_SIZE`, `API_TIMEOUT_MS` | All caps with underscores |
 | **Variable (Local)** | camelCase | `userData`, `isValid` | |
 
-**Key Point:** Filename (`user-service.cs`) ≠ Class Name (`class UserService`)
+**Key Point:** Filename (`UserService.cs`) = Class Name (`class UserService`)
 
-### 3.3 Frontend (Flutter/Dart) - Naming Conventions
+### 3.4 Frontend (Flutter/Dart) - Naming Conventions
 
 | Element | Convention | Example | Notes |
 |---------|-----------|---------|-------|
 | **Class** | PascalCase | `UserService`, `UserListPage`, `IUserRepository` | |
-| **File** | snake_case (local) OR kebab-case (global) | `user_service.dart` OR `user-service.dart` | Use kebab-case in public packages |
+| **File** | snake_case | `user_service.dart`, `vehicle_list_page.dart` | Per Dart style guide |
 | **Variable/Function** | camelCase | `userName`, `getUserById()` | |
 | **Constant** | SCREAMING_SNAKE_CASE | `MAX_FILE_SIZE`, `DEFAULT_TIMEOUT` | |
 | **Private members** | _camelCase | `_userRepository`, `_fetchData()` | Leading underscore for private |
 | **Getter/Setter** | camelCase | `get userName`, `set age` | |
 | **Enum values** | camelCase | `enum Status { active, inactive }` | |
 
-**RULE FOR DART FILES:** Prefer kebab-case for public APIs, snake_case acceptable internally. Be consistent per project.
-
-### 3.4 Folder Structure: kebab-case
+### 3.5 Folder Structure: kebab-case
 
 ```
 ✅ docs/00-getting-started/
@@ -257,7 +303,7 @@ All magic values, endpoints, timeouts, and configuration MUST be centralized in 
 **Location:** `server/Application/Common/Constants/`
 
 ```csharp
-// api-endpoints.cs
+// ApiEndpoints.cs
 public static class ApiEndpoints
 {
     public const string BASE_URL = "https://api.grrado.com";
@@ -265,7 +311,7 @@ public static class ApiEndpoints
     public const string VEHICLES_ENDPOINT = "/api/v1/vehicles";
 }
 
-// auth-constants.cs
+// AuthConstants.cs
 public static class AuthConstants
 {
     public const string JWT_SECRET = ""; // Set via configuration
@@ -274,20 +320,20 @@ public static class AuthConstants
     public const string USER_ROLE = "User";
 }
 
-// error-codes.cs
+// ErrorCodes.cs
 public static class ErrorCodes
 {
     // User Validation (USER_001-015)
     public const string USER_NAME_REQUIRED = "USER_001";
     public const string USER_EMAIL_REQUIRED = "USER_003";
     public const string USER_NOT_FOUND = "USER_015";
-    
+
     // Generic
     public const string VALIDATION_FAILED = "GEN_002";
     public const string UNAUTHORIZED = "GEN_003";
 }
 
-// timeout-constants.cs
+// TimeoutConstants.cs
 public static class TimeoutConstants
 {
     public const int API_REQUEST_TIMEOUT_MS = 30000;  // 30 seconds
@@ -395,42 +441,91 @@ logger.error(
 
 ### 6.1 Code Organization
 
+**Entity-Level Folder Segregation Rule:** Each entity MUST have its own folder in every layer (Controllers, UseCases, Services). Do NOT group entities into category subfolders like `Core/` or `Chatbot/`. This ensures clear separation of concerns and predictable file locations.
+
 ```
 server/
-├── Domain/                          # Enterprise rules
-│   ├── Entities/
-│   │   ├── user.cs                 # Entity class (PascalCase class, kebab-case file)
-│   │   └── vehicle.cs
-│   └── Interfaces/
-│       ├── i-user-repository.cs
-│       └── i-vehicle-repository.cs
-├── Application/                     # Business logic & DTOs
+├── Domain/                              # Enterprise rules (NO dependencies)
+│   ├── Entities/                        # Core business entities
+│   │   ├── User.cs
+│   │   ├── Vehicle.cs
+│   │   ├── Garage.cs
+│   │   └── ...
+│   └── Abstractions/                    # Base types & interfaces
+│       └── IEntity.cs                   # Soft-delete, audit fields
+│   # Future: ValueObjects/, DomainEvents/, Exceptions/
+│
+├── Abstractions/                        # Shared contracts (NO dependencies)
+│   ├── DTOs/                            # Data transfer objects
+│   │   ├── UserDto.cs
+│   │   ├── CreateUserRequest.cs
+│   │   └── ...
+│   └── Persistence/                     # Repository & UoW interfaces
+│       ├── IRepository.cs               # Generic IRepository<T>
+│       └── IUnitOfWork.cs
+│
+├── Application/                         # Business logic (→ Domain + Abstractions)
 │   ├── Common/
-│   │   └── Constants/
-│   │       ├── api-endpoints.cs
-│   │       ├── auth-constants.cs
-│   │       └── error-codes.cs
-│   ├── DTOs/
-│   │   ├── user-dto.cs
-│   │   └── create-user-request.cs
-│   └── Services/
-│       ├── user-service.cs
-│       └── vehicle-service.cs
-├── Infrastructure/                  # Data persistence
-│   ├── Repositories/
-│   │   ├── user-repository.cs
-│   │   └── vehicle-repository.cs
-│   └── Data/
-│       └── database-context.cs
-├── API/                             # REST entry point
-│   ├── Controllers/
-│   │   ├── users-controller.cs
-│   │   └── vehicles-controller.cs
+│   │   ├── Constants/
+│   │   │   ├── ApiEndpoints.cs
+│   │   │   ├── AuthConstants.cs
+│   │   │   └── ErrorCodes.cs
+│   │   └── Result.cs                    # Result<T> pattern
+│   ├── Services/                        # Service implementations (entity-level folders)
+│   │   ├── Core/                        # Portal entity services
+│   │   └── Chatbot/                     # Chatbot entity services
+│   ├── UseCases/                        # CQRS per entity (entity-level folders)
+│   │   ├── Core/                        # Portal: Users, Vehicles, Garages, etc.
+│   │   │   └── {Entity}/
+│   │   │       ├── Create{Entity}/
+│   │   │       ├── GetAll{Entities}/
+│   │   │       ├── Get{Entity}ById/
+│   │   │       ├── Update{Entity}/
+│   │   │       └── Delete{Entity}/
+│   │   └── Chatbot/                     # Chatbot: Conversations, Messages, etc.
+│   │       └── {Entity}/
+│   │           └── (same 5 operations)
+│   └── Mapping/                         # AutoMapper profiles
+│       └── DomainToDtoProfile.cs
+│
+├── Infrastructure/                      # Persistence & external (→ Domain + Abstractions)
+│   ├── Persistance/                     # EF Core data access
+│   │   ├── DBContext/
+│   │   │   └── VehicleServiceDbContext.cs
+│   │   ├── Repository/
+│   │   │   ├── BaseRepository.cs        # Generic repository implementation
+│   │   │   └── UnitOfWork.cs            # Unit of Work with Polly resilience
+│   │   └── Liquibase/                   # Database migration scripts
+│   │       └── changelogs/sql/
+│   └── Integration/                     # External service implementations
+│       ├── Keycloak/
+│       ├── Redis/
+│       ├── Resilience/                  # Polly policies
+│       └── Logging/
+│
+├── API/                                 # REST entry point (→ All layers)
+│   ├── Controllers/                     # Entity-level folders (one per entity)
+│   │   ├── Users/UsersController.cs
+│   │   ├── Vehicles/VehiclesController.cs
+│   │   ├── Garages/GaragesController.cs
+│   │   ├── Services/ServicesController.cs
+│   │   ├── ServiceHistories/ServiceHistoriesController.cs
+│   │   ├── VehicleIssues/VehicleIssuesController.cs
+│   │   ├── DiagnosticRules/DiagnosticRulesController.cs
+│   │   ├── ImageDiagnostics/ImageDiagnosticsController.cs
+│   │   ├── ChatbotConversations/ChatbotConversationsController.cs
+│   │   ├── ChatbotMessages/ChatbotMessagesController.cs
+│   │   ├── ChatbotKnowledgeBases/ChatbotKnowledgeBasesController.cs
+│   │   ├── AiImageAnalyses/AiImageAnalysesController.cs
+│   │   ├── AiUsageLogs/AiUsageLogsController.cs
+│   │   └── HealthController.cs          # Utility controllers at root
 │   └── Middleware/
-│       └── correlation-id-middleware.cs
-└── Utility/                         # Shared utilities
-    ├── logging-service.cs
-    └── extensions.cs
+│       ├── CorrelationIdMiddleware.cs
+│       ├── ExceptionHandlingMiddleware.cs
+│       └── RequestResponseLoggingMiddleware.cs
+│
+└── Utility/                             # Cross-cutting (NO dependencies)
+    └── Logging/
 ```
 
 ### 6.2 Database Naming
@@ -450,7 +545,7 @@ server/
 ### 6.3 Repository Pattern
 
 ```csharp
-// Domain/Interfaces/i-user-repository.cs
+// Domain/Interfaces/IUserRepository.cs
 public interface IUserRepository
 {
     Task<User?> GetByIdAsync(int id);
@@ -460,7 +555,7 @@ public interface IUserRepository
     Task<bool> DeleteAsync(int id);
 }
 
-// Infrastructure/Repositories/user-repository.cs
+// Infrastructure/Repositories/UserRepository.cs
 public class UserRepository : IUserRepository
 {
     private readonly IDbContext _context;
@@ -514,7 +609,7 @@ client/
 │   │   │   ├── entities/
 │   │   │   │   └── user.dart       # Entity (PascalCase class)
 │   │   │   ├── repositories/
-│   │   │   │   └── i-user-repository.dart
+│   │   │   │   └── i_user_repository.dart
 │   │   │   └── use_cases/
 │   │   │       └── get_user_use_case.dart
 │   │   ├── data/
@@ -540,8 +635,8 @@ client/
 └── shared/                         # Shared across apps
     └── core/
         ├── lib/constants/
-        │   ├── api-endpoints.dart
-        │   └── error-codes.dart
+        │   ├── api_endpoints.dart
+        │   └── error_codes.dart
         └── pubspec.yaml
 ```
 
@@ -649,7 +744,7 @@ class UserModel {
 ### 7.5 HTTP Client
 
 ```dart
-// domain/repositories/i-user-repository.dart
+// domain/repositories/i_user_repository.dart
 abstract class IUserRepository {
   Future<Result<User>> getUser(int id);
   Future<Result<List<User>>> getAllUsers();
@@ -707,14 +802,14 @@ All error codes follow the pattern: `{CATEGORY}_{NUMBER}`
 ### 8.2 Validation Pattern (.NET)
 
 ```csharp
-// Application/DTOs/create-user-request.cs
+// Application/DTOs/CreateUserRequest.cs
 public class CreateUserRequest
 {
     public string Name { get; set; }
     public string Email { get; set; }
 }
 
-// Application/Validators/create-user-validator.cs
+// Application/Validators/CreateUserValidator.cs
 public class CreateUserValidator : AbstractValidator<CreateUserRequest>
 {
     private readonly IErrorMessageService _errorMessageService;
@@ -947,8 +1042,9 @@ All code MUST comply with these standards. Code review is MANDATORY.
 Runs BEFORE commit creation. **BLOCKS commit if violations found:**
 
 - ❌ Hard-coded literals (strings, numbers)
-- ❌ File naming not kebab-case
+- ❌ File naming not matching language convention
 - ❌ Async methods without `Async` suffix
+- ❌ Clean Architecture layer dependency violations (forbidden using statements)
 - ⚠️ Missing documentation on public members (warning only)
 - ⚠️ Secrets detected (warning only)
 
@@ -972,7 +1068,7 @@ Runs BEFORE push to GitHub. **Warns before pushing:**
 All PRs MUST include checklist and pass **7 automatic rejection criteria:**
 
 1. ✅ **No Hard-Coded Values** — All literals in Constants
-2. ✅ **Kebab-Case Files** — All filenames use kebab-case
+2. ✅ **Language-Appropriate Filenames** — C#=PascalCase, Dart/Py=snake_case, docs=kebab-case
 3. ✅ **Clean Architecture Layer** — Code in correct layer only
 4. ✅ **Async Suffix** — All async methods end with `Async`
 5. ✅ **XML Documentation** — Public members documented
@@ -1001,7 +1097,100 @@ All PRs MUST include checklist and pass **7 automatic rejection criteria:**
 
 ---
 
-## 12. QUICK REFERENCE: Common Violations & Fixes
+## 12. ASP.NET CORE MIDDLEWARE ORDERING (12 RULES)
+
+The middleware pipeline MUST follow this exact order for security and performance. Violations result in PR rejection.
+
+```
+1.  Exception/Error Handling    — Outermost, catches everything
+2.  HSTS                        — Production only, strict transport security
+3.  HTTPS Redirection           — Early, ensures secure transport
+4.  Static Files                — Short-circuits before routing for static content
+5.  Correlation ID              — Tags all requests for tracing (custom middleware)
+6.  Request/Response Logging    — After correlation ID is set (custom middleware)
+7.  Routing                     — Must come before CORS, auth, and endpoints
+8.  CORS                        — After routing, before auth; handles preflight
+9.  Authentication              — Establishes identity before authorization
+10. Authorization               — Checks permissions after identity is established
+11. Antiforgery                 — Validates CSRF tokens after auth
+12. Endpoints                   — Terminal; executes matched route (MapControllers)
+```
+
+### Reference Implementation (Program.cs)
+```csharp
+// 1. Exception/Error Handling (outermost)
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+// 2. HSTS (production only)
+if (!app.Environment.IsDevelopment()) { app.UseHsts(); }
+
+// 3. HTTPS Redirection (production only)
+if (!app.Environment.IsDevelopment()) { app.UseHttpsRedirection(); }
+
+// 4. Static Files
+app.UseStaticFiles();
+
+// 5. Correlation ID (custom)
+app.UseMiddleware<CorrelationIdMiddleware>();
+
+// 6. Request/Response Logging (custom, after correlation ID)
+app.UseMiddleware<RequestResponseLoggingMiddleware>();
+
+// 7. Routing
+app.UseRouting();
+
+// 8. CORS
+app.UseCors();
+
+// 9. Authentication
+app.UseAuthentication();
+
+// 10. Authorization
+app.UseAuthorization();
+
+// 11. Antiforgery (CSRF protection)
+app.UseAntiforgery();
+
+// 12. Endpoints
+app.MapControllers();
+```
+
+**RULE:** Never rearrange middleware order. Each position is deliberate and affects security/correctness.
+
+---
+
+## 13. TEMPORARY FILE CLEANUP (MANDATORY)
+
+### Pre-Commit Rule
+All temporary files MUST be deleted before committing. The following patterns are PROHIBITED in the repository:
+
+| Pattern | Description |
+|---------|-------------|
+| `tmpclaude-*` | Claude AI temporary working files |
+| `*.bak` | Backup files |
+| `response.json` | Temporary API response captures |
+| `db_migration.log` | Migration log files |
+| `migration_error.txt` | Migration error files |
+| `nul` | Windows null device file artifact |
+| `*.tmp` | Generic temporary files |
+| `gen_usecases.py` | Code generation scripts (run once, delete) |
+
+### Enforcement
+- Pre-commit hook MUST check for these patterns and BLOCK the commit
+- AI assistants MUST delete all temp files created during a session BEFORE marking tasks complete
+- Migration logs and error files belong in CI/CD pipelines, NOT in the repository
+- Backup files (`.bak`) are NEVER acceptable in version control
+
+### File Location Rules
+| File Type | Correct Location | Prohibited Location |
+|-----------|-----------------|---------------------|
+| Log files | `app/server/logs/` | `app/server/API/logs/` |
+| Liquibase scripts | `Infrastructure/Persistance/Liquibase/` | `API/liquibase/` |
+| Migration scripts | `Infrastructure/Persistance/Liquibase/changelogs/sql/` | `API/` root |
+
+---
+
+## 14. QUICK REFERENCE: Common Violations & Fixes
 
 | Violation | Example | Fix |
 |-----------|---------|-----|
@@ -1009,14 +1198,17 @@ All PRs MUST include checklist and pass **7 automatic rejection criteria:**
 | **Hard-coded timeout** | `timeout = 5000` | Use `TimeoutConstants.API_TIMEOUT_MS` |
 | **Wrong layer** | Business logic in controller | Move to service/use case |
 | **Missing Async** | `public Task<User> GetUser()` | Change to `GetUserAsync()` |
-| **Bad filename** | `UserService.cs` | Rename to `user-service.cs` |
+| **Bad filename (C#)** | `user-service.cs` | Rename to `UserService.cs` (PascalCase) |
+| **Bad filename (Dart)** | `UserService.dart` | Rename to `user_service.dart` (snake_case) |
+| **Bad filename (doc)** | `SetupGuide.md` | Rename to `setup-guide.md` (kebab-case) |
 | **No error code** | `throw new Exception("Error")` | Return `Result.Failure(ErrorCode.CONSTANT)` |
 | **Hard-coded color** | `Color(0xFF2196F3)` | Use `Theme.of(context).primaryColor` |
 
 ---
 
-## 13. RELATED DOCUMENTATION
+## 15. RELATED DOCUMENTATION
 
+### Internal
 - **PR Checklist & Enforcement:** [PR-CHECKLIST-ENFORCEMENT.md](PR-CHECKLIST-ENFORCEMENT.md) ⭐ **START HERE**
 - **PR Checklist & Code Review:** [docs/pr-checklist.md](../../docs/pr-checklist.md)
 - **Git Hooks Setup:** [PR-CHECKLIST-ENFORCEMENT.md](PR-CHECKLIST-ENFORCEMENT.md#-setting-up-git-hooks-locally)
@@ -1025,6 +1217,9 @@ All PRs MUST include checklist and pass **7 automatic rejection criteria:**
 - **API Documentation:** [docs/00-getting-started/how-to-run-and-test-api.md](../../docs/00-getting-started/how-to-run-and-test-api.md)
 - **Project Structure:** [docs/00-getting-started/02-folder-structure.md](../../docs/00-getting-started/02-folder-structure.md)
 - **Build Status:** [docs/build-verification.md](../../docs/build-verification.md)
+
+### External References
+- **Clean Architecture Folder Structure:** [Milan Jovanovic](https://www.milanjovanovic.tech/blog/clean-architecture-folder-structure) — Reference architecture for layer organization, dependency rule, and recommended sub-folder structure
 
 ---
 

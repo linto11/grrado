@@ -2,28 +2,33 @@
 
 ### Added
 - 195 CQRS use case files (13 entities x 5 operations x 3 files) with MediatR + FluentValidation
-- Entity-level controller folder segregation (13 entity folders under Controllers/)
+- Entity-level folder segregation across ALL layers (Controllers, UseCases, Services)
 - ServicesController for Service entity (previously missing)
 - Antiforgery middleware for CSRF protection
 - 12-rule ASP.NET Core middleware ordering in Program.cs
 - Polly resilience: HTTP policies on Keycloak HttpClient, DB policy in UnitOfWork
 - Middleware ordering documentation (Rulebook Section 12)
 - Temporary file cleanup rules (Rulebook Section 13)
-- Entity-level segregation rule documented across all standards
+- Cross-layer folder consistency rule (Rulebook Section 6.1)
+- Pre-commit checks 7 (temp file detection) and 8 (category grouping folder detection)
 
 ### Changed
 - Reorganized controllers from Core/Chatbot subfolders to individual entity folders
+- Reorganized UseCases from Core/Chatbot subfolders to entity-level folders (UseCases/{Entity}/)
+- Reorganized Services from Core/Chatbot subfolders to entity-level folders (Services/{Entity}/)
+- Updated 200+ namespace references across all layers to match new folder structure
+- Fixed ServiceHistoriesController (had duplicate ServicesController content)
 - Moved Liquibase scripts from API layer to Infrastructure/Persistance/Liquibase
 - Moved logs folder from API/logs to app/server/logs (shared location)
 - Updated log paths in appsettings.json and appsettings.Development.json
 - Updated AutoMapper DomainToDtoProfile with all 13 entity mappings
 - Expanded ErrorCodes.cs with ID validation codes for all entities
-- Updated Rulebook to v3.0 with middleware and cleanup rules
+- Updated Rulebook to v3.0 with middleware, cleanup, and cross-layer consistency rules
 
 ### Removed
 - 124+ temporary files (tmpclaude-*, .bak, migration logs, nul)
 - Program.cs.bak backup file
-- Category subfolders Core/ and Chatbot/ under Controllers/
+- Category subfolders Core/ and Chatbot/ from Controllers/, UseCases/, and Services/
 - Ambiguous Polly singleton policy registrations from DI
 
 ### Version Bump

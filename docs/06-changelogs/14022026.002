@@ -1,0 +1,11 @@
+## [0.4.1] - 2026-02-14
+
+### Removed
+- infrastructure/ folder: Deleted unused database config files (pg_hba.conf, postgres.conf), redundant initialization scripts (init-postgres.sql, create-schema.sql, setup-database.sql), test/maintenance scripts (check-seeded.sql, verify-data.sql, etc.), unused seed data files, and run-api.bat wrapper
+  - Database initialization is handled solely by root-level init-databases.sql (mounted in docker-compose.yml)
+  - Configuration uses Docker PostgreSQL defaults
+  - Batch script redundant with direct dotnet run command
+
+### Version Bump
+**Proposed:** patch (0.4.0 -> 0.4.1)
+**Reason:** Cleanup of unused infrastructure artifacts, no functional changes

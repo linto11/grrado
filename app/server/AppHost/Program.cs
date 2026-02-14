@@ -2,17 +2,13 @@ using Aspire.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-// Get the AppHost directory and compute solution root relative to it
-var appHostDir = AppContext.BaseDirectory;
-var solutionRoot = Path.GetFullPath(Path.Combine(appHostDir, "..", "..", ".."));
-var serverRoot = Path.Combine(solutionRoot, "app", "server");
-
-// Helper function to get project path
-string GetProjectPath(string relativePath) => Path.Combine(serverRoot, relativePath);
-
 // Services reference docker-compose infrastructure via environment variables/app configuration
 // Docker-compose containers (postgres, redis, rabbitmq, keycloak) must be running:
 //   docker-compose up -d
+
+// Get the current working directory (typically app/server when running: dotnet run --project AppHost/GRRADO.AppHost.csproj)
+var workingDir = Directory.GetCurrentDirectory();
+string GetProjectPath(string relativePath) => Path.Combine(workingDir, relativePath);
 
 // Add API Gateway (entry point)
 var gateway = builder.AddProject("gateway", GetProjectPath("gateway/ApiGateway/ApiGateway.csproj"))

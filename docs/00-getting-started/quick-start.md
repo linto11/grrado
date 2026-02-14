@@ -1,277 +1,110 @@
-# 🎬 Quick Start Guide - GRRADO Vehicle Service Portal API
+# Quick Start Guide - GRRADO Vehicle Service Portal API
 
-**Status:** ✅ Ready to Run  
-**Build:** ✅ 0 Errors, 2 Non-Critical Warnings  
-**Date:** January 25, 2026
+**Status:** Phase 4 In Progress -- Microservices Migration Complete
+**Build:** 33 projects, 0 errors
+**Date:** February 14, 2026
 
 ---
 
-## ⚡ 30-Second Quick Start
+## 30-Second Quick Start
 
 ```powershell
-# 1. Navigate to API folder
-cd d:\_GRRADO\src\server\API
+# 1. Start infrastructure
+docker compose -f d:\_GRRADO\src\docker-compose.yml up -d
 
-# 2. Run the API
-dotnet run
+# 2. Build all services
+cd d:\_GRRADO\src\app\server
+dotnet build GRRADO.Microservices.sln
 
-# 3. Open browser to Swagger UI
-# http://localhost:5000/swagger/index.html
+# 3. Run a service (e.g., UserService)
+dotnet run --project services/UserService/UserService.API/UserService.API.csproj
 
-# 4. Start testing endpoints!
+# 4. Open API docs
+# http://localhost:5101/scalar/v1
 ```
 
-**That's it! The API is now running and ready to test.**
+**The service is now running and ready to test.**
 
 ---
 
-## 📚 What You Can Test Right Now
+## What You Can Test Right Now
 
-### 13 Portal API Endpoints
-- **Users** - `/api/v1/users`
-- **Garages** - `/api/v1/garages`
-- **Vehicles** - `/api/v1/vehicles`
-- **Vehicle Issues** - `/api/v1/vehicle-issues`
-- **Diagnostic Rules** - `/api/v1/diagnostic-rules`
-- **Image Diagnostics** - `/api/v1/image-diagnostics`
-- **Service Histories** - `/api/v1/service-histories`
-- **Garage Services** - `/api/v1/garage-services`
+### 7 Microservices (18 entities, 90+ endpoints)
 
-### 5 Chatbot API Endpoints
-- **Conversations** - `/api/v1/chatbot/conversations`
-- **Messages** - `/api/v1/chatbot/messages`
-- **Knowledge Base** - `/api/v1/chatbot/knowledge-base`
-- **Image Analyses** - `/api/v1/chatbot/image-analyses`
-- **Usage Logs** - `/api/v1/chatbot/usage-logs`
+| Service | Port | Entities |
+|---------|------|----------|
+| UserService | 5101 | Users |
+| VehicleService | 5102 | Vehicles |
+| GarageService | 5103 | Garages, Services |
+| ServiceHistoryService | 5104 | ServiceHistories |
+| ChatbotService | 5105 | ChatbotConversations, ChatbotMessages, AiImageAnalyses, ChatbotKnowledgeBases, AiUsageLogs |
+| DiagnosticsService | 5106 | VehicleIssues, DiagnosticRules, ImageDiagnostics |
+| LoggingService | 5107 | AuditLogs, ErrorLogs, ActivityLogs, RequestResponseLogs, ErrorMessages |
+
+### API Gateway
+- **Port 5100** routes to all services via YARP reverse proxy
+- Run: `dotnet run --project gateway/ApiGateway/ApiGateway.csproj`
 
 ---
 
-## 🎯 Simple First Test
+## Simple First Test
 
-### Using Swagger UI (Easiest)
+### Using Scalar API Reference (Easiest)
 
-1. **Start API:**
+1. **Start a service:**
    ```powershell
-   dotnet run
+   cd d:\_GRRADO\src\app\server
+   dotnet run --project services/UserService/UserService.API/UserService.API.csproj
    ```
 
-2. **Open Swagger:** http://localhost:5000/swagger/index.html
+2. **Open Scalar:** http://localhost:5101/scalar/v1
 
-3. **Click any endpoint** (e.g., `GET /api/v1/users`)
-
-4. **Click "Try it out"**
-
-5. **Click "Execute"**
-
-6. **See response in green box below**
+3. **Browse and test endpoints interactively**
 
 ### Using PowerShell
 
 ```powershell
-# Get all users
-curl -X GET "http://localhost:5000/api/v1/users"
+# Via gateway (start gateway first)
+curl -X GET "http://localhost:5100/api/Users"
+
+# Or directly to service
+curl -X GET "http://localhost:5101/api/Users"
 
 # Create a user
-curl -X POST "http://localhost:5000/api/v1/users" `
+curl -X POST "http://localhost:5100/api/Users" `
   -H "Content-Type: application/json" `
-  -d '{
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "john@example.com"
-  }'
+  -d '{"name":"John Doe","email":"john@example.com","phoneNumber":"555-1234","city":"New York"}'
 ```
 
 ---
 
-## 📖 Complete Documentation
+## Complete Documentation
 
-| Document | Purpose | Link |
-|----------|---------|------|
-| **Run & Test Guide** | Complete testing instructions | [how-to-run-and-test-api.md](00-getting-started/how-to-run-and-test-api.md) |
-| **REST API Summary** | Technical implementation details | [03-phase-specific/phase-4-backend-api/03-rest-api-completion-summary.md](../03-phase-specific/phase-4-backend-api/03-rest-api-completion-summary.md) |
-| **Implementation Plan** | Master project guide | [implementation-plan.md](../../implementation-plan.md) |
-| **Progress Tracker** | Phase-by-phase status | [02-progress-tracking/progress-tracker.md](../02-progress-tracking/progress-tracker.md) |
+| Document | Purpose |
+|----------|---------|
+| **Run & Test Guide** | [how-to-run-and-test-api.md](how-to-run-and-test-api.md) |
+| **Architecture Reference** | [../../MIGRATION-STATUS.md](../../MIGRATION-STATUS.md) |
+| **Implementation Plan** | [../implementation-plan.md](../implementation-plan.md) |
+| **Progress Tracker** | [../02-progress-tracking/progress-tracker.md](../02-progress-tracking/progress-tracker.md) |
 
 ---
 
-## ✅ What's Complete
+## Architecture
 
 ```
-Phase 1: Environment Setup          ✅ Complete (5h)
-Phase 2: Project Structure          ✅ Complete (8h)
-Phase 3: Database & Liquibase       ✅ Complete (15h)
-Phase 4: REST API Layer             ✅ Complete (72/135h - 53%)
-├── 13 REST Controllers              ✅ Done
-├── 13 Services                      ✅ Done
-├── AutoMapper Profiles              ✅ Done
-├── Swagger Documentation            ✅ Done
-├── Chatbot Database Entities        ✅ Done
-└── Unit of Work Extension           ✅ Done
+d:\_GRRADO\src\app\server\
+├── gateway/ApiGateway/          # YARP reverse proxy (port 5100)
+├── services/                    # 7 microservices (ports 5101-5107)
+├── shared/                      # 4 shared libraries
+└── GRRADO.Microservices.sln     # 33 projects, 0 errors
 ```
 
----
+## System Requirements
 
-## 🔧 Troubleshooting
-
-### Port 5000 Already in Use
-```powershell
-# Kill existing process
-taskkill /F /IM dotnet.exe
-
-# Or run on different port
-dotnet run --urls="http://localhost:5001"
-```
-
-### Build Fails
-```powershell
-# Clear and restore
-dotnet clean
-dotnet restore
-dotnet build
-```
-
-### Swagger UI Not Loading
-- Clear browser cache (Ctrl+Shift+Del)
-- Try incognito window
-- Check API is running at http://localhost:5000/health
+- .NET 10.0 SDK
+- Docker Desktop (PostgreSQL 15, Redis 7, RabbitMQ 3)
 
 ---
 
-## 📊 Project Structure
-
-```
-d:\_GRRADO\src\
-├── app/server/
-│   ├── API/                    ← REST Controllers (13)
-│   ├── Application/            ← Services (13) + DTOs (26)
-│   ├── Domain/                 ← Entities (13)
-│   ├── Infrastructure/         ← Database + Unit of Work
-│   └── Utility/                ← Helpers + Extensions
-├── docs/
-│   ├── 00-getting-started/
-│   │   └── how-to-run-and-test-api.md  ← Testing guide
-│   ├── 03-phase-specific/
-│   │   └── phase-4-backend-api/
-│   │       └── 03-rest-api-completion-summary.md
-│   └── 02-progress-tracking/
-│       └── progress-tracker.md
-└── 03-phase-specific/phase-4-backend-api/
-    └── phase-4-rest-api-completion.md
-```
-
----
-
-## 🎓 API Response Example
-
-**Request:**
-```http
-GET http://localhost:5000/api/v1/users?pageNumber=1&pageSize=5
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "statusCode": 200,
-  "message": "Operation successful",
-  "data": [
-    {
-      "id": "123e4567-e89b-12d3-a456-426614174000",
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "john@example.com",
-      "role": "customer",
-      "createdAt": "2026-01-25T10:00:00Z"
-    }
-  ],
-  "errors": []
-}
-```
-
----
-
-## 🚀 Key Features
-
-✅ RESTful API design  
-✅ Pagination support  
-✅ Soft-delete support  
-✅ Audit trail (CreatedBy, UpdatedBy, DeletedBy)  
-✅ Error handling  
-✅ Structured logging  
-✅ OpenAPI/Swagger documentation  
-✅ CORS configured  
-✅ Clean Architecture  
-✅ Dependency Injection  
-
----
-
-## 📈 Next Steps
-
-### To Test Chatbot APIs
-```http
-POST http://localhost:5000/api/v1/chatbot/conversations
-Content-Type: application/json
-
-{
-  "userId": "user-123",
-  "title": "Engine Diagnosis",
-  "mode": "text"
-}
-```
-
-### To Create Phase 5 (Roles & Permissions)
-All endpoints are ready for authorization:
-- Add `[Authorize]` attributes
-- Implement role validation
-- Add permission checking
-
----
-
-## 🎯 What's Ready
-
-- ✅ **13 Controllers** - All portal + chatbot endpoints
-- ✅ **13 Services** - Business logic fully implemented
-- ✅ **65+ Endpoints** - Complete CRUD for all entities
-- ✅ **Swagger UI** - Full API documentation
-- ✅ **Error Handling** - Standardized responses
-- ✅ **Logging** - Request/response tracking
-- ✅ **Database** - Entity Framework Core configured
-
----
-
-## ⚙️ System Requirements
-
-- ✅ .NET 8.0 SDK (or higher)
-- ✅ SQL Server or PostgreSQL
-- ✅ 2GB RAM minimum
-- ✅ Port 5000 available
-
----
-
-## 📞 Get Help
-
-1. **Swagger UI** - http://localhost:5000/swagger/index.html
-2. **Complete Guide** - [how-to-run-and-test-api.md](00-getting-started/how-to-run-and-test-api.md)
-3. **Implementation Plan** - [implementation-plan.md](../../implementation-plan.md)
-4. **Progress Tracker** - [02-progress-tracking/progress-tracker.md](../02-progress-tracking/progress-tracker.md)
-
----
-
-## 🎉 Bottom Line
-
-**The entire REST API layer is built, tested, and ready to run!**
-
-Just execute: `dotnet run`
-
-Then visit: http://localhost:5000/swagger/index.html
-
-And start testing all 65+ endpoints right now! 🚀
-
----
-
-**Project:** GRRADO Vehicle Service Portal  
-**Phase:** 4 REST API (53% complete - 72/135 hours)  
-**Build Status:** ✅ Success  
-**Ready to Run:** ✅ YES  
-**Last Updated:** January 25, 2026 - 10:30 AM
-
+**Project:** GRRADO Vehicle Service Portal
+**Last Updated:** February 14, 2026

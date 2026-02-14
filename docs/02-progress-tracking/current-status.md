@@ -1,353 +1,152 @@
-# 🚧 GRRADO Vehicle Service Portal – Phase 4 In Progress 
+# GRRADO Vehicle Service Portal -- Project Status
 
-**Status:** 🔄 REST API Layer mid-build (58% of Phase 4)  
-**Date:** January 25, 2026  
-**Build Status:** ⚠️ Controllers/services compile, but runtime tests still fail because the PostgreSQL schema does not yet match the EF models.  
-
----
-
-## 🚀 What You Have Now
-
-### Controller & Service Scaffolding (65+ endpoints still under validation)
-
-**13 REST Controllers:**
-- 8 Portal APIs (Users, Garages, Vehicles, etc.)
-- 5 Chatbot APIs (Conversations, Messages, Knowledge Base, etc.)
-
-**13 Service Implementations:**
-- Complete business logic layer
-- Pagination support
-- Soft-delete support
-- Audit trail tracking
-- Error handling
-
-**Production Work Still Pending:**
-- 🔧 Align PostgreSQL tables with the EF models (current schema is missing columns like `DeletedAt`, `FamilyType`, etc., causing HTTP 500s)
-- 🔧 Configure Keycloak/JWT authentication (controllers currently accept anonymous requests)
-- 🔧 Re-run Liquibase migrations and automated tests once the schema is corrected
-- 🧪 Re-validate all 65+ endpoints after the database fix
+**Status:** Microservices Migration Complete -- Phase 4 In Progress
+**Date:** February 14, 2026
+**Build Status:** 33 projects, 0 errors, 0 warnings
+**Architecture:** Microservices (.NET 10.0) with YARP API Gateway
 
 ---
 
-## ⚡ Quick Start - Run It Now!
+## What Has Been Done
+
+### Phases 1-3 - COMPLETED
+- **Phase 1:** Environment Setup (Docker, PostgreSQL, Redis, Keycloak)
+- **Phase 2:** Project Structure (Clean Architecture layers)
+- **Phase 3:** Database Design (18 entities, EF Core, soft-delete)
+
+### Phase 4: Foundation (Sprint 1) - COMPLETED
+- **Task 001:** Git branching strategy established (feature/4-foundation)
+- **Task 002:** Keycloak realm setup -- DEFERRED to auth phase
+- **Task 003:** Database schema aligned -- EF Core models (18 tables, int PKs, all FK/indexes)
+- **Task 004:** NuGet validation -- 0 vulnerabilities
+- **Task 005:** Dev environment verified -- PostgreSQL, Redis running
+
+### Architecture Hardening - COMPLETED
+- **CQRS Use Cases:** Full CQRS pattern (Create/GetAll/GetById/Update/Delete) for all 18 entities
+- **Polly Resilience:** HTTP + Database resilience policies via Polly 8.4.1
+- **AutoMapper Mappings:** Use case request/response types mapped for all entities
+- **Error Codes:** Standardized `ErrorCodes` in shared application library
+- **Middleware Pipeline:** CorrelationId, ExceptionHandling middleware in shared infrastructure
+
+### Microservices Migration - COMPLETED (Feb 10, 2026)
+- **Monolith decomposed** into 7 independent microservices + API Gateway
+- **4 shared libraries** extracted (Domain, Abstractions, Application, Infrastructure)
+- **Database-per-service** pattern implemented (7 separate PostgreSQL databases)
+- **YARP API Gateway** configured with 19 reverse proxy routes on port 5100
+- **RabbitMQ** integration for async inter-service communication
+- **Old monolith fully removed** (6 directories + GRRADO.sln deleted)
+- **New solution:** `GRRADO.Microservices.sln` with 33 projects, builds with 0 errors
+
+---
+
+## Current Architecture
+
+### Microservices (7 services + Gateway)
+
+| Service | Port | Entities | Database |
+|---------|------|----------|----------|
+| API Gateway (YARP) | 5100 | -- | -- |
+| UserService | 5101 | User | grrado_user_db |
+| VehicleService | 5102 | Vehicle | grrado_vehicle_db |
+| GarageService | 5103 | Garage, Service | grrado_garage_db |
+| ServiceHistoryService | 5104 | ServiceHistory | grrado_service_history_db |
+| ChatbotService | 5105 | ChatbotConversation, ChatbotMessage, AiImageAnalysis, ChatbotKnowledgeBase, AiUsageLog | grrado_chatbot_db |
+| DiagnosticsService | 5106 | VehicleIssue, DiagnosticRule, ImageDiagnostic | grrado_diagnostics_db |
+| LoggingService | 5107 | AuditLog, ErrorLog, ActivityLog, RequestResponseLog, ErrorMessage | grrado_logging_db |
+
+### Per-Service Clean Architecture (4 layers each)
+```
+XxxService/
+├── XxxService.Domain/          # Entities implementing IEntity
+├── XxxService.Application/     # CQRS handlers, DTOs, AutoMapper
+├── XxxService.Infrastructure/  # DbContext, UnitOfWork, Repositories
+└── XxxService.API/             # Controllers, Program.cs, middleware
+```
+
+### Shared Libraries (4 projects)
+- **GRRADO.Shared.Domain** -- IEntity interface, integration events
+- **GRRADO.Shared.Abstractions** -- IRepository<T>, IUnitOfWork, IEventPublisher/Subscriber
+- **GRRADO.Shared.Application** -- Result<T> pattern, ErrorCodes
+- **GRRADO.Shared.Infrastructure** -- BaseRepository<T>, BaseUnitOfWork, Polly, RabbitMQ, Middleware
+
+### Solution Summary
+- **33 projects** (7 services x 4 layers + 4 shared + 1 gateway)
+- **18 entities** across 7 services
+- **~319 .cs source files**
+- **90+ CRUD endpoints** via CQRS (5 operations x 18 entities)
+
+---
+
+## Docker Infrastructure
 
 ```powershell
-cd d:\_GRRADO\src\server\API
-dotnet run
+# Start all infrastructure
+docker compose -f d:\_GRRADO\src\docker-compose.yml up -d
 ```
 
-### How to Validate Locally (expect errors until schema is fixed):
-
-1. **Start PostgreSQL and seed lightweight data**
-   - Bring up the DB (Docker/local) and run `scripts/seeding/seed-data-corrected.sql` using the instructions in [../README.md](../README.md)
-2. **Run the API**
-   ```powershell
-   cd d:\_GRRADO\src\server\API
-   dotnet run
-   ```
-3. **Open Swagger**: http://localhost:5000/swagger/index.html
-
-> **Note:** `/api/users` (and most other endpoints) currently return HTTP 500 because the database schema is missing columns referenced by the EF models. Fixing the schema or trimming the models is required before manual testing succeeds.
+| Service | Image | Port | Purpose |
+|---------|-------|------|---------|
+| PostgreSQL 15 | postgres:15-alpine | 5433 | 7 service databases + Keycloak |
+| Redis 7 | redis:7-alpine | 6379 | Distributed caching |
+| RabbitMQ 3 | rabbitmq:3-management-alpine | 5672, 15672 | Async messaging |
+| Keycloak | keycloak/keycloak:latest | 8080 | Identity/Auth (deferred) |
 
 ---
 
-## 📚 Documentation
+## Quick Start
 
-### For Quick Start (Pick One)
-1. **[quick-start.md](quick-start.md)** - 30 seconds
-   - Fastest way to run the API
-   - Immediate testing instructions
-   - Quick troubleshooting
-
-2. **[build-verification.md](build-verification.md)** - Build proof
-   - Build succeeded ✅
-   - All layers verified ✅
-   - Ready to deploy ✅
-
-### For Complete Guides
-1. **[how-to-run-and-test-api.md](how-to-run-and-test-api.md)** - Everything
-   - All 13 controllers
-   - 65+ endpoints
-   - 4 testing methods
-   - Sample requests
-   - Troubleshooting
-
-2. **[03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md](03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md)** - Summary
-   - What was built
-   - How to use it
-   - Next steps
-
-3. **[changelog.md](changelog.md)** - Details
-   - Everything that was done
-   - Time breakdown
-   - Deliverables
-   - Code statistics
-
-### Master Index
-**[documentation-index.md](documentation-index.md)** - Find anything
-
----
-
-## 📊 What Was Delivered
-
-### 72 Hours of Development
-
-**Controllers (13):** 
-- 8 portal APIs + 5 chatbot APIs
-- 800+ lines of code
-
-**Services (13):**
-- 600+ lines of code
-- Generic base service pattern
-
-**DTOs (26+):**
-- 400+ lines of code
-- Automatic mapping with AutoMapper
-
-**Configuration:**
-- 150+ lines
-- Swagger, DI, logging
-
-**Documentation:**
-- 3,000+ lines
-- User guides + technical docs
-
-**Total:** 5,000+ lines of production-ready code
-
----
-
-## ✨ 65+ API Endpoints Ready to Test
-
-### Portal APIs (40+ endpoints)
-```
-GET    /api/v1/users              (list)
-POST   /api/v1/users              (create)
-GET    /api/v1/users/{id}         (read)
-PUT    /api/v1/users/{id}         (update)
-DELETE /api/v1/users/{id}         (delete)
-
-Same pattern for:
-- Garages
-- Vehicles
-- Vehicle Issues
-- Diagnostic Rules
-- Image Diagnostics
-- Service Histories
-- Garage Services
-```
-
-### Chatbot APIs (25+ endpoints)
-```
-Same CRUD pattern for:
-- Conversations
-- Messages
-- Knowledge Base
-- Image Analyses
-- Usage Logs
-```
-
----
-
-## 🎯 Testing the API
-
-### Method 1: Swagger UI (Easiest)
-1. Run: `dotnet run`
-2. Visit: http://localhost:5000/swagger/index.html
-3. Click "Try it out" on any endpoint
-4. See live responses
-
-### Method 2: PowerShell/cURL
+### Option 1: Run Individual Service
 ```powershell
-# Get users
-curl -X GET "http://localhost:5000/api/v1/users"
-
-# Create user
-curl -X POST "http://localhost:5000/api/v1/users" `
-  -H "Content-Type: application/json" `
-  -d '{"firstName":"John","lastName":"Doe","email":"john@example.com"}'
+cd d:\_GRRADO\src\app\server
+dotnet run --project services/UserService/UserService.API/UserService.API.csproj
 ```
 
-### Method 3: VSCode REST Client
-- File: [../../server/API/API.http](../../server/API/API.http)
-- Click "Send Request" on any endpoint
-
-### Method 4: Postman
-- Import: `http://localhost:5000/swagger/v1/swagger.json`
-- Test all endpoints from Postman collection
-
----
-
-## ✅ Build Verification
-
-```
-✅ BUILD SUCCESSFUL
-✅ 0 ERRORS
-✅ All 6 layers compile:
-   - Domain ✅
-   - Abstractions ✅
-   - Utility ✅
-   - Application ✅
-   - Infrastructure ✅
-   - API ✅
-
-✅ 13 Controllers registered
-✅ 13 Services registered
-✅ 26+ DTOs mapped
-✅ Swagger UI ready
-✅ 65+ Endpoints available
-```
-
----
-
-## 📈 Project Progress
-
-### Overall Project: 15% Complete
-- Phase 1: ✅ Complete (5h)
-- Phase 2: ✅ Complete (8h)
-- Phase 3: ✅ Complete (15h)
-- Phase 4: 53% Complete (72/135h)
-  - Controllers: ✅ Complete
-  - Services: ✅ Complete
-  - Testing: ⏳ Next
-
-**Total: 175 / 1,171 hours**
-
----
-
-## 🔄 Next Phase Ready
-
-### Phase 5: Role-Based Access (60 hours) - NEXT
-All endpoints ready for:
-- `[Authorize]` attributes
-- `[AuthorizeRole("Admin")]`
-- Permission validation
-- Impersonation support
-
-### Phase 6: CMS (100 hours)
-Can extend with same patterns
-
-### Phase 7: AI Chatbot (200 hours)
-Chatbot endpoints ready for Azure OpenAI integration
-
----
-
-## 🎓 What You Can Do Now
-
-1. **Test All Endpoints**
-   - Swagger UI at `/swagger/index.html`
-   - Try all 65+ CRUD operations
-
-2. **Review Code**
-   - [Controllers](../../server/API/Controllers/)
-   - [Services](../../server/Infrastructure/Services/)
-   - [DTOs](../../server/Application/DTOs/)
-
-3. **Understand Architecture**
-   - Clean architecture layers
-   - Dependency injection
-   - Repository pattern
-   - Service abstraction
-
-4. **Extend the API**
-   - Add new controllers (same pattern)
-   - Add new services (same pattern)
-   - Add new DTOs (same pattern)
-   - Automatic Swagger documentation
-
-5. **Deploy to Production**
-   - `dotnet build -c Release`
-   - Copy DLLs to server
-   - Update connection string
-   - Run API
-
----
-
-## 📋 All Documentation Files
-
-```
-📄 quick-start.md
-   → 30-second getting started
-
-📄 how-to-run-and-test-api.md
-   → Complete testing guide (1500+ lines)
-
-📄 03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md
-   → What was completed
-
-📄 changelog.md
-   → Detailed session breakdown
-
-📄 build-verification.md
-   → Build verification proof
-
-📄 documentation-index.md
-   → Master index of all docs
-
-📄 ../README.md
-   → Project overview (updated)
-```
-
----
-
-## 🎯 Choose Your Starting Point
-
-| If You Want To... | Read This | Time |
-|---|---|---|
-| Run API RIGHT NOW | [quick-start.md](quick-start.md) | 5 min |
-| Understand What's Done | [03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md](03-phase-specific/phase-4-backend-api/phase-4-rest-api-completion.md) | 10 min |
-| Test Every Endpoint | [how-to-run-and-test-api.md](how-to-run-and-test-api.md) | 30 min |
-| Review All Details | [changelog.md](changelog.md) | 20 min |
-| Verify Build Quality | [build-verification.md](build-verification.md) | 10 min |
-| Find Specific Topic | [documentation-index.md](documentation-index.md) | 15 min |
-
----
-
-## 💡 Key Highlights
-
-- ✅ **Scaffolding complete** – Controllers, services, DTOs, DI wiring, and Swagger plumbing are all in place, so once the database/auth pieces are resolved the API can light up quickly.
-- ✅ **Documentation ready** – quick-start, how-to-run-and-test-api, and README now explain the manual seeding workflow and outstanding work.
-- ⚠️ **Database mismatch** – PostgreSQL tables created manually do not include columns referenced by the EF models (for example `DeletedAt`, `FamilyType`, `ExperienceLevel`). Any GET/POST call that touches those columns returns HTTP 500 until the schema is fixed or the models are trimmed.
-- ⚠️ **Auth and final testing pending** – Keycloak/JWT middleware, automated tests, and full CRUD validation still need to happen before calling Phase 4 done.
-
----
-
-## 🚀 The Bottom Line
-
-Controllers and services compile, but the API is **not yet production-ready**. Fix the schema (or adjust the EF models), re-run the manual seed script, and then begin functional testing. Until then, expect `/api/*` requests to throw HTTP 500.
-
----
-
-## 📞 Need Help?
-
-1. **Getting Started?** → [quick-start.md](quick-start.md)
-2. **Testing APIs?** → [how-to-run-and-test-api.md](how-to-run-and-test-api.md)
-3. **Need Details?** → [documentation-index.md](documentation-index.md)
-4. **Verify Build?** → [build-verification.md](build-verification.md)
-
----
-
-## 🎉 Summary
-
-- **Phase 4 REST API Layer:** 🔄 In Progress (58% – scaffolding done, schema/auth/testing outstanding)  
-- **Build Status:** ⚠️ Compiles locally but runtime fails against current PostgreSQL schema  
-- **Documentation:** ✅ Updated with realistic instructions  
-- **Ready to Deploy:** ❌ Not yet – schema alignment + auth needed  
-- **Ready to Test:** ⚠️ Limited – expect HTTP 500 until schema is fixed  
-
----
-
-**Created by:** GitHub Copilot  
-**Project:** GRRADO Vehicle Service Portal  
-**Date:** January 25, 2026  
-**Status:** 🚀 READY TO RUN!
-
-## 🚀 Your Next Action
-
-Run this command only after the schema is updated and reseeded:
-
+### Option 2: Build Entire Solution
 ```powershell
-cd d:\_GRRADO\src\server\API
-dotnet run
+cd d:\_GRRADO\src\app\server
+dotnet build GRRADO.Microservices.sln
 ```
 
-Then open **http://localhost:5000/swagger/index.html** and re-test the endpoints.
+### API Documentation
+- Each service exposes **Scalar API Reference** at `/scalar/v1`
+- OpenAPI spec at `/openapi/v1.json`
+- Gateway routes all traffic through `http://localhost:5100/api/*`
+
+---
+
+## Next Steps (Phase 4 Remaining Work)
+
+| Category | Items |
+|----------|-------|
+| **Validation** | FluentValidation rules for all use case commands/queries |
+| **Authentication** | Keycloak JWT integration, middleware pipeline (deferred to auth phase) |
+| **Event Handling** | RabbitMQ event consumers for cross-service communication |
+| **Database Migrations** | EF Core migration strategy (currently using EnsureCreated) |
+| **Testing** | Unit tests, integration tests for all services |
+| **API Refinement** | Pagination, filtering, sorting on GetAll endpoints |
+
+### Known Items
+- All endpoints currently public (auth deferred to Phase 5/6)
+- RabbitMQ infrastructure is wired but event consumers not fully implemented
+- FluentValidation referenced but validators may need explicit rules
+- No EF Core migrations visible (using seed scripts + EnsureCreated)
+
+---
+
+## Project Progress
+
+| Phase | Name | Status | Progress |
+|-------|------|--------|----------|
+| 1 | Environment Setup | COMPLETE | 100% |
+| 2 | Project Structure | COMPLETE | 100% |
+| 3 | Database Design | COMPLETE | 100% |
+| 4 | Backend API (Extended) | IN PROGRESS | ~65% |
+| 5 | Roles & Permissions | Pending | 0% |
+| 6 | CMS | Pending | 0% |
+| 7 | AI Platform & Chatbot | Pending | 0% |
+| 8-12 | Mobile, Web, Testing, Deployment | Pending | 0% |
+
+---
+
+**Project:** GRRADO Vehicle Service Portal
+**Date:** February 14, 2026

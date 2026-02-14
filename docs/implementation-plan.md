@@ -26,7 +26,7 @@ The Vehicle Service Portal follows a **backend-first strategy prioritizing the A
 - ⏳ **Next:** Complete Phase 4, then Phase 5 (Roles/Permissions)
 - 🤖 **Strategic Focus:** AI Chatbot (200h) in Phase 7 - supports text, voice, image, deep thinking
 - 📦 **Database:** 13 tables (8 core + 5 chatbot-specific) with 3,400+ seed records
-- 🛠️ **Tech Stack:** .NET 9, PostgreSQL 16, Keycloak, Azure AI Foundry, Flutter (Web+Mobile)
+- 🛠️ **Tech Stack:** .NET 10.0, PostgreSQL 15, Keycloak, Azure AI Foundry, Flutter (Web+Mobile)
 - 🏗️ **Architecture:** Clean Architecture (Domain, Application, Infrastructure, API)
 
 ---
@@ -38,7 +38,7 @@ The Vehicle Service Portal follows a **backend-first strategy prioritizing the A
 **Documentation:** [phase-1-environment-setup/README.md](docs/03-phase-specific/phase-1-environment-setup/README.md)
 
 **Verified:**
-- ✅ .NET Core 9 SDK (v10.0.101)
+- ✅ .NET 10.0 SDK (v10.0.101)
 - ✅ Flutter SDK 3.x
 - ✅ Python 3.11+ (for custom AI/ML development)
 - ✅ Azure account for AI Foundry
@@ -147,7 +147,7 @@ app/client/
 **Step 4.4: REST API Controllers (8h)**
 - [ ] Create REST endpoints for all 8 core entities
 - [ ] Implement GET (list with pagination, detail), POST (create), PUT (update), DELETE (soft-delete), PATCH (restore)
-- [ ] Add OpenAPI/Swagger documentation
+- [ ] Add OpenAPI/Scalar documentation
 - [ ] Implement pagination, filtering, sorting
 
 **Step 4.5: File Upload & Image Management (5h)**
@@ -254,13 +254,13 @@ app/client/
 - ✅ Repository pattern implementation
 - ✅ Service layer with business logic
 - ✅ File upload functionality
-- ✅ Swagger API documentation
+- ✅ Scalar API documentation
 
 #### Phase 4 Success Criteria:
 - [ ] All 14 tasks completed
 - [ ] API builds without errors
 - [ ] All endpoints callable and working
-- [ ] Swagger UI accessible at /swagger
+- [ ] Scalar API Reference accessible at /scalar/v1
 - [ ] Authentication flow verified
 
 ---
@@ -456,7 +456,7 @@ app/client/
 ```
 ┌─────────────────────────────────────────┐
 │         API Layer (Controllers)          │
-│  - REST endpoints, Swagger, Middleware   │
+│  - REST endpoints, Scalar, Middleware   │
 └──────────────────┬──────────────────────┘
                    │ depends on
 ┌──────────────────▼──────────────────────┐
@@ -606,7 +606,7 @@ psql -h localhost -U postgres -d vehicle_service_db -c "SELECT COUNT(*) FROM \"U
 3. Create Application Services for business logic
 4. Build REST API controllers
 5. Use `liquibase update` to deploy schema before scaffolding DbContext
-6. Test endpoints with Swagger UI
+6. Test endpoints with Scalar API Reference
 7. Document all APIs with OpenAPI annotations
 
 **When implementing Phases 5-12:**

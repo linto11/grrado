@@ -105,7 +105,7 @@ _ReSharper*/
 *.vsp
 *.vspx
 *.sap
-/.vs/
+.vs/
 /TestResults/
 *.coverage
 *.coveragexml
@@ -163,4 +163,6 @@ $RECYCLE.BIN/
 *.orig
 *.tmp
 *.bak
-
+tmpclaude-*
+nul
+logs/

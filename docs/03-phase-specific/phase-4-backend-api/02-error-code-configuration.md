@@ -276,7 +276,7 @@ builder.Services.AddHostedService<ErrorMessageCacheRefreshService>();
 ```
 
 ### Project File Configuration
-**Location:** `API/API.csproj`
+**Location:** Per-service `.csproj` files
 
 ```xml
 <ItemGroup>

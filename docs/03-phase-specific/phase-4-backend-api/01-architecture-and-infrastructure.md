@@ -410,7 +410,7 @@ public interface IEntity
 - [ ] API Controllers with REST endpoints
 - [ ] JWT authentication middleware configuration
 - [ ] Keycloak realm/client setup
-- [ ] API documentation (Swagger)
+- [ ] API documentation (Scalar/OpenAPI)
 - [ ] Integration testing
 
 ---

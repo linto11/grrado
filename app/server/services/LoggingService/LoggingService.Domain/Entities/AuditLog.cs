@@ -1,0 +1,25 @@
+using GRRADO.Shared.Domain;
+
+namespace LoggingService.Domain.Entities;
+
+public class AuditLog : IEntity
+{
+    public int Id { get; set; }
+    public string EntityType { get; set; } = string.Empty;
+    public int EntityId { get; set; }
+    public string Action { get; set; } = string.Empty;
+    public string? OldValues { get; set; }
+    public string? NewValues { get; set; }
+    public string? ChangedFields { get; set; }
+    public int? UserId { get; set; }
+    public string? PerformedBy { get; set; }
+    public string? IpAddress { get; set; }
+    public string? UserAgent { get; set; }
+    public string? Metadata { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public bool IsDeleted { get; set; } = false;
+    public DateTime? DeletedAt { get; set; }
+    public string? DeletedBy { get; set; }
+}

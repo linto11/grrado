@@ -4,6 +4,7 @@ using VehicleService.Application;
 using VehicleService.Infrastructure;
 using Serilog;
 using Scalar.AspNetCore;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,10 @@ builder.Host.UseSerilog();
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+
+// Add health checks for Aspire
+builder.Services.AddHealthChecks();
+
 builder.Services.AddSharedInfrastructure();
 builder.Services.AddVehicleInfrastructure(builder.Configuration);
 builder.Services.AddVehicleApplication();
@@ -27,6 +32,9 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseRouting();
 app.UseCors();
+
+// Add health check endpoint for Aspire
+app.MapHealthChecks("/health");
 
 if (app.Environment.IsDevelopment())
 {

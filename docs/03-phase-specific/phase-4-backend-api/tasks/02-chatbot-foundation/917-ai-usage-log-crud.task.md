@@ -39,7 +39,7 @@ Implement full CRUD operations for the AiUsageLog entity. This entity tracks all
 6. Add summary/aggregation endpoint for usage statistics
 7. Register the repository in DI container
 8. Run database migration or Liquibase changelog if needed
-9. Test all endpoints manually via Swagger or Postman
+9. Test all endpoints manually via Scalar or Postman
 
 ## Completion Checklist
 - [ ] Code implemented

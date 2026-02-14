@@ -23,7 +23,7 @@ Phase 1 established the complete development environment with all necessary tool
 
 ### 1. Core Development Tools ✅
 
-**✅ .NET Core 9 SDK**
+**✅ .NET 10.0 SDK**
 - Version: 10.0.101
 - Installation: Windows x64 installer
 - Verification: `dotnet --version`
@@ -37,20 +37,19 @@ Phase 1 established the complete development environment with all necessary tool
 - Verification: `node --version && npm --version`
 - Status: ✅ Installed and verified
 
-**✅ Angular CLI 19**
-- Version: 19.2.19
-- Installation: `npm install -g @angular/cli@19`
-- Verification: `ng version`
-- Status: ✅ Installed globally
+**✅ Flutter SDK 3.x** *(replaces Angular CLI -- decision January 2026)*
+- Installation: Windows installer
+- Verification: `flutter --version`
+- Status: ✅ Installed
 
 ### 2. Database Services ✅
 
-**✅ PostgreSQL 16**
+**✅ PostgreSQL 15**
 - Installation Method: Docker container
-- Port: 5432
-- Version: PostgreSQL 16-alpine
-- Database: vehicle_service_db
-- Users: postgres (superuser), migration_user
+- Port: 5433 *(updated for microservices -- originally 5432)*
+- Version: PostgreSQL 15-alpine
+- Databases: 7 service databases + Keycloak *(migrated to database-per-service pattern Feb 2026)*
+- Users: postgres (superuser)
 - Status: ✅ Running in Docker
 - Connection: ✅ Verified via psql
 
@@ -76,7 +75,7 @@ Phase 1 established the complete development environment with all necessary tool
 All installations verified with output:
 
 ```bash
-# .NET Core
+# .NET
 dotnet --version
 # Output: 10.0.101
 
@@ -87,42 +86,51 @@ node --version
 npm --version
 # Output: 10.2.4
 
-# Angular CLI
-ng version
-# Output: 19.2.19
+# Flutter
+flutter --version
+# Output: Flutter 3.x
 
 # Docker
 docker --version
 # Output: Docker version 24.0.x
 
 # PostgreSQL (in container)
-docker exec vehicle-service-db psql -U postgres -c "SELECT version();"
-# Output: PostgreSQL 16.x
+docker exec grrado-postgres psql -U postgres -c "SELECT version();"
+# Output: PostgreSQL 15.x
 ```
 
 ## Environment Configuration
 
 ### Docker Services
 
-**docker-compose.yml** configured with:
+**docker-compose.yml** configured with *(updated Feb 2026 for microservices)*:
 ```yaml
 services:
-  db:
-    image: postgres:16-alpine
-    container_name: vehicle-service-db
+  postgres:
+    image: postgres:15-alpine
+    container_name: grrado-postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
-      POSTGRES_DB: vehicle_service_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./scripts/prerequisites/00-database-init:/docker-entrypoint-initdb.d
-    
+      - ./init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
-    container_name: vehicle-service-keycloak
+    image: keycloak/keycloak:latest
     ports:
       - "8080:8080"
     environment:
@@ -149,15 +157,17 @@ volumes:
 ## Deliverables
 
 ### 1. Installed Software ✅
-- .NET Core 9 SDK (v10.0.101)
+- .NET 10.0 SDK (v10.0.101)
 - Node.js v20.11.1 LTS
 - npm v10.2.4
-- Angular CLI v19.2.19
+- Flutter SDK 3.x
 - Docker Desktop
 - Docker Compose
 
 ### 2. Running Services ✅
-- PostgreSQL 16 (port 5432)
+- PostgreSQL 15 (port 5433)
+- Redis 7 (port 6379)
+- RabbitMQ 3 (ports 5672, 15672)
 - Keycloak (port 8080)
 
 ### 3. Configuration Files ✅
@@ -173,12 +183,13 @@ volumes:
 
 - ✅ All tools installed with correct versions
 - ✅ Docker containers running without errors
-- ✅ PostgreSQL accessible on port 5432
+- ✅ PostgreSQL accessible on port 5433
+- ✅ Redis accessible on port 6379
+- ✅ RabbitMQ accessible on port 5672 (management UI on 15672)
 - ✅ Keycloak admin console accessible on port 8080
-- ✅ Angular CLI can create new projects
+- ✅ Flutter CLI can create new projects
 - ✅ .NET CLI can create new projects
-- ✅ npm packages can be installed globally
-- ✅ All services start automatically with docker-compose up
+- ✅ All services start automatically with docker compose up
 
 ## Known Issues & Resolutions
 

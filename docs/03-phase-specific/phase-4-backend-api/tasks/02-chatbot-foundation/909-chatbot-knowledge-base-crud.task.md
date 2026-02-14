@@ -39,7 +39,7 @@ Implement full CRUD operations for the ChatbotKnowledgeBase entity. This entity 
 6. Add search endpoint for full-text or keyword-based queries on Topic and Content
 7. Register the repository in DI container
 8. Run database migration or Liquibase changelog if needed
-9. Test all endpoints manually via Swagger or Postman
+9. Test all endpoints manually via Scalar or Postman
 
 ## Completion Checklist
 - [ ] Code implemented

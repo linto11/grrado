@@ -55,7 +55,8 @@
       "**/bin": true,
       "**/obj": true,
       "**/node_modules": true,
-      "**/.git": true
+      "**/.git": true,
+      "tmpclaude-*": true
     },
     "search.exclude": {
       "**/bin": true,

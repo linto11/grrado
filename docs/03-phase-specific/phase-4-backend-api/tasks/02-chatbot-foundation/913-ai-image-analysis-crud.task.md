@@ -39,7 +39,7 @@ Implement full CRUD operations for the AiImageAnalysis entity. This entity store
 5. Create the controller with GET, POST, PUT, DELETE endpoints
 6. Register the repository in DI container
 7. Run database migration or Liquibase changelog if needed
-8. Test all endpoints manually via Swagger or Postman
+8. Test all endpoints manually via Scalar or Postman
 
 ## Completion Checklist
 - [ ] Code implemented

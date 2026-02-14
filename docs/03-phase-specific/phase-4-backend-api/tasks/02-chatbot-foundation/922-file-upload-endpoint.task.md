@@ -42,7 +42,7 @@ Implement an image upload endpoint for diagnostic purposes. This endpoint accept
 7. Generate unique filenames to prevent collisions (GUID-based)
 8. Configure upload directory in appsettings
 9. Register file storage service in DI container
-10. Test with various file sizes and types via Postman or Swagger
+10. Test with various file sizes and types via Postman or Scalar
 
 ## Completion Checklist
 - [ ] Code implemented

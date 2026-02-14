@@ -221,14 +221,14 @@ Week 2:
 - Redis verified (port 6379, PONG response)
 - Keycloak: not running — deferred to Sprint 6
 - API builds successfully (0 errors, 0 warnings)
-- API runs on http://localhost:5000
+- API runs on http://localhost:5100 (via gateway)
 - All endpoints verified: GET /api/Users 200, POST /api/Users 201, DELETE 204
 - Health endpoints: /api/Health/status 200, /api/Health/ready 200
 - Scalar API docs: /scalar/v1 200
 - 18 database tables confirmed
 
 **Notes:**
-- API listens on port 5000 (not 5176 as some config suggests)
+- API Gateway listens on port 5100, individual services on 5101-5107
 - Scalar API reference used instead of Swagger UI (MapScalarApiReference, not MapSwaggerUI)
 
 ---

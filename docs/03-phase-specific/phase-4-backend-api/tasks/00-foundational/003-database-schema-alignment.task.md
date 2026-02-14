@@ -129,7 +129,7 @@ Response: HTTP 500 Internal Server Error
 
 - [ ] Build API: `dotnet build` (0 errors)
 - [ ] Run API: `dotnet run` (should start without errors)
-- [ ] Test endpoint: `GET http://localhost:5000/api/v1/users`
+- [ ] Test endpoint: `GET http://localhost:5100/api/v1/users`
   - [ ] Expected: HTTP 200 (not 500)
   - [ ] Expected: Empty array `[]` (no data yet)
   - [ ] Expected: No database errors in logs

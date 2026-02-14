@@ -122,7 +122,7 @@ Default credentials: admin / admin (change after setup)
    - Access Type: confidential
    - Standard Flow Enabled: true
    - Service Account Roles Enabled: true
-   - Valid Redirect URIs: `http://localhost:3000/*`, `http://localhost:5000/*`
+   - Valid Redirect URIs: `http://localhost:3000/*`, `http://localhost:5100/*`
 6. Save and note the client secret
 
 ### Step 4: Create Realm Roles

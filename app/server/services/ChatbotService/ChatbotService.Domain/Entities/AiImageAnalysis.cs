@@ -1,0 +1,36 @@
+using GRRADO.Shared.Domain;
+
+namespace ChatbotService.Domain.Entities;
+
+public class AiImageAnalysis : IEntity
+{
+    public int Id { get; set; }
+    public int ChatbotMessageId { get; set; }
+    public int UserId { get; set; }
+    public string OriginalImageFileName { get; set; } = string.Empty;
+    public string OriginalImagePath { get; set; } = string.Empty;
+    public string? AnnotatedImagePath { get; set; }
+    public string? ThumbnailPath { get; set; }
+    public long FileSizeBytes { get; set; }
+    public string ImageMimeType { get; set; } = string.Empty;
+    public string AnalysisType { get; set; } = string.Empty;
+    public string DetectedObjects { get; set; } = string.Empty;
+    public string? SeverityLevel { get; set; }
+    public string? DamageType { get; set; }
+    public string? PartsIdentified { get; set; }
+    public decimal? ConfidenceScore { get; set; }
+    public string? Recommendations { get; set; }
+    public string? VehiclePartLocation { get; set; }
+    public int? EstimatedRepairCostRange { get; set; }
+    public bool RequiresExpertReview { get; set; } = false;
+    public int ResponseTimeMs { get; set; } = 0;
+    public int TokensUsed { get; set; } = 0;
+    public decimal CostUsd { get; set; } = 0;
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public bool IsDeleted { get; set; } = false;
+    public DateTime? DeletedAt { get; set; }
+    public string? DeletedBy { get; set; }
+
+    public ChatbotMessage? ChatbotMessage { get; set; }
+}

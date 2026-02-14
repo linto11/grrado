@@ -25,25 +25,21 @@ Validate all NuGet packages are correctly installed across all projects in the G
 
 ## 📍 Files to Modify/Create
 
-- [app/server/GRRADO.sln](../../../../app/server/GRRADO.sln)
-- [app/server/API/API.csproj](../../../../app/server/API/API.csproj)
-- [app/server/Application/Application.csproj](../../../../app/server/Application/Application.csproj)
-- [app/server/Infrastructure/Infrastructure.csproj](../../../../app/server/Infrastructure/Infrastructure.csproj)
-- [app/server/Domain/Domain.csproj](../../../../app/server/Domain/Domain.csproj)
-- [app/server/Abstractions/Abstractions.csproj](../../../../app/server/Abstractions/Abstractions.csproj)
-- [app/server/Utility/Utility.csproj](../../../../app/server/Utility/Utility.csproj)
+- [app/server/GRRADO.Microservices.sln](../../../../app/server/GRRADO.Microservices.sln)
+- Per-service .csproj files under `app/server/services/` and `app/server/shared/`
+- [app/server/gateway/GRRADO.Gateway/GRRADO.Gateway.csproj](../../../../app/server/gateway/GRRADO.Gateway/GRRADO.Gateway.csproj)
 
 ## 🔗 Dependencies
 
 - Task 001: Git Branching (should have feature branch)
-- .NET 9 SDK installed
+- .NET 10.0 SDK installed
 - Visual Studio or VS Code with C# extension
 
 ## ⚠️ Known Package Issues
 
 Based on codebase review:
 - JWT token validation requires: `System.IdentityModel.Tokens.Jwt` 7.1.0+
-- EF Core requires: `Microsoft.EntityFrameworkCore.PostgreSQL` 9.0.0+
+- EF Core requires: `Microsoft.EntityFrameworkCore.PostgreSQL` 10.0.0+
 - Serilog requires proper middleware configuration
 
 ## ✅ Completion Checklist
@@ -97,7 +93,7 @@ Based on codebase review:
   - [ ] Abstractions: `dotnet build app/server/Abstractions/Abstractions.csproj`
   - [ ] Infrastructure: `dotnet build app/server/Infrastructure/Infrastructure.csproj`
   - [ ] Application: `dotnet build app/server/Application/Application.csproj`
-  - [ ] API: `dotnet build app/server/API/API.csproj`
+  - [ ] API: `dotnet build <per-service>.csproj (e.g., services/vehicle-api/VehicleApi.csproj)`
 
 ### Required Packages Verification
 
@@ -107,9 +103,9 @@ Based on codebase review:
   - Verify: `dotnet list package | findstr "IdentityModel"`
 
 - [ ] EF Core packages (in Infrastructure):
-  - Microsoft.EntityFrameworkCore 9.0.0+
-  - Microsoft.EntityFrameworkCore.PostgreSQL 9.0.0+
-  - Microsoft.EntityFrameworkCore.Tools 9.0.0+
+  - Microsoft.EntityFrameworkCore 10.0.0+
+  - Microsoft.EntityFrameworkCore.PostgreSQL 10.0.0+
+  - Microsoft.EntityFrameworkCore.Tools 10.0.0+
 
 - [ ] Serilog packages (in API/Infrastructure):
   - Serilog 3.0.0+
@@ -144,7 +140,7 @@ Based on codebase review:
 Verify .NET SDK version:
 ```powershell
 dotnet --version
-# Expected: 9.0.x
+# Expected: 10.0.x
 ```
 
 ### Step 2: Clean and Restore
@@ -190,13 +186,13 @@ If packages missing or conflicting:
 
 **Option A: Update single package**
 ```powershell
-dotnet add API/API.csproj package System.IdentityModel.Tokens.Jwt --version 7.1.0
+dotnet add <per-service>.csproj package System.IdentityModel.Tokens.Jwt --version 7.1.0
 ```
 
 **Option B: Update all packages to latest compatible**
 ```powershell
 dotnet list package --outdated
-dotnet add API/API.csproj package Microsoft.EntityFrameworkCore --upgrade
+dotnet add <per-service>.csproj package Microsoft.EntityFrameworkCore --upgrade
 ```
 
 **Option C: Clean nuget cache and restore**
@@ -264,7 +260,7 @@ Domain → Abstractions → Application → Infrastructure → API
 
 ### API.csproj (Should reference)
 - Serilog, Serilog.AspNetCore, Serilog.Sinks.File
-- Swashbuckle.AspNetCore (Swagger)
+- Microsoft.AspNetCore.OpenApi + Scalar
 - Microsoft.AspNetCore.* packages
 
 ### Infrastructure.csproj (Should reference)

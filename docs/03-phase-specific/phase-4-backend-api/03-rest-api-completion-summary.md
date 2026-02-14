@@ -85,19 +85,19 @@ public IRepository<AiImageAnalysis> AiImageAnalyses
 public IRepository<AiUsageLog> AiUsageLogs
 ```
 
-### 4. Swagger/OpenAPI Documentation
+### 4. OpenAPI + Scalar Documentation
 
 **Features:**
-- ✅ Swagger UI enabled on `/swagger/index.html`
-- ✅ All 13 controllers documented with XML comments
+- ✅ Scalar API Reference enabled on `/scalar/v1`
+- ✅ All controllers documented with XML comments
 - ✅ Request/Response schemas displayed
-- ✅ Try-it-out functionality for endpoint testing
+- ✅ Interactive endpoint testing
 - ✅ Error response documentation (400, 404, 500)
 - ✅ Authentication bearer token support configured
 
 **Configuration:**
-- [Program.cs - Swagger Configuration](../../server/API/Program.cs#L1-L50)
-- [SwaggerConfiguration.cs](../../server/API/Configuration/SwaggerConfiguration.cs)
+- Per-service Program.cs with OpenAPI + Scalar middleware
+- OpenAPI spec at `/openapi/v1.json`
 
 ---
 
@@ -218,17 +218,17 @@ Authorization: Bearer {token}
 
 ## Testing the API
 
-### Using Swagger UI
-1. Navigate to: `http://localhost:5000/swagger/index.html`
-2. All endpoints listed with try-it-out buttons
-3. Paste JWT token in Authorize button
+### Using Scalar API Reference
+1. Navigate to: `http://localhost:5101/scalar/v1` (UserService) or other service ports
+2. All endpoints listed with interactive testing
+3. Paste JWT token in Authorize
 4. Click "Try it out" on any endpoint
 
 ### Using API.http File
-See [API/API.http](../../server/API/API.http) for pre-configured REST client requests
+Pre-configured REST client requests are available per-service
 
 ### Using Postman/Insomnia
-1. Import the OpenAPI spec: `http://localhost:5000/swagger/v1/swagger.json`
+1. Import the OpenAPI spec: `http://localhost:5101/openapi/v1.json`
 2. Authenticate with JWT token
 3. Test all endpoints
 
@@ -242,7 +242,7 @@ See [API/API.http](../../server/API/API.http) for pre-configured REST client req
 ✅ All controllers registered
 ✅ All services registered
 ✅ AutoMapper profiles loaded
-✅ Swagger documentation generated
+✅ OpenAPI + Scalar documentation generated
 ✅ Database context configured
 ```
 
@@ -270,10 +270,10 @@ The REST API layer is now ready to support:
 
 ## Configuration Files Updated
 
-1. ✅ [Program.cs](../../server/API/Program.cs) - Swagger middleware added
-2. ✅ [appsettings.json](../../server/API/appsettings.json) - Swagger endpoint configured
-3. ✅ [Infrastructure/DependencyInjection.cs](../../server/Infrastructure/DependencyInjection.cs) - All services registered
-4. ✅ [Application/Mapping/DomainToDtoProfile.cs](../../server/Application/Mapping/DomainToDtoProfile.cs) - All DTOs mapped
+1. ✅ Per-service Program.cs - OpenAPI + Scalar middleware
+2. ✅ Per-service appsettings.json - Connection strings configured
+3. ✅ Per-service DependencyInjection.cs - All services registered
+4. ✅ Per-service AutoMapper profiles - All DTOs mapped
 
 ---
 
@@ -307,32 +307,32 @@ All operations logged through Serilog:
 ## How to Run the Project
 
 ### 1. Prerequisites
-- .NET 8.0 SDK
-- SQL Server or PostgreSQL
+- .NET 10.0 SDK
+- PostgreSQL 15 (Docker)
 - Git
 
 ### 2. Clone & Setup
 ```bash
-cd d:\_GRRADO\src\server
-dotnet restore
+cd d:\_GRRADO\src\app\server
+dotnet restore GRRADO.Microservices.sln
 ```
 
 ### 3. Database Setup
 ```bash
-# Run Liquibase migrations
-# (Script provided in scripts/prerequisites/00-database-init/)
+# Start Docker infrastructure (7 databases auto-created)
+docker compose -f d:\_GRRADO\src\docker-compose.yml up -d
 ```
 
-### 4. Run the API
+### 4. Run a Service
 ```bash
-cd API
-dotnet run
+cd d:\_GRRADO\src\app\server
+dotnet run --project services/UserService/UserService.API/UserService.API.csproj
 ```
 
 ### 5. Access the API
-- **Swagger UI:** http://localhost:5000/swagger/index.html
-- **API Base:** http://localhost:5000/api/v1/
-- **Health Check:** http://localhost:5000/health
+- **Scalar API Docs:** http://localhost:5101/scalar/v1
+- **API Gateway:** http://localhost:5100/api/
+- **OpenAPI Spec:** http://localhost:5101/openapi/v1.json
 
 ---
 

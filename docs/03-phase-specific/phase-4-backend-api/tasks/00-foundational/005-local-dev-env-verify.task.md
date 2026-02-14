@@ -21,8 +21,8 @@ Verify and validate the complete local development environment. Ensure all servi
 - [ ] Logs directory exists at `app/server/API/logs/`
 - [ ] API builds successfully: `dotnet build` (0 errors)
 - [ ] API runs without startup errors: `dotnet run`
-- [ ] Health check endpoint responds: `GET http://localhost:5000/api/v1/health`
-- [ ] Swagger UI accessible at `http://localhost:5000/swagger/index.html`
+- [ ] Health check endpoint responds: `GET http://localhost:5100/api/v1/health`
+- [ ] Scalar API docs accessible at `http://localhost:5100/scalar/v1`
 
 ## 📍 Files to Check/Create
 
@@ -120,7 +120,7 @@ Verify and validate the complete local development environment. Ensure all servi
   - [ ] PostgreSQL: 5433
   - [ ] Redis: 6379
   - [ ] Keycloak: 8080
-  - [ ] API: 5000 (default)
+  - [ ] API Gateway: 5100
 
 ### Directory Structure Verification
 
@@ -164,17 +164,17 @@ Verify and validate the complete local development environment. Ensure all servi
   info: Program[0]
         Starting GRRADO API...
   info: Microsoft.Hosting.Lifetime[14]
-        Now listening on: http://localhost:5000
+        Now listening on: http://localhost:5100
   ```
 
 - [ ] Test health endpoint (in new PowerShell window):
   ```powershell
-  Invoke-WebRequest http://localhost:5000/api/v1/health
+  Invoke-WebRequest http://localhost:5100/api/v1/health
   ```
   Expected: Status 200 OK
 
-- [ ] Test Swagger UI:
-  Open browser: `http://localhost:5000/swagger/index.html`
+- [ ] Test Scalar API docs:
+  Open browser: `http://localhost:5100/scalar/v1`
   Expected: See API endpoints listed
 
 ### Environment Variables Check
@@ -297,22 +297,22 @@ info: Program[0]
 info: Program[0]
       Configuring Serilog
 info: Microsoft.Hosting.Lifetime[14]
-      Now listening on: http://localhost:5000
+      Now listening on: http://localhost:5100
 ```
 
 ### Step 6: Test Endpoints
 
 ```powershell
 # Test health endpoint
-$response = Invoke-WebRequest http://localhost:5000/api/v1/health
+$response = Invoke-WebRequest http://localhost:5100/api/v1/health
 Write-Host $response.StatusCode  # Should be 200
 Write-Host $response.Content     # Should have health status
 
-# Test Swagger
-Start-Process http://localhost:5000/swagger/index.html
+# Test Scalar
+Start-Process http://localhost:5100/scalar/v1
 
 # Test an API endpoint (try GET /api/v1/users)
-Invoke-WebRequest http://localhost:5000/api/v1/users
+Invoke-WebRequest http://localhost:5100/api/v1/users
 ```
 
 ### Step 7: Verify Logs
@@ -369,15 +369,15 @@ redis-cli ping
 3. Run migrations manually first
 4. Check logs in `app/server/API/logs/`
 
-### Swagger UI Not Loading
+### Scalar API Docs Not Loading
 
-**Error:** `http://localhost:5000/swagger/` returns 404
+**Error:** `http://localhost:5100/scalar/v1` returns 404
 
 **Solution:**
-1. Verify Swashbuckle.AspNetCore NuGet installed
-2. Check Program.cs has Swagger configuration
-3. Verify app.UseSwaggerUI() in pipeline
-4. Check Swagger docs are configured: `services.AddSwaggerGen()`
+1. Verify Microsoft.AspNetCore.OpenApi NuGet installed
+2. Check Program.cs has OpenAPI/Scalar configuration
+3. Verify app.MapScalarApiReference() in pipeline
+4. Check OpenAPI is configured: `builder.Services.AddOpenApi()`
 
 ## 🔗 Related Tasks
 
@@ -405,6 +405,6 @@ Final verification before moving to API development:
 - [ ] PostgreSQL responsive: `psql` connection works
 - [ ] Redis responsive: `redis-cli ping` returns `PONG`
 - [ ] API endpoint responds: `GET /api/v1/health` → 200
-- [ ] Swagger UI loads: `http://localhost:5000/swagger/`
+- [ ] Scalar API docs load: `http://localhost:5100/scalar/v1`
 - [ ] Logs directory has activity: `app/server/API/logs/*.log`
 - [ ] No startup exceptions in console or log files

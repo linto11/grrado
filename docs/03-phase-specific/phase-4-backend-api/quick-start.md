@@ -85,10 +85,10 @@ cd app/server/API
 dotnet run
 
 # In another window, test
-curl http://localhost:5000/api/v1/health
+curl http://localhost:5100/api/Users
 # Expected: 200 OK
 ```
-**Done?** Swagger should load at http://localhost:5000/swagger/ [Details](./tasks/00-foundational/005-local-dev-env-verify.task.md)
+**Done?** Scalar API docs should load at http://localhost:5101/scalar/v1 [Details](./tasks/00-foundational/005-local-dev-env-verify.task.md)
 
 ---
 
@@ -159,7 +159,7 @@ Once Sprint 1 complete:
 - PostgreSQL running on `localhost:5433`
 - Redis running on `localhost:6379`
 - Keycloak running on `localhost:8080`
-- .NET 9 SDK installed
+- .NET 10.0 SDK installed
 - Git configured with username/email
 
 ---
@@ -171,7 +171,7 @@ Once Sprint 1 complete:
 ✅ dotnet build → Build succeeded (0 errors)
 ✅ dotnet run → API starts with no errors
 ✅ GET /api/v1/health → HTTP 200 OK
-✅ http://localhost:5000/swagger/ → Loads successfully
+✅ http://localhost:5101/scalar/v1 → Loads successfully
 ✅ PostgreSQL, Redis, Keycloak all responding
 ```
 

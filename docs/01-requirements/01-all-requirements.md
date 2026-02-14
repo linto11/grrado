@@ -1,16 +1,19 @@
-# All Project Requirements - Vehicle Service Portal
+# All Project Requirements - Vehicle Service Aggregator Platform
 
-**Created:** January 11, 2026  
-**Total Tasks:** 101  
-**Completed:** 31  
-**Overall Progress:** 31%
+**Created:** January 11, 2026
+**Last Updated:** February 14, 2026
+**Architecture:** Microservices (.NET 10.0) -- 7 services + YARP Gateway
+**Current Phase:** Phase 4 In Progress (~65%)
+**Overall Progress:** ~18% (~210 of 1,171 hours)
 
 ---
 
-This file contains all 101 project tasks across 11 phases, extracted from the comprehensive progress tracker.
+This file contains the original project task breakdown. The project scope has been significantly expanded since initial creation.
 
-For the **complete task list with full details, checkboxes, and tracking**, see:
+**Note:** The project has evolved from the original 11-phase/101-task plan to a 12-phase/1,171-hour microservices architecture. For the most current task tracking, see:
 → **[progress-tracker.md](../02-progress-tracking/progress-tracker.md)**
+
+The phases below reflect the **original scope**. Phases 5-11 have been redefined (see progress tracker for current definitions).
 
 ---
 
@@ -38,7 +41,7 @@ For the **complete task list with full details, checkboxes, and tracking**, see:
 
 All prerequisites and development environment installed:
 
-1. ✅ Install .NET Core 9 SDK (v10.0.101)
+1. ✅ Install .NET 10.0 SDK (v10.0.101)
 2. ✅ Install Node.js (LTS) and npm (v20.11.1, npm 10.2.4)
 3. ✅ Install PostgreSQL database server (via Docker - port 5432)
 4. ✅ Install Angular CLI 19 globally (v19.2.19)
@@ -220,7 +223,7 @@ All folder structures, projects, and configurations created:
 1. [ ] Create deployment scripts (Docker build backend/frontend, Docker Compose, env vars, DB migration)
 2. [ ] Create system requirements documentation (CPU, RAM, disk, browser support)
 3. [ ] Set up PostgreSQL backup strategy (automated daily backups, 30-day retention, restore procedures)
-4. [ ] Create API documentation (Swagger/OpenAPI, all 32 endpoints, examples, error codes)
+4. [ ] Create API documentation (Scalar/OpenAPI, all 32 endpoints, examples, error codes)
 5. [ ] Create Angular documentation (component guide, service docs, routing, state management)
 6. [ ] Create deployment guide (step-by-step, pre/post-deployment checklist, verification, rollback)
 7. [ ] Create user guide (entity management, search/pagination, image uploads, dashboard)
@@ -257,14 +260,17 @@ All folder structures, projects, and configurations created:
 
 ## Key Technologies
 
-- **Backend:** .NET Core 9, Entity Framework Core, Liquibase migrations
+- **Backend:** .NET 10.0, Entity Framework Core 10.0.1, MediatR 14.0.0 (CQRS)
+- **Architecture:** Microservices (7 services + YARP API Gateway)
 - **Frontend:** Flutter (Unified Web + Mobile), Material Design 3, Bloc/Cubit
 - **AI/ML:** Azure AI Foundry (chatbot models integration) + Python 3.11+ (custom ML development)
-- **Database:** PostgreSQL 16 with Liquibase versioning
-- **Authentication:** Keycloak OAuth 2.0/OIDC
-- **Image Processing:** SkiaSharp for thumbnails (zero vulnerabilities, industry-standard)
-- **File Storage:** Local `/uploads/images/` folder
-- **CMS:** Headless CMS with multi-language support
+- **Database:** PostgreSQL 15 (database-per-service, 7 databases)
+- **Messaging:** RabbitMQ 3 (async inter-service communication)
+- **Caching:** Redis 7 (distributed caching)
+- **Authentication:** Keycloak OAuth 2.0/OIDC (deferred to Phase 5)
+- **Resilience:** Polly 8.4.1 (retry, circuit breaker, timeout, bulkhead)
+- **API Docs:** OpenAPI + Scalar 1.2.48
+- **CMS:** Headless CMS with multi-language support (Phase 6)
 
 ---
 
@@ -286,5 +292,5 @@ All folder structures, projects, and configurations created:
 
 ---
 
-*Last Updated: January 18, 2026*  
-*Source: todo.md (Comprehensive Progress Tracker)*
+*Last Updated: February 14, 2026*
+*Source: Progress Tracker (Comprehensive)*

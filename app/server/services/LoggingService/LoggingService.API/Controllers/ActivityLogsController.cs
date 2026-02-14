@@ -1,0 +1,37 @@
+using LoggingService.Application.UseCases.ActivityLogs.CreateActivityLog;
+using LoggingService.Application.UseCases.ActivityLogs.DeleteActivityLog;
+using LoggingService.Application.UseCases.ActivityLogs.GetAllActivityLogs;
+using LoggingService.Application.UseCases.ActivityLogs.GetActivityLogById;
+using LoggingService.Application.UseCases.ActivityLogs.UpdateActivityLog;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LoggingService.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ActivityLogsController : ControllerBase
+{
+    private readonly IMediator _mediator;
+    public ActivityLogsController(IMediator mediator) => _mediator = mediator;
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 10)
+    { var r = await _mediator.Send(new GetAllActivityLogsQuery { Skip = skip, Take = take }); return r.IsSuccess ? Ok(r.Value) : BadRequest(r.Error); }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    { var r = await _mediator.Send(new GetActivityLogByIdQuery(id)); return r.IsSuccess ? Ok(r.Value) : NotFound(r.Error); }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateActivityLogCommand cmd)
+    { var r = await _mediator.Send(cmd); return r.IsSuccess ? CreatedAtAction(nameof(GetById), new { id = r.Value!.Id }, r.Value) : BadRequest(r.Error); }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateActivityLogCommand cmd)
+    { cmd.Id = id; var r = await _mediator.Send(cmd); return r.IsSuccess ? Ok(r.Value) : NotFound(r.Error); }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    { var r = await _mediator.Send(new DeleteActivityLogCommand(id)); return r.IsSuccess ? NoContent() : NotFound(r.Error); }
+}

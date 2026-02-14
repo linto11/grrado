@@ -177,7 +177,7 @@ Each task file includes:
 
 **Task 004: NuGet Validation**
 - ✅ Task file created
-- ⚠️ Requires: .NET 9 SDK installed
+- ⚠️ Requires: .NET 10.0 SDK installed
 - **Ready to execute:** YES
 
 **Task 005: Dev Environment Verification**

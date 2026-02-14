@@ -127,7 +127,7 @@ Establish foundational infrastructure for Phase 4 development including git bran
 - ✅ Keycloak running on `localhost:8080`
 - ✅ API builds and runs: `dotnet run`
 - ✅ Health endpoint responds: `GET /api/v1/health` → 200
-- ✅ Swagger UI accessible: `http://localhost:5000/swagger/`
+- ✅ Scalar API docs accessible: `http://localhost:5101/scalar/v1`
 - ✅ Logs directory created and active
 
 **Acceptance Criteria:**
@@ -135,7 +135,7 @@ Establish foundational infrastructure for Phase 4 development including git bran
 - [ ] All connection strings correct
 - [ ] API startup has no errors
 - [ ] Health endpoint returns 200
-- [ ] Swagger UI loads successfully
+- [ ] Scalar API docs load successfully
 - [ ] Logs being written to `app/server/API/logs/`
 
 ---

@@ -1,0 +1,28 @@
+## [0.4.0] - 2026-02-14
+
+### Added
+- Microservices architecture: 7 services (UserService, VehicleService, GarageService, ServiceHistoryService, ChatbotService, DiagnosticsService, LoggingService)
+- YARP API Gateway on port 5100 with route configuration for all services
+- 4 shared libraries (SharedKernel, SharedInfrastructure, SharedMessaging, ServiceDefaults)
+- Database-per-service pattern with init-databases.sql (7 databases)
+- Pre-commit auto-cleanup: tmpclaude-*, logs/, nul, .vs/, bin/, obj/, *.bak/*.tmp/*.swp
+- VS Code files.exclude for tmpclaude-* temp files
+
+### Changed
+- Migrated from monolith (GRRADO.sln) to microservices (GRRADO.Microservices.sln)
+- Updated 25+ documentation files: .NET 9 -> .NET 10.0, Swagger -> Scalar, localhost:5000 -> localhost:5100
+- Updated docker-compose.yml for microservices (per-service databases, gateway, service containers)
+- Updated .gitignore with nul, logs/, broadened .vs/ pattern
+- Updated run-api.bat to launch gateway instead of monolith API
+- Service ports: UserService 5101, VehicleService 5102, GarageService 5103, ServiceHistoryService 5104, ChatbotService 5105, DiagnosticsService 5106, LoggingService 5107
+
+### Removed
+- 300+ old monolith files (API/, Application/, Domain/, Infrastructure/, Abstractions/, Utility/ projects)
+- MIGRATION-STATUS.md (obsolete migration reference)
+- app/server/Configuration/error-codes.json (orphaned monolith config)
+- Build artifacts: 66 bin/obj directories, .vs/ cache (1.2MB)
+- Temp/log files: 400+ tmpclaude-* files, api.log, app/server/logs/ (5 files)
+
+### Version Bump
+**Proposed:** minor (0.3.0 -> 0.4.0)
+**Reason:** Major architectural change (monolith to microservices), backward incompatible but pre-release

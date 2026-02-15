@@ -6,7 +6,7 @@ FIXES:
 - Each service now has distinct endpoint identifier (gateway-http, user-http, etc.)
 
 DETAILS:
-- AppContext.BaseDirectory resolves to app/server/AppHost/bin/Debug/net10.0
+- AppContext.BaseDirectory resolves to app/server/AppHost/bin/Debug/net9.0
 - Navigate up 4 levels to reach app/server root directory
 - Fixed path calculation for project discovery during initialization
 

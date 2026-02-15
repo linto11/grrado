@@ -1,0 +1,21 @@
+fix: resolve AppHost project paths using AppContext.BaseDirectory
+
+CATEGORY: Bug Fix / Infrastructure
+
+DESCRIPTION:
+- Fixed Aspire AppHost failing to find project files by using AppContext.BaseDirectory
+- Previously used Directory.GetCurrentDirectory() which caused lookups in bin/Debug folder
+- Now dynamically resolves server directory from binary location
+
+CHANGES:
+- Modified AppHost/Program.cs to use AppContext.BaseDirectory for path resolution
+- Path calculation: AppContext.BaseDirectory -> navigate up from bin/Debug/net10.0/
+- Updated global.json to use .NET 10.0 with rollForward: latestFeature
+
+FIXES:
+- "Project file 'bin/Debug/net10.0/gateway/ApiGateway/ApiGateway.csproj' was not found" error
+- Aspire now correctly finds all microservice projects at runtime
+
+TESTING:
+- AppHost builds successfully
+- Path resolution verified for all services and gateway

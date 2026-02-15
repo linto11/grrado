@@ -1,0 +1,21 @@
+refactor: organize logs by application layer
+
+CATEGORY: Infrastructure / DevOps
+
+DESCRIPTION:
+- Reorganized logs directory structure to categorize logs by application layer
+- Created dedicated directories for each component: apphost, gateway, services (per microservice), shared, and general
+- Improves log discoverability and troubleshooting by layer
+
+CHANGES:
+- Created hierarchical log structure under app/server/logs/
+- Each microservice has dedicated log folder
+- API Gateway logs in dedicated gateway/ folder
+- Shared infrastructure logs in shared/ folder
+- General system logs in general/ folder
+- All directories remain excluded from git via .gitignore
+
+IMPACT:
+- Better log organization for easier debugging and monitoring
+- Clearer separation of concerns by architecture layer
+- No impact on application code or runtime behavior

@@ -86,7 +86,7 @@ services:
 
   # Microservices (placeholder for future Docker image builds)
   api-gateway:
-    image: grrado/api-gateway:latest
+    image: mcr.microsoft.com/dotnet/aspnet:10.0-preview
     container_name: grrado-api-gateway
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -109,17 +109,11 @@ services:
         condition: service_healthy
     networks:
       - grrado-network
-    build:
-      context: ./app/server
-      dockerfile: gateway/ApiGateway/Dockerfile
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5100/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+    # To use with built images: build context ./app/server dockerfile gateway/ApiGateway/Dockerfile
+    # Currently using base ASP.NET image as placeholder
 
   user-service:
-    image: grrado/user-service:latest
+    image: mcr.microsoft.com/dotnet/aspnet:10.0-preview
     container_name: grrado-user-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -139,12 +133,9 @@ services:
         condition: service_healthy
     networks:
       - grrado-network
-    build:
-      context: ./app/server
-      dockerfile: services/UserService/UserService.API/Dockerfile
 
   vehicle-service:
-    image: grrado/vehicle-service:latest
+    image: mcr.microsoft.com/dotnet/aspnet:10.0-preview
     container_name: grrado-vehicle-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -164,12 +155,9 @@ services:
         condition: service_healthy
     networks:
       - grrado-network
-    build:
-      context: ./app/server
-      dockerfile: services/VehicleService/VehicleService.API/Dockerfile
 
   garage-service:
-    image: grrado/garage-service:latest
+    image: mcr.microsoft.com/dotnet/aspnet:10.0-preview
     container_name: grrado-garage-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -189,12 +177,9 @@ services:
         condition: service_healthy
     networks:
       - grrado-network
-    build:
-      context: ./app/server
-      dockerfile: services/GarageService/GarageService.API/Dockerfile
 
   service-history-service:
-    image: grrado/service-history-service:latest
+    image: mcr.microsoft.com/dotnet/aspnet:10.0-preview
     container_name: grrado-service-history-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -214,12 +199,9 @@ services:
         condition: service_healthy
     networks:
       - grrado-network
-    build:
-      context: ./app/server
-      dockerfile: services/ServiceHistoryService/ServiceHistoryService.API/Dockerfile
 
   chatbot-service:
-    image: grrado/chatbot-service:latest
+    image: mcr.microsoft.com/dotnet/aspnet:10.0-preview
     container_name: grrado-chatbot-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -239,12 +221,9 @@ services:
         condition: service_healthy
     networks:
       - grrado-network
-    build:
-      context: ./app/server
-      dockerfile: services/ChatbotService/ChatbotService.API/Dockerfile
 
   diagnostics-service:
-    image: grrado/diagnostics-service:latest
+    image: mcr.microsoft.com/dotnet/aspnet:10.0-preview
     container_name: grrado-diagnostics-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -264,12 +243,9 @@ services:
         condition: service_healthy
     networks:
       - grrado-network
-    build:
-      context: ./app/server
-      dockerfile: services/DiagnosticsService/DiagnosticsService.API/Dockerfile
 
   logging-service:
-    image: grrado/logging-service:latest
+    image: mcr.microsoft.com/dotnet/aspnet:10.0-preview
     container_name: grrado-logging-service
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -289,9 +265,6 @@ services:
         condition: service_healthy
     networks:
       - grrado-network
-    build:
-      context: ./app/server
-      dockerfile: services/LoggingService/LoggingService.API/Dockerfile
 
 volumes:
   postgres_data:

@@ -1,0 +1,56 @@
+# Base image - .NET 10.0 SDK
+FROM mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
+WORKDIR /src
+
+# Copy solution and project files
+COPY ["GRRADO.Microservices.sln", "."]
+COPY ["gateway/ApiGateway/ApiGateway.csproj", "gateway/ApiGateway/"]
+COPY ["services/UserService/UserService.API/UserService.API.csproj", "services/UserService/UserService.API/"]
+COPY ["services/UserService/UserService.Domain/UserService.Domain.csproj", "services/UserService/UserService.Domain/"]
+COPY ["services/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj", "services/UserService/UserService.Infrastructure/"]
+COPY ["services/UserService/UserService.Application/UserService.Application.csproj", "services/UserService/UserService.Application/"]
+COPY ["services/VehicleService/VehicleService.API/VehicleService.API.csproj", "services/VehicleService/VehicleService.API/"]
+COPY ["services/VehicleService/VehicleService.Domain/VehicleService.Domain.csproj", "services/VehicleService/VehicleService.Domain/"]
+COPY ["services/VehicleService/VehicleService.Infrastructure/VehicleService.Infrastructure.csproj", "services/VehicleService/VehicleService.Infrastructure/"]
+COPY ["services/VehicleService/VehicleService.Application/VehicleService.Application.csproj", "services/VehicleService/VehicleService.Application/"]
+COPY ["services/GarageService/GarageService.API/GarageService.API.csproj", "services/GarageService/GarageService.API/"]
+COPY ["services/GarageService/GarageService.Domain/GarageService.Domain.csproj", "services/GarageService/GarageService.Domain/"]
+COPY ["services/GarageService/GarageService.Infrastructure/GarageService.Infrastructure.csproj", "services/GarageService/GarageService.Infrastructure/"]
+COPY ["services/GarageService/GarageService.Application/GarageService.Application.csproj", "services/GarageService/GarageService.Application/"]
+COPY ["services/ServiceHistoryService/ServiceHistoryService.API/ServiceHistoryService.API.csproj", "services/ServiceHistoryService/ServiceHistoryService.API/"]
+COPY ["services/ServiceHistoryService/ServiceHistoryService.Domain/ServiceHistoryService.Domain.csproj", "services/ServiceHistoryService/ServiceHistoryService.Domain/"]
+COPY ["services/ServiceHistoryService/ServiceHistoryService.Infrastructure/ServiceHistoryService.Infrastructure.csproj", "services/ServiceHistoryService/ServiceHistoryService.Infrastructure/"]
+COPY ["services/ServiceHistoryService/ServiceHistoryService.Application/ServiceHistoryService.Application.csproj", "services/ServiceHistoryService/ServiceHistoryService.Application/"]
+COPY ["services/ChatbotService/ChatbotService.API/ChatbotService.API.csproj", "services/ChatbotService/ChatbotService.API/"]
+COPY ["services/ChatbotService/ChatbotService.Domain/ChatbotService.Domain.csproj", "services/ChatbotService/ChatbotService.Domain/"]
+COPY ["services/ChatbotService/ChatbotService.Infrastructure/ChatbotService.Infrastructure.csproj", "services/ChatbotService/ChatbotService.Infrastructure/"]
+COPY ["services/ChatbotService/ChatbotService.Application/ChatbotService.Application.csproj", "services/ChatbotService/ChatbotService.Application/"]
+COPY ["services/DiagnosticsService/DiagnosticsService.API/DiagnosticsService.API.csproj", "services/DiagnosticsService/DiagnosticsService.API/"]
+COPY ["services/DiagnosticsService/DiagnosticsService.Domain/DiagnosticsService.Domain.csproj", "services/DiagnosticsService/DiagnosticsService.Domain/"]
+COPY ["services/DiagnosticsService/DiagnosticsService.Infrastructure/DiagnosticsService.Infrastructure.csproj", "services/DiagnosticsService/DiagnosticsService.Infrastructure/"]
+COPY ["services/DiagnosticsService/DiagnosticsService.Application/DiagnosticsService.Application.csproj", "services/DiagnosticsService/DiagnosticsService.Application/"]
+COPY ["services/LoggingService/LoggingService.API/LoggingService.API.csproj", "services/LoggingService/LoggingService.API/"]
+COPY ["services/LoggingService/LoggingService.Domain/LoggingService.Domain.csproj", "services/LoggingService/LoggingService.Domain/"]
+COPY ["services/LoggingService/LoggingService.Infrastructure/LoggingService.Infrastructure.csproj", "services/LoggingService/LoggingService.Infrastructure/"]
+COPY ["services/LoggingService/LoggingService.Application/LoggingService.Application.csproj", "services/LoggingService/LoggingService.Application/"]
+COPY ["shared/GRRADO.Shared.Abstractions/GRRADO.Shared.Abstractions.csproj", "shared/GRRADO.Shared.Abstractions/"]
+COPY ["shared/GRRADO.Shared.Domain/GRRADO.Shared.Domain.csproj", "shared/GRRADO.Shared.Domain/"]
+COPY ["shared/GRRADO.Shared.Application/GRRADO.Shared.Application.csproj", "shared/GRRADO.Shared.Application/"]
+COPY ["shared/GRRADO.Shared.Infrastructure/GRRADO.Shared.Infrastructure.csproj", "shared/GRRADO.Shared.Infrastructure/"]
+
+# Restore dependencies
+RUN dotnet restore
+
+# Copy source code
+COPY . .
+
+# Build
+RUN dotnet build --no-restore -c Release
+
+# Runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-preview AS runtime
+WORKDIR /app
+COPY --from=build /src .
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=5s --retries=3 CMD dotnet tools install -g dotnet-health || exit 1

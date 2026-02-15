@@ -1,0 +1,303 @@
+version: '3.8'
+
+services:
+  # Infrastructure Services
+  postgres:
+    image: postgres:15-alpine
+    container_name: grrado-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "-c shared_buffers=256MB -c max_connections=200"
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: postgres -p 5432
+    networks:
+      - grrado-network
+
+  keycloak:
+    image: keycloak/keycloak:latest
+    container_name: grrado-keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak_db
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: postgres
+      KC_PROXY_HEADERS: xforwarded
+      KC_HTTP_ENABLED: "true"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    command: start-dev
+    networks:
+      - grrado-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: grrado-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    command: redis-server --appendonly yes
+    networks:
+      - grrado-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: grrado-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - grrado-network
+
+  # Microservices (placeholder for future Docker image builds)
+  api-gateway:
+    image: grrado/api-gateway:latest
+    container_name: grrado-api-gateway
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: "http://+:5100"
+      ASPNETCORE_HTTP_PORT: 5100
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=api_gateway_db;Username=postgres;Password=postgres"
+      Services__UserService: "http://user-service:5101"
+      Services__VehicleService: "http://vehicle-service:5102"
+      Services__GarageService: "http://garage-service:5103"
+      Services__ServiceHistoryService: "http://service-history-service:5104"
+      Services__ChatbotService: "http://chatbot-service:5105"
+      Services__DiagnosticsService: "http://diagnostics-service:5106"
+      Services__LoggingService: "http://logging-service:5107"
+    ports:
+      - "5100:5100"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - grrado-network
+    build:
+      context: ./app/server
+      dockerfile: gateway/ApiGateway/Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5100/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  user-service:
+    image: grrado/user-service:latest
+    container_name: grrado-user-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: "http://+:5101"
+      ASPNETCORE_HTTP_PORT: 5101
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=user_service_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: "rabbitmq"
+      Redis__Connection: "redis:6379"
+    ports:
+      - "5101:5101"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - grrado-network
+    build:
+      context: ./app/server
+      dockerfile: services/UserService/UserService.API/Dockerfile
+
+  vehicle-service:
+    image: grrado/vehicle-service:latest
+    container_name: grrado-vehicle-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: "http://+:5102"
+      ASPNETCORE_HTTP_PORT: 5102
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=vehicle_service_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: "rabbitmq"
+      Redis__Connection: "redis:6379"
+    ports:
+      - "5102:5102"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - grrado-network
+    build:
+      context: ./app/server
+      dockerfile: services/VehicleService/VehicleService.API/Dockerfile
+
+  garage-service:
+    image: grrado/garage-service:latest
+    container_name: grrado-garage-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: "http://+:5103"
+      ASPNETCORE_HTTP_PORT: 5103
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=garage_service_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: "rabbitmq"
+      Redis__Connection: "redis:6379"
+    ports:
+      - "5103:5103"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - grrado-network
+    build:
+      context: ./app/server
+      dockerfile: services/GarageService/GarageService.API/Dockerfile
+
+  service-history-service:
+    image: grrado/service-history-service:latest
+    container_name: grrado-service-history-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: "http://+:5104"
+      ASPNETCORE_HTTP_PORT: 5104
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=service_history_service_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: "rabbitmq"
+      Redis__Connection: "redis:6379"
+    ports:
+      - "5104:5104"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - grrado-network
+    build:
+      context: ./app/server
+      dockerfile: services/ServiceHistoryService/ServiceHistoryService.API/Dockerfile
+
+  chatbot-service:
+    image: grrado/chatbot-service:latest
+    container_name: grrado-chatbot-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: "http://+:5105"
+      ASPNETCORE_HTTP_PORT: 5105
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=chatbot_service_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: "rabbitmq"
+      Redis__Connection: "redis:6379"
+    ports:
+      - "5105:5105"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - grrado-network
+    build:
+      context: ./app/server
+      dockerfile: services/ChatbotService/ChatbotService.API/Dockerfile
+
+  diagnostics-service:
+    image: grrado/diagnostics-service:latest
+    container_name: grrado-diagnostics-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: "http://+:5106"
+      ASPNETCORE_HTTP_PORT: 5106
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=diagnostics_service_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: "rabbitmq"
+      Redis__Connection: "redis:6379"
+    ports:
+      - "5106:5106"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - grrado-network
+    build:
+      context: ./app/server
+      dockerfile: services/DiagnosticsService/DiagnosticsService.API/Dockerfile
+
+  logging-service:
+    image: grrado/logging-service:latest
+    container_name: grrado-logging-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: "http://+:5107"
+      ASPNETCORE_HTTP_PORT: 5107
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=logging_service_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: "rabbitmq"
+      Redis__Connection: "redis:6379"
+    ports:
+      - "5107:5107"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - grrado-network
+    build:
+      context: ./app/server
+      dockerfile: services/LoggingService/LoggingService.API/Dockerfile
+
+volumes:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
+
+networks:
+  grrado-network:
+    driver: bridge

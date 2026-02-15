@@ -40,26 +40,104 @@
 ## Troubleshooting
 
 ### Error: "CliPath: The path to the DCP executable is required"
-**Solution**: This is expected with .NET 10 preview. The environment variables in launchSettings.json should handle this.
 
-If still errors:
-```powershell
-# Run this in Package Manager Console in Visual Studio:
-$env:ASPIRE_SKIP_DASHBOARD="true"
-$env:ASPIRE_ALLOW_UNSECURED_TRANSPORT="true"
+**Root Cause**: .NET 10 preview looks for Aspire Dashboard and DCP (Distributed Cloud Platform) tools.
+
+**Solution (Recommended - Already Configured)**:
+This is already fixed in launchSettings.json with:
+```json
+"ASPIRE_SKIP_DASHBOARD": "true",
+"ASPIRE_SKIP_PREREQUISITES": "true",
+"DOTNET_ASPIRE_DISABLE_DASHBOARD": "true"
 ```
+
+**If still encountering errors**:
+
+**Option 1: Set Environment Variables (Quick Fix)**
+```powershell
+# In Package Manager Console or PowerShell
+$env:ASPIRE_SKIP_DASHBOARD = "true"
+$env:ASPIRE_SKIP_PREREQUISITES = "true"
+$env:DOTNET_ASPIRE_DISABLE_DASHBOARD = "true"
+$env:ASPIRE_ALLOW_UNSECURED_TRANSPORT = "false"
+
+# Then try F5 again
+```
+
+**Option 2: Close and Reopen Visual Studio**
+- Close Visual Studio completely
+- Reopen the solution
+- Press F5
+- (Ensures launchSettings.json is re-read)
+
+**Option 3: Install Dashboard Standalone (Optional)**
+```powershell
+# Install Aspire Dashboard globally
+dotnet tool install Aspire.Dashboard.Standalone --global
+
+# Then run dashboard in terminal
+aspire-dashboard
+# Should start at http://localhost:18888
+
+# Then run AppHost with environment variable
+$env:ASPIRE_DASHBOARD_ENDPOINT = "http://localhost:18888"
+# Press F5 in Visual Studio
+```
+
+**Option 4: Run without AppHost/Aspire (Fallback)**
+If AppHost continues failing:
+```powershell
+# Start infrastructure
+docker-compose up -d
+
+# Run services individually
+.\app\server\run-services.ps1
+```
+
+### Error: "Property DashboardPath: The path to the Aspire Dashboard binaries is missing"
+
+**Solution**: Same as above - use environment variables from launchSettings.json or install Dashboard Standalone.
 
 ### Error: "Project file not found"
 - Verify path resolution is correct
 - Check that `docker-compose up -d` was run
+- Ensure AppHost has correct relative paths (already fixed in Program.cs)
 
 ### Services not connecting
 - Ensure docker services are healthy: `docker-compose ps`
 - Check service logs in output window
+- Verify postgres, redis, rabbitmq containers are running
 
 ### Ports already in use
-- Stop existing process: `netstat -ano | findstr :5100` (Windows)
-- Kill process: `taskkill /PID <PID> /F`
+- Find process using port:
+  ```powershell
+  netstat -ano | findstr :7100
+  ```
+- Kill process:
+  ```powershell
+  taskkill /PID <PID> /F
+  ```
+
+### HTTPS Certificate Issues
+- Certificate should already be trusted (generated with --trust)
+- If issues, regenerate:
+  ```powershell
+  .\generate-dev-certs.ps1
+  ```
+- Check certificate exists: `ls certs/aspnetapp.pfx`
+
+### "Connection refused" or "Unable to connect"
+```powershell
+# Verify services are running
+docker-compose ps
+
+# Check infrastructure logs
+docker-compose logs postgres
+docker-compose logs keycloak
+
+# Restart infrastructure
+docker-compose restart
+```
 
 ## Running Individual Services (Alternative)
 

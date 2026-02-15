@@ -6,9 +6,10 @@ var builder = DistributedApplication.CreateBuilder(args);
 // Docker-compose containers (postgres, redis, rabbitmq, keycloak) must be running:
 //   docker-compose up -d
 
-// Get the current working directory (typically app/server when running: dotnet run --project AppHost/GRRADO.AppHost.csproj)
-var workingDir = Directory.GetCurrentDirectory();
-string GetProjectPath(string relativePath) => Path.Combine(workingDir, relativePath);
+// Resolve project paths relative to AppHost project directory
+var appHostDir = AppContext.BaseDirectory;
+var serverDir = Path.GetFullPath(Path.Combine(appHostDir, "..", "..", ".."));
+string GetProjectPath(string relativePath) => Path.Combine(serverDir, relativePath);
 
 // Add API Gateway (entry point)
 var gateway = builder.AddProject("gateway", GetProjectPath("gateway/ApiGateway/ApiGateway.csproj"))

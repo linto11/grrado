@@ -1,0 +1,48 @@
+fix: resolve Aspire AppHost endpoint naming conflict
+
+FIXES:
+- Unique endpoint names for each microservice (was causing "Endpoint with name 'http' already exists" error)
+- Correct path resolution from AppHost binary location to project root
+- Each service now has distinct endpoint identifier (gateway-http, user-http, etc.)
+
+DETAILS:
+- AppContext.BaseDirectory resolves to app/server/AppHost/bin/Debug/net10.0
+- Navigate up 4 levels to reach app/server root directory
+- Fixed path calculation for project discovery during initialization
+
+TESTING:
+- Solution builds successfully (0 errors, 4 warnings about unused packages)
+- Docker infrastructure services running (postgres, keycloak, redis, rabbitmq)
+- Services can start individually without Aspire orchestration
+- Added helper scripts for local development and testing
+
+INFRASTRUCTURE ADDED:
+- docker-compose.services.yml: Complete microservices deployment configuration
+- Dockerfile.Base: Base Docker image for building all services
+- run-services.ps1: PowerShell script to start all services locally
+- test-apis.ps1: Test script to verify service health and connectivity
+- HOW_TO_RUN.md: Comprehensive documentation for running the system
+
+DEPLOYMENT OPTIONS:
+1. Local development: .\run-services.ps1 (starts services in separate terminals)
+2. Docker: docker-compose -f docker-compose.services.yml up
+3. Individual services: dotnet run from each project directory
+
+API ENDPOINTS:
+- API Gateway: http://localhost:5100
+- User Service: http://localhost:5101
+- Vehicle Service: http://localhost:5102
+- Garage Service: http://localhost:5103
+- ServiceHistory Service: http://localhost:5104
+- Chatbot Service: http://localhost:5105
+- Diagnostics Service: http://localhost:5106
+- Logging Service: http://localhost:5107
+
+STATUS:
+✓ Solution compiles
+✓ Docker infrastructure running
+✓ Services start without errors
+✓ Path resolution fixed
+✓ Endpoint naming conflict resolved
+→ Awaiting API communication testing
+→ Awaiting full Docker Container validation

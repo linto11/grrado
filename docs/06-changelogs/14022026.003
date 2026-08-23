@@ -1,0 +1,36 @@
+## [0.4.2] - 2026-02-14
+
+### Added
+- **Aspire AppHost Integration**: New GRRADO.AppHost project for unified backend debugging
+  - Orchestrates all 8 .NET services (API Gateway + 7 microservices) from single entry point
+  - Provides Aspire Dashboard (http://localhost:18888) for real-time monitoring
+  - Services run with fixed ports: Gateway 5100, Services 5101-5107
+  - Health check endpoints on all services (`/health`) for Aspire integration
+  - Gateway references all services via Aspire for service discovery
+- **Aspire Documentation**: Comprehensive guide in docs/00-getting-started/04-aspire-debugging.md
+  - Setup instructions (F5 debugging, CLI launch)
+  - Dashboard usage guide (logs, traces, endpoints)
+  - Service endpoints reference table
+  - Troubleshooting guide for common issues
+  - Workflow examples and comparison with docker-compose-only approach
+
+### Changed
+- Updated all 7 microservice Program.cs files to add health checks
+- UserService, VehicleService, GarageService, ServiceHistoryService, ChatbotService, DiagnosticsService, LoggingService now import HealthChecks
+- Added `builder.Services.AddHealthChecks()` and `app.MapHealthChecks("/health")` to all services
+- ApiGateway already had health checks, no changes needed
+
+### Architecture
+- **Local Development**: Docker-compose for infrastructure (PostgreSQL, Redis, RabbitMQ, Keycloak) + Aspire for .NET services
+- **Clean Separation**: Stateless services orchestrated by Aspire, stateful infrastructure via docker-compose
+- **No Breaking Changes**: Existing service code patterns unchanged, only added health checks and Aspire compatibility
+- **Unified Experience**: F5 in VS Code now launches all services with dashboard
+
+### Deployment
+- Aspire AppHost is development-only tool
+- Production uses docker-compose for full orchestration (future: add service containers to docker-compose.yml)
+- Solution maintains compatibility with docker-compose-only deployment on CI/CD
+
+### Version Bump
+**Version:** 0.4.2 (feature release)
+**Reason:** Added Aspire AppHost for improved local debugging experience, zero impact on production deployment

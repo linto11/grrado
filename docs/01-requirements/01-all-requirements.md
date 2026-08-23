@@ -2,7 +2,7 @@
 
 **Created:** January 11, 2026
 **Last Updated:** February 14, 2026
-**Architecture:** Microservices (.NET 10.0) -- 7 services + YARP Gateway
+**Architecture:** Microservices (.NET 9.0) -- 7 services + YARP Gateway
 **Current Phase:** Phase 4 In Progress (~65%)
 **Overall Progress:** ~18% (~210 of 1,171 hours)
 
@@ -41,7 +41,7 @@ The phases below reflect the **original scope**. Phases 5-11 have been redefined
 
 All prerequisites and development environment installed:
 
-1. ✅ Install .NET 10.0 SDK (v10.0.101)
+1. ✅ Install .NET 9.0 SDK (v9.0.100)
 2. ✅ Install Node.js (LTS) and npm (v20.11.1, npm 10.2.4)
 3. ✅ Install PostgreSQL database server (via Docker - port 5432)
 4. ✅ Install Angular CLI 19 globally (v19.2.19)
@@ -260,7 +260,7 @@ All folder structures, projects, and configurations created:
 
 ## Key Technologies
 
-- **Backend:** .NET 10.0, Entity Framework Core 10.0.1, MediatR 14.0.0 (CQRS)
+- **Backend:** .NET 9.0, Entity Framework Core 9.0.1, MediatR 14.0.0 (CQRS)
 - **Architecture:** Microservices (7 services + YARP API Gateway)
 - **Frontend:** Flutter (Unified Web + Mobile), Material Design 3, Bloc/Cubit
 - **AI/ML:** Azure AI Foundry (chatbot models integration) + Python 3.11+ (custom ML development)

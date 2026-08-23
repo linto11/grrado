@@ -16,6 +16,7 @@ public static class ErrorCodes
     public const string UNAUTHORIZED = "UNAUTHORIZED";
     public const string FORBIDDEN = "FORBIDDEN";
     public const string GENERIC_ERROR_MESSAGE = "An error occurred processing your request";
+    public const string VALIDATION_FAILED_MESSAGE = "Validation failed";
     public const string ENTITY_NOT_FOUND = "ENTITY_NOT_FOUND";
     public const string ENTITY_ID_INVALID = "ENTITY_ID_INVALID";
 

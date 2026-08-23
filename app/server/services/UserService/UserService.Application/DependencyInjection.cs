@@ -1,3 +1,6 @@
+using FluentValidation;
+using GRRADO.Shared.Application.Behaviors;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace UserService.Application;
@@ -7,7 +10,12 @@ public static class DependencyInjection
     public static IServiceCollection AddUserApplication(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(DependencyInjection).Assembly);
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        });
+        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
         return services;
     }
 }

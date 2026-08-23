@@ -92,6 +92,8 @@ __marimo__/
 *.suo
 *.userosscache
 *.sln.docstates
+**/Properties/launchSettings.json
+launchSettings.json
 *.csproj.user
 *.vbproj.user
 *.dbmdl
@@ -166,3 +168,5 @@ $RECYCLE.BIN/
 tmpclaude-*
 nul
 logs/
+# SSL/TLS Certificates
+certs/

@@ -8,3 +8,4 @@
     <ProjectReference Include="..\..\..\shared\GRRADO.Shared.Domain\GRRADO.Shared.Domain.csproj" />
   </ItemGroup>
 </Project>
+

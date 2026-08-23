@@ -34,6 +34,34 @@ All projects (Backend & Frontend) **MUST** follow **Clean Architecture** princip
 
 **Reference:** [Clean Architecture Folder Structure — Milan Jovanovic](https://www.milanjovanovic.tech/blog/clean-architecture-folder-structure)
 
+### 1.0 Universal Architecture Rule
+
+Clean Architecture is a project-wide rule, not a .NET-only preference.
+
+It applies to:
+
+- every new module
+- every new service
+- every new application
+- every future Flutter client
+- every supporting component written in another language
+
+This includes, but is not limited to:
+
+- C# / .NET
+- Dart / Flutter
+- Python
+- TypeScript / JavaScript
+
+**RULE:** For any language used in GRRADO, the architecture MUST preserve the same intent:
+
+- business rules stay isolated
+- use-case or application logic stays separate from infrastructure and delivery concerns
+- infrastructure remains outside the core
+- dependencies flow inward, never outward from the core
+
+Folder names may differ by language, but the dependency direction and separation of concerns MUST stay consistent.
+
 ### The Dependency Rule
 
 Dependencies MUST flow **inward only**. Inner layers define abstractions (interfaces); outer layers implement them.
@@ -111,6 +139,25 @@ Each Flutter app/package MUST follow this internal structure:
 | **Core** | App-wide utilities, constants, themes, extensions | `ApiEndpoints`, `AppTheme`, `DateUtils` |
 
 **RULE:** Domain layer MUST NOT import Flutter packages. Keep business logic pure.
+
+### 1.3 Cross-Language Module Rule
+
+When a module is implemented in a language without a dedicated section in this rulebook, the team MUST still map it to Clean Architecture instead of inventing an ad hoc structure.
+
+Minimum expectation for any new module:
+
+- a business or core layer
+- an application or use-case layer
+- an infrastructure or integration layer
+- a delivery or interface layer when applicable
+
+Examples:
+
+- Python AI component: `domain`, `application`, `infrastructure`, `api`
+- TypeScript service: `domain`, `application`, `infrastructure`, `presentation`
+- Flutter app: `domain`, `data`, `presentation`, `core`
+
+**RULE:** Before introducing a new module in a new language, define its Clean Architecture mapping and keep it consistent for the lifetime of that module.
 
 ---
 

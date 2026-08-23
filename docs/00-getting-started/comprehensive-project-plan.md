@@ -28,7 +28,7 @@ The Vehicle Service Portal is an enterprise-grade, multi-platform application th
 - **Platforms:** Web (Flutter Web), iOS (Flutter), Android (Flutter)
 - **Users:** Super Admin, App Admin, Garage Admin, Customers
 - **Languages:** Multi-language support
-- **Tech Stack:** .NET 10.0, Flutter (Unified Web + Mobile), PostgreSQL 15, Redis 7, Azure AI Foundry
+- **Tech Stack:** .NET 9.0, Flutter (Unified Web + Mobile), PostgreSQL 15, Redis 7, Azure AI Foundry
 - **Architecture:** Clean Architecture (Backend & Frontend)
 
 ---
@@ -996,7 +996,7 @@ CREATE TABLE ai_usage_logs (
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
 │                      API GATEWAY / BFF                          │
-│  (Backend for Frontend - .NET 10.0 Microservices)                  │
+│  (Backend for Frontend - .NET 9.0 Microservices)                  │
 │  ├─ Authentication & Authorization (Keycloak)                   │
 │  ├─ Rate Limiting & Throttling                                 │
 │  ├─ Request Routing                                            │
@@ -1108,10 +1108,10 @@ CREATE TABLE ai_usage_logs (
 ### Backend
 | Component | Technology | Version | Purpose |
 |-----------|-----------|---------|---------|
-| **Framework** | .NET | 10.0 | Core backend framework (Microservices) |
+| **Framework** | .NET | 9.0 | Core backend framework (Microservices) |
 | **Architecture** | Clean Architecture | - | Code organization |
 | **Pattern** | CQRS + MediatR | - | Command/Query separation |
-| **ORM** | Entity Framework Core | 10.0 | Database access |
+| **ORM** | Entity Framework Core | 9.0 | Database access |
 | **Database** | PostgreSQL | 15 | Primary data store (database-per-service) |
 | **Caching** | Redis | 7 | Distributed cache |
 | **Schema Migration** | Liquibase | Latest | Version control for DB |
@@ -1180,7 +1180,7 @@ CREATE TABLE ai_usage_logs (
 **Duration:** 5 hours  
 **Team:** 1 developer
 
-- ✅ .NET 10.0 SDK
+- ✅ .NET 9.0 SDK
 - ✅ Node.js & npm
 - ✅ PostgreSQL 16 (Docker)
 - ✅ Keycloak (Docker)

@@ -1,9 +1,22 @@
 # GRRADO Vehicle Service Portal -- Project Status
 
 **Status:** Microservices Migration Complete -- Phase 4 In Progress
-**Date:** February 14, 2026
-**Build Status:** 33 projects, 0 errors, 0 warnings
-**Architecture:** Microservices (.NET 10.0) with YARP API Gateway
+**Date:** April 17, 2026
+**Build Status:** 33 projects, 0 errors, 82 warnings
+**Architecture:** Microservices (.NET 10.0 current runtime) with YARP API Gateway
+
+> Live rule: this status file and `progress-tracker.md` should be updated as work starts/completes, not only at the end of a phase.
+
+---
+
+## Approved Direction
+
+- **Architecture Rule:** Clean Architecture is mandatory for every module, in every language used in the project
+- **Database Rule:** Liquibase is the long-term schema authority; EF Core migrations are not the target workflow
+- **Auth Target:** Keycloak remains the preferred identity platform
+- **Client Direction:** Flutter Web + Flutter Mobile remain the target product clients
+- **Platform Upgrade:** .NET 10 baseline has been restored locally and verified with a full solution build
+- **Delivery Bias:** Backend stabilization remains first priority, but we sequence work so a credible demo can emerge without rework
 
 ---
 
@@ -36,6 +49,19 @@
 - **RabbitMQ** integration for async inter-service communication
 - **Old monolith fully removed** (6 directories + GRRADO.sln deleted)
 - **New solution:** `GRRADO.Microservices.sln` with 33 projects, builds with 0 errors
+
+### Platform Baseline - COMPLETED
+- **.NET 10 SDK installed locally:** 10.0.202
+- **global.json restored:** solution now targets `.NET 10`
+- **Project baselines restored:** shared libraries, gateway, AppHost, and all 7 services target `.NET 10`
+- **Package baselines restored:** EF Core/OpenAPI/shared extensions aligned back to .NET 10 package line
+- **Verification complete:** `dotnet build GRRADO.Microservices.sln` succeeded with 0 errors
+- **Docker runtime aligned:** `docker-compose.services.yml` now uses `.NET 10` runtime images and the same connection-string key/database names as the services
+
+### Database Workflow Baseline - COMPLETED
+- **Design-time factories added:** all 7 infrastructure projects can now generate schema scripts without depending on API startup projects
+- **Liquibase structure created:** `app/server/database/liquibase/` now contains one baseline changelog set per service database
+- **Baseline SQL generated:** `001-baseline.sql` files were bootstrapped from the current EF Core model for all 7 services
 
 ---
 
@@ -118,18 +144,26 @@ dotnet build GRRADO.Microservices.sln
 
 | Category | Items |
 |----------|-------|
-| **Validation** | FluentValidation rules for all use case commands/queries |
-| **Authentication** | Keycloak JWT integration, middleware pipeline (deferred to auth phase) |
-| **Event Handling** | RabbitMQ event consumers for cross-service communication |
-| **Database Migrations** | EF Core migration strategy (currently using EnsureCreated) |
-| **Testing** | Unit tests, integration tests for all services |
+| **Validation** | Verify validator coverage, pipeline behavior, and API error shape |
+| **Authentication** | Keycloak JWT integration and middleware pipeline after backend baseline work |
+| **Event Handling** | Finish and verify RabbitMQ event consumers for cross-service communication |
+| **Database** | Review generated Liquibase baselines, run them locally, and verify schema parity |
+| **Testing** | Start with integration tests for core service and gateway flows |
 | **API Refinement** | Pagination, filtering, sorting on GetAll endpoints |
 
 ### Known Items
 - All endpoints currently public (auth deferred to Phase 5/6)
-- RabbitMQ infrastructure is wired but event consumers not fully implemented
-- FluentValidation referenced but validators may need explicit rules
-- No EF Core migrations visible (using seed scripts + EnsureCreated)
+- RabbitMQ infrastructure is wired and consumer scaffolding exists, but end-to-end verification is still pending
+- FluentValidation is wired in the application pipeline and validator files exist, but coverage and behavior still need verification
+- Liquibase is now the intended schema authority, but the runtime still needs to be aligned away from `EnsureCreated()` and other ad hoc bootstrapping
+- The solution now builds on `.NET 10`, but dependency and warning cleanup is still needed (`AutoMapper`, `System.Security.Cryptography.Xml`, `NU1510`, and two `CS0108` warnings)
+
+### Active Sequence
+1. Keep the live docs and tracker aligned with actual engineering decisions
+2. Review and validate the generated Liquibase baselines against the live service model
+3. Verify validation, eventing, and startup flows
+4. Add first integration tests
+5. Complete Keycloak/JWT and then continue into RBAC
 
 ---
 

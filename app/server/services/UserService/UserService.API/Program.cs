@@ -4,6 +4,7 @@ using UserService.Application;
 using UserService.Infrastructure;
 using Serilog;
 using Scalar.AspNetCore;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,10 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
-builder.Services.AddSharedInfrastructure();
+// Add health checks for Aspire
+builder.Services.AddHealthChecks();
+
+builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddUserInfrastructure(builder.Configuration);
 builder.Services.AddUserApplication();
 
@@ -30,6 +34,9 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseRouting();
 app.UseCors();
+
+// Add health check endpoint for Aspire
+app.MapHealthChecks("/health");
 
 if (app.Environment.IsDevelopment())
 {

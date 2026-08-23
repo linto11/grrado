@@ -37,37 +37,37 @@ Warnings: 2 (non-critical NuGet version resolution)
 ### Domain Layer ✅
 - **Project:** Domain.csproj
 - **Status:** Compiled successfully
-- **Output:** Domain/bin/Debug/net10.0/Domain.dll
+- **Output:** Domain/bin/Debug/net9.0/Domain.dll
 - **Purpose:** Entity definitions, abstractions
 
 ### Abstractions Layer ✅
 - **Project:** Abstractions.csproj
 - **Status:** Compiled successfully
-- **Output:** Abstractions/bin/Debug/net10.0/Abstractions.dll
+- **Output:** Abstractions/bin/Debug/net9.0/Abstractions.dll
 - **Purpose:** Interface contracts, DTOs
 
 ### Utility Layer ✅
 - **Project:** Utility.csproj
 - **Status:** Compiled successfully
-- **Output:** Utility/bin/Debug/net10.0/Utility.dll
+- **Output:** Utility/bin/Debug/net9.0/Utility.dll
 - **Purpose:** Helper functions, extensions
 
 ### Application Layer ✅
 - **Project:** Application.csproj
 - **Status:** Compiled successfully
-- **Output:** Application/bin/Debug/net10.0/Application.dll
+- **Output:** Application/bin/Debug/net9.0/Application.dll
 - **Purpose:** Business logic, services, mapping
 
 ### Infrastructure Layer ✅
 - **Project:** Infrastructure.csproj
 - **Status:** Compiled successfully
-- **Output:** Infrastructure/bin/Debug/net10.0/Infrastructure.dll
+- **Output:** Infrastructure/bin/Debug/net9.0/Infrastructure.dll
 - **Purpose:** Database access, repositories
 
 ### API Layer ✅
 - **Project:** API.csproj
 - **Status:** Compiled successfully
-- **Output:** API/bin/Debug/net10.0/API.dll
+- **Output:** API/bin/Debug/net9.0/API.dll
 - **Purpose:** REST controllers, endpoints
 
 ---
@@ -206,7 +206,7 @@ Warnings: 2 (non-critical NuGet version resolution)
 - ✅ No external dependencies required (except database)
 
 ### Runtime Requirements
-- ✅ .NET 10.0 runtime
+- ✅ .NET 9.0 runtime
 - ✅ Database connection string
 - ✅ Port 5100 available (API Gateway)
 - ✅ No additional software required
@@ -315,7 +315,7 @@ Status: ✅ PASSED
 ### Prerequisites
 ```powershell
 # Check .NET version
-dotnet --version      # Should be 10.0 or higher
+dotnet --version      # Should be 9.0 or higher
 
 # Check database
 # Ensure docker compose is running: docker compose up -d

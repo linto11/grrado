@@ -1,5 +1,8 @@
 # Grrado - Vehicle Service Aggregator Platform - Implementation Plan
 
+> Historical/high-level planning document.
+> For current implementation decisions, use `docs/current-doc-set.md`, `docs/02-progress-tracking/current-status.md`, and `docs/02-progress-tracking/progress-tracker.md`.
+
 **Last Updated:** January 25, 2026  
 **Overall Progress:** 9% (103 of 1,171 hours complete)  
 **Current Phase:** Phases 1-3 ✅ COMPLETE | Phase 4 🔄 IN PROGRESS (Extended for Chatbot)  
@@ -26,7 +29,7 @@ The Vehicle Service Portal follows a **backend-first strategy prioritizing the A
 - ⏳ **Next:** Complete Phase 4, then Phase 5 (Roles/Permissions)
 - 🤖 **Strategic Focus:** AI Chatbot (200h) in Phase 7 - supports text, voice, image, deep thinking
 - 📦 **Database:** 13 tables (8 core + 5 chatbot-specific) with 3,400+ seed records
-- 🛠️ **Tech Stack:** .NET 10.0, PostgreSQL 15, Keycloak, Azure AI Foundry, Flutter (Web+Mobile)
+- 🛠️ **Tech Stack:** .NET 9.0, PostgreSQL 15, Keycloak, Azure AI Foundry, Flutter (Web+Mobile)
 - 🏗️ **Architecture:** Clean Architecture (Domain, Application, Infrastructure, API)
 
 ---
@@ -38,7 +41,7 @@ The Vehicle Service Portal follows a **backend-first strategy prioritizing the A
 **Documentation:** [phase-1-environment-setup/README.md](docs/03-phase-specific/phase-1-environment-setup/README.md)
 
 **Verified:**
-- ✅ .NET 10.0 SDK (v10.0.101)
+- ✅ .NET 9.0 SDK (v9.0.100)
 - ✅ Flutter SDK 3.x
 - ✅ Python 3.11+ (for custom AI/ML development)
 - ✅ Azure account for AI Foundry

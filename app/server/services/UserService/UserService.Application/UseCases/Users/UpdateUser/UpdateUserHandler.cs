@@ -1,4 +1,5 @@
 using AutoMapper;
+using GRRADO.Shared.Abstractions.Caching;
 using GRRADO.Shared.Application.Common;
 using UserService.Application.Abstractions;
 using UserService.Application.DTOs;
@@ -10,11 +11,13 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, Result<UserD
 {
     private readonly IUserUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICacheService _cache;
 
-    public UpdateUserHandler(IUserUnitOfWork unitOfWork, IMapper mapper)
+    public UpdateUserHandler(IUserUnitOfWork unitOfWork, IMapper mapper, ICacheService cache)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _cache = cache;
     }
 
     public async Task<Result<UserDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -34,6 +37,9 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, Result<UserD
 
             await _unitOfWork.Users.UpdateAsync(entity);
             await _unitOfWork.SaveChangesAsync();
+
+            await _cache.RemoveAsync($"user:{request.Id}", cancellationToken);
+
             return Result<UserDto>.Success(_mapper.Map<UserDto>(entity));
         }
         catch (Exception ex)

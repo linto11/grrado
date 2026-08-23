@@ -22,7 +22,7 @@ builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAn
 // Add health checks for Aspire
 builder.Services.AddHealthChecks();
 
-builder.Services.AddSharedInfrastructure();
+builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddServiceHistoryInfrastructure(builder.Configuration);
 builder.Services.AddServiceHistoryApplication();
 

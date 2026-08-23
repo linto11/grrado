@@ -1,4 +1,5 @@
 using ChatbotService.Application.Abstractions;
+using ChatbotService.Infrastructure.Messaging;
 using ChatbotService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ public static class DependencyInjection
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IChatbotUnitOfWork, ChatbotUnitOfWork>();
+        services.AddHostedService<ChatbotEventConsumer>();
 
         return services;
     }

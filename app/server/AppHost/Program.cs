@@ -16,8 +16,8 @@ try
     //   docker-compose up -d
 
     // Resolve project paths relative to AppHost project directory
-    // Binary location: app/server/AppHost/bin/Debug/net10.0
-    // Need to navigate: net10.0 -> Debug -> bin -> AppHost -> app/server
+    // Binary location: app/server/AppHost/bin/Debug/net9.0
+    // Need to navigate: net9.0 -> Debug -> bin -> AppHost -> app/server
     var appHostDir = AppContext.BaseDirectory;
     var serverDir = Path.GetFullPath(Path.Combine(appHostDir, "..", "..", "..", ".."));
     string GetProjectPath(string relativePath) => Path.Combine(serverDir, relativePath);

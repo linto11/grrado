@@ -1,107 +1,183 @@
-# How to Run & Test the GRRADO Vehicle Service Portal API
+# How To Run And Test The API
 
-**Project Status:** Phase 4 In Progress -- Microservices Migration Complete
-**Last Updated:** February 14, 2026
-**Build Status:** 33 projects, 0 errors
-**Architecture:** Microservices (.NET 10.0) with YARP API Gateway
+**Canonical runtime guide**  
+**Last Updated:** April 17, 2026
+
+Use this file as the single source of truth for running and testing the current backend.
 
 ---
 
-## Quick Start (5 Minutes)
+## Prerequisites
 
-### 1. Prerequisites Check
+- .NET 9 SDK
+- Docker Desktop
+- Access to `D:\_GRRADO\src`
+
+Build status verified on April 17, 2026:
+
+- `GRRADO.Microservices.sln` builds with 0 errors and 2 warnings
+
+---
+
+## Quick Start
+
 ```powershell
-# Check .NET version (should be 10.0+)
-dotnet --version
+# 1. Start infrastructure
+cd D:\_GRRADO\src
+docker compose -f D:\_GRRADO\src\docker-compose.yml up -d
 
-# Ensure Docker is running (PostgreSQL, Redis, RabbitMQ)
-docker compose -f d:\_GRRADO\src\docker-compose.yml up -d
+# 2. Build backend
+cd D:\_GRRADO\src\app\server
+dotnet build GRRADO.Microservices.sln
+
+# 3. Run one service
+dotnet run --project services/UserService/UserService.API/UserService.API.csproj
+
+# 4. Open Scalar
+# http://localhost:5101/scalar/v1
 ```
 
-### 2. Build the Solution
+---
+
+## Infrastructure
+
+Start shared infrastructure first:
+
 ```powershell
-cd d:\_GRRADO\src\app\server
+cd D:\_GRRADO\src
+docker compose -f D:\_GRRADO\src\docker-compose.yml up -d
+docker compose -f D:\_GRRADO\src\docker-compose.yml ps
+```
+
+This brings up:
+
+- PostgreSQL on `5433`
+- Redis on `6379`
+- RabbitMQ on `5672` and `15672`
+- Keycloak on `8080`
+
+---
+
+## Build
+
+```powershell
+cd D:\_GRRADO\src\app\server
 dotnet build GRRADO.Microservices.sln
 ```
 
-### 3. Run a Service (e.g., UserService)
+---
+
+## Run Options
+
+### Run one service
+
 ```powershell
+cd D:\_GRRADO\src\app\server
 dotnet run --project services/UserService/UserService.API/UserService.API.csproj
 ```
 
-### 4. Access Scalar API Docs
-Open browser: **http://localhost:5101/scalar/v1**
-
----
-
-## Microservices & Ports
-
-| Service | Port | API Docs |
-|---------|------|----------|
-| API Gateway (YARP) | 5100 | Routes to all services |
-| UserService | 5101 | http://localhost:5101/scalar/v1 |
-| VehicleService | 5102 | http://localhost:5102/scalar/v1 |
-| GarageService | 5103 | http://localhost:5103/scalar/v1 |
-| ServiceHistoryService | 5104 | http://localhost:5104/scalar/v1 |
-| ChatbotService | 5105 | http://localhost:5105/scalar/v1 |
-| DiagnosticsService | 5106 | http://localhost:5106/scalar/v1 |
-| LoggingService | 5107 | http://localhost:5107/scalar/v1 |
-
----
-
-## Available Endpoints (18 entities, 90+ endpoints)
-
-### Via Gateway (Base URL: `http://localhost:5100/api`)
-
-CRUD pattern for all entities:
-```
-GET    /api/{Resource}           - List all (paginated)
-POST   /api/{Resource}           - Create new
-GET    /api/{Resource}/{id}      - Get by ID
-PUT    /api/{Resource}/{id}      - Update
-DELETE /api/{Resource}/{id}      - Soft delete
-```
-
-### Portal: `/api/Users`, `/api/Vehicles`, `/api/Garages`, `/api/Services`, `/api/ServiceHistories`
-### Diagnostics: `/api/VehicleIssues`, `/api/DiagnosticRules`, `/api/ImageDiagnostics`
-### Chatbot: `/api/ChatbotConversations`, `/api/ChatbotMessages`, `/api/AiImageAnalyses`, `/api/ChatbotKnowledgeBases`, `/api/AiUsageLogs`
-### Logging: `/api/AuditLogs`, `/api/ErrorLogs`, `/api/ActivityLogs`, `/api/RequestResponseLogs`, `/api/ErrorMessages`
-
----
-
-## Testing with PowerShell/cURL (via Gateway)
+### Run the gateway
 
 ```powershell
-# Get all users
+cd D:\_GRRADO\src\app\server
+dotnet run --project gateway/ApiGateway/ApiGateway.csproj
+```
+
+### Run all services with the script
+
+```powershell
+cd D:\_GRRADO\src\app\server
+.\run-services.ps1
+```
+
+### Run with AppHost / Aspire
+
+For AppHost and Visual Studio orchestration, use:
+
+- `docs/00-getting-started/04-aspire-debugging.md`
+
+---
+
+## Ports
+
+| Service | Port |
+|---------|------|
+| API Gateway | 5100 |
+| UserService | 5101 |
+| VehicleService | 5102 |
+| GarageService | 5103 |
+| ServiceHistoryService | 5104 |
+| ChatbotService | 5105 |
+| DiagnosticsService | 5106 |
+| LoggingService | 5107 |
+
+Per-service docs are available at:
+
+```text
+http://localhost:{port}/scalar/v1
+```
+
+---
+
+## Test The API
+
+### Scalar UI
+
+1. Run a service.
+2. Open `http://localhost:{port}/scalar/v1`.
+3. Use the interactive endpoint tester.
+
+### PowerShell or curl via gateway
+
+```powershell
+# Start the gateway first, then call through port 5100
 curl -X GET "http://localhost:5100/api/Users"
 
-# Create a new user
 curl -X POST "http://localhost:5100/api/Users" `
   -H "Content-Type: application/json" `
   -d '{"name":"Jane Smith","email":"jane@example.com","phoneNumber":"555-1234","city":"New York"}'
+```
 
-# Get specific user
-curl -X GET "http://localhost:5100/api/Users/1"
+### Direct service calls
 
-# Delete user (soft delete)
-curl -X DELETE "http://localhost:5100/api/Users/1"
+```powershell
+curl -X GET "http://localhost:5101/api/Users"
 ```
 
 ---
 
 ## Troubleshooting
 
-### Build Fails
+### Build fails
+
 ```powershell
-dotnet clean GRRADO.Microservices.sln && dotnet restore GRRADO.Microservices.sln && dotnet build GRRADO.Microservices.sln
+cd D:\_GRRADO\src\app\server
+dotnet clean GRRADO.Microservices.sln
+dotnet restore GRRADO.Microservices.sln
+dotnet build GRRADO.Microservices.sln
 ```
 
-### Database Connection Failed
+### Infrastructure is not reachable
+
 ```powershell
-docker compose -f d:\_GRRADO\src\docker-compose.yml up -d
-docker ps  # verify containers are healthy
+cd D:\_GRRADO\src
+docker compose -f D:\_GRRADO\src\docker-compose.yml ps
+docker compose -f D:\_GRRADO\src\docker-compose.yml logs postgres
+docker compose -f D:\_GRRADO\src\docker-compose.yml logs rabbitmq
+```
+
+### Port is already in use
+
+```powershell
+netstat -ano | findstr :5101
+taskkill /PID <PID> /F
 ```
 
 ---
 
-**Updated:** February 14, 2026 | **Architecture:** Microservices (.NET 10.0) | **Build:** 33 projects, 0 errors
+## Related Docs
+
+- `README.md`
+- `docs/current-doc-set.md`
+- `docs/02-progress-tracking/current-status.md`
+- `docs/00-getting-started/04-aspire-debugging.md`

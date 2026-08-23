@@ -32,14 +32,14 @@ Validate all NuGet packages are correctly installed across all projects in the G
 ## 🔗 Dependencies
 
 - Task 001: Git Branching (should have feature branch)
-- .NET 10.0 SDK installed
+- .NET 9.0 SDK installed
 - Visual Studio or VS Code with C# extension
 
 ## ⚠️ Known Package Issues
 
 Based on codebase review:
 - JWT token validation requires: `System.IdentityModel.Tokens.Jwt` 7.1.0+
-- EF Core requires: `Microsoft.EntityFrameworkCore.PostgreSQL` 10.0.0+
+- EF Core requires: `Microsoft.EntityFrameworkCore.PostgreSQL` 9.0.0+
 - Serilog requires proper middleware configuration
 
 ## ✅ Completion Checklist
@@ -103,9 +103,9 @@ Based on codebase review:
   - Verify: `dotnet list package | findstr "IdentityModel"`
 
 - [ ] EF Core packages (in Infrastructure):
-  - Microsoft.EntityFrameworkCore 10.0.0+
-  - Microsoft.EntityFrameworkCore.PostgreSQL 10.0.0+
-  - Microsoft.EntityFrameworkCore.Tools 10.0.0+
+  - Microsoft.EntityFrameworkCore 9.0.0+
+  - Microsoft.EntityFrameworkCore.PostgreSQL 9.0.0+
+  - Microsoft.EntityFrameworkCore.Tools 9.0.0+
 
 - [ ] Serilog packages (in API/Infrastructure):
   - Serilog 3.0.0+

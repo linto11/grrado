@@ -13,7 +13,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 builder.Services.AddHealthChecks();
-builder.Services.AddSharedInfrastructure();
+builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddChatbotInfrastructure(builder.Configuration);
 builder.Services.AddChatbotApplication();
 

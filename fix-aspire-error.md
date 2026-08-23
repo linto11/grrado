@@ -8,7 +8,7 @@ Property DashboardPath: The path to the Aspire Dashboard binaries is missing.
 
 ## Root Cause
 
-.NET 10.0 preview Aspire requires either:
+.NET 9.0 stable Aspire requires either:
 1. **Dashboard Standalone** (Microsoft's supported solution)
 2. **DCP** (Distributed Cloud Platform) tools - not available in preview
 

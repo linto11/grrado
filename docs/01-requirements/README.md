@@ -1,43 +1,45 @@
-# 📋 Requirements & Task Management
+# Requirements
 
-**Complete list of all 101 project tasks organized by phase.**
-
-This folder contains:
-- `01-all-requirements.md` - Summary of all 101 tasks by phase
-- See `progress-tracker.md` for detailed task tracking with checkboxes
+**Purpose:** product and scope reference material.  
+**Last Updated:** April 17, 2026
 
 ---
 
-## 📊 Quick Summary
+## What This Folder Is For
 
-**Total Tasks:** 101  
-**Completed:** 31  
-**In Progress:** 1  
-**Blocked/Todo:** 69  
-**Overall Progress:** 31%
+Use this folder when you need:
 
-### By Phase
-- Phase 1: ✅ Complete (7/7)
-- Phase 2: ✅ Complete (12/12)
-- Phase 3: 🔄 In Progress (12/13 - 92%)
-- Phases 4-11: ⏳ Blocked (0/69)
+- broader scope reference
+- requirement coverage checks
+- older task framing and product intent
 
----
+Do not use it as the primary day-to-day execution tracker.
 
-## Files in This Folder
+For active execution, use:
 
-1. **`01-all-requirements.md`** - All 101 requirements organized by phase
-2. **`progress-tracker.md`** (linked) - Live tracking with checkboxes at `docs/02-progress-tracking/progress-tracker.md`
+- `../02-progress-tracking/current-status.md`
+- `../02-progress-tracking/progress-tracker.md`
 
 ---
 
-## How to Use
+## Primary File
 
-1. **See all tasks:** Read `01-all-requirements.md`
-2. **Track progress:** See `docs/02-progress-tracking/progress-tracker.md`
-3. **Find specific task:** Search by phase or keyword
+- `01-all-requirements.md`
+  broad requirements reference across the project scope
 
 ---
 
-See `docs/README.md` for navigation guide.
+## Recommended Usage
 
+Read this folder after you already know:
+
+- the current repo reality
+- the current active phase
+- the actual backend status
+
+The best sequence is:
+
+1. `../current-doc-set.md`
+2. `../00-getting-started/01-project-overview.md`
+3. `../02-progress-tracking/current-status.md`
+4. `01-all-requirements.md`

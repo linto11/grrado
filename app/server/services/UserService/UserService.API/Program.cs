@@ -24,7 +24,7 @@ builder.Services.AddCors(options =>
 // Add health checks for Aspire
 builder.Services.AddHealthChecks();
 
-builder.Services.AddSharedInfrastructure();
+builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddUserInfrastructure(builder.Configuration);
 builder.Services.AddUserApplication();
 

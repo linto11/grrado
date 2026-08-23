@@ -1,15 +1,28 @@
 # Grrado - Vehicle Service Aggregator Platform - Progress Tracker
 
-**Last Updated:** February 14, 2026
+**Last Updated:** April 17, 2026
 **Overall Status:** Phases 1-3 COMPLETE | Phase 4 IN PROGRESS -- Microservices Migration COMPLETE
-**Architecture:** Microservices (.NET 10.0) -- 7 services + YARP Gateway + 4 shared libraries
-**Build Status:** 33 projects, 0 errors | Solution: `GRRADO.Microservices.sln`
+**Architecture:** Microservices (.NET 10.0 current runtime) -- 7 services + YARP Gateway + 4 shared libraries
+**Build Status:** 33 projects, 0 errors, 82 warnings | Solution: `GRRADO.Microservices.sln`
 **Project Scope:** Backend-First Strategy: Portal APIs -> Role/Permission System -> CMS -> AI Chatbot -> Web Portals -> Mobile Apps
 **Total Project Progress:** ~18% (approx 210 of 1,171 hours complete) -- Microservices migration adds significant completed work
+**Approved Target Direction:** .NET 10 baseline restored + Liquibase-owned schema + Keycloak auth + Flutter web/mobile + Clean Architecture across all modules/languages
+
+> Working tracker for active scope.
+> For a shorter implementation snapshot, use `current-status.md`.
+> Update rule: whenever we start or complete a milestone, this file is updated in the same working pass.
 
 ---
 
 ## Executive Summary
+
+### Locked Delivery Decisions
+- **Architecture Rule:** Clean Architecture is mandatory for every module, service, app, and future cross-language component
+- **Database Rule:** Liquibase is the single schema authority; EF Core migrations are not part of the long-term workflow
+- **Auth Target:** Keycloak remains the preferred identity and access platform
+- **Client Direction:** Flutter Web + Flutter Mobile remain the intended product clients
+- **Platform Upgrade:** .NET 10 baseline is restored and verified before broader feature expansion
+- **Execution Style:** Stabilize backend foundation first, but keep demo readiness in view as we sequence work
 
 ### Project Evolution
 - **Original Scope:** Web-based vehicle service portal (735 hours)
@@ -30,8 +43,8 @@
 | **Phases Completed** | 3 of 12 (25%) |
 | **Hours Completed** | ~210 / 1,171 (~18%) |
 | **Current Phase** | Phase 4 - Backend API (Extended) |
-| **Architecture** | Microservices (.NET 10.0) |
-| **Solution** | 33 projects, 0 errors |
+| **Architecture** | Microservices (.NET 10 current baseline) |
+| **Solution** | 33 projects, 0 errors, 82 warnings |
 | **Services** | 7 microservices + 1 gateway |
 | **Entities** | 18 across 7 services |
 | **Source Files** | ~319 .cs files |
@@ -103,10 +116,28 @@
 - [x] Old monolith fully removed (API, Application, Domain, Infrastructure, Abstractions, Utility + GRRADO.sln)
 - [x] Docker infrastructure: docker-compose.yml + init-databases.sql for 7 databases
 
+#### Platform Baseline (.NET 10)
+- [x] Install .NET SDK 10.0.202 locally for solution verification
+- [x] Restore `global.json` and all service/shared project targets to `.NET 10`
+- [x] Restore .NET 10 package baselines for EF Core, OpenAPI, and shared Microsoft.Extensions packages
+- [x] Verify `GRRADO.Microservices.sln` builds successfully on .NET 10
+- [x] Align `docker-compose.services.yml` runtime images and connection-string keys with the live `.NET 10` service configuration
+
+#### Database Workflow Baseline
+- [x] Add design-time DbContext factories for all 7 services so schema scripts can be generated from infrastructure projects
+- [x] Bootstrap per-service Liquibase baseline changelogs from the current EF Core model
+- [x] Define the canonical Liquibase folder structure under `app/server/database/liquibase`
+
+### ACTIVE Execution Sequence
+1. Replace ad hoc database bootstrapping with a Liquibase-owned workflow
+2. Verify validators, event consumers, and service startup behavior
+3. Add first integration tests for core demo-ready flows
+4. Complete Keycloak/JWT wiring and then move into RBAC
+
 ### REMAINING Items (~35% of Phase 4)
 
 **Validation & Data Integrity:**
-- [ ] Implement FluentValidation rules for all use case commands/queries
+- [ ] Verify validator coverage, pipeline behavior, and API error response shape
 - [ ] Add soft-delete filtering verification across all repositories
 - [ ] Capture user info on delete operations (DeletedBy = current user)
 - [ ] Implement pagination, filtering, sorting on GetAll endpoints
@@ -116,18 +147,18 @@
 - [ ] Add JWT authentication middleware to API pipeline
 
 **Event Handling:**
-- [ ] Implement RabbitMQ event consumers for cross-service communication
+- [ ] Finish and verify RabbitMQ event consumers for cross-service communication
 - [ ] Wire up integration event handlers (UserDeleted, VehicleDeleted, etc.)
 
 **Database:**
-- [ ] Establish EF Core migration strategy (replace EnsureCreated)
-- [ ] Run database migrations for all 7 service databases
+- [ ] Review the generated Liquibase baseline SQL for each service before first real deployment
+- [ ] Run Liquibase against local service databases and verify schema parity end to end
 - [ ] Verify all foreign key relationships
 
 **Testing:**
-- [ ] Unit tests for CQRS handlers
-- [ ] Integration tests for API endpoints
-- [ ] Service-level integration tests
+- [ ] Integration tests for core API endpoints and gateway flows
+- [ ] Service-level integration tests for the most important entities
+- [ ] Unit tests for CQRS handlers where they add value beyond integration coverage
 
 **Infrastructure Refinement:**
 - [ ] Implement file upload endpoint (/api/files/{fileName})
@@ -181,9 +212,9 @@ XxxService/
 
 ## Technology Stack
 
-### Backend (.NET 10.0 -- Microservices)
-- .NET 10.0 (Clean Architecture per service)
-- Entity Framework Core 10.0.1
+### Backend (.NET 10 current baseline)
+- .NET 10.0 baseline restored and verified with SDK 10.0.202
+- Entity Framework Core 10.0.1 and Npgsql provider 10.0.0
 - PostgreSQL 15 (database-per-service)
 - Redis 7
 - RabbitMQ 3 (inter-service messaging)
@@ -204,7 +235,13 @@ XxxService/
 
 ### AI/ML Platform (Planned)
 - Azure AI Foundry (Chatbot models)
-- Python 3.11+ (Custom ML: TensorFlow/PyTorch, FastAPI)
+- Python 3.11+ (Custom ML: TensorFlow/PyTorch, FastAPI, still following Clean Architecture boundaries)
+
+### Current Warning Snapshot
+- `AutoMapper` 12.0.1 is producing `NU1903` vulnerability warnings across multiple projects and should be upgraded in a focused dependency pass
+- `Microsoft.EntityFrameworkCore.Design` brings in `System.Security.Cryptography.Xml` 9.0.0 vulnerability warnings in infrastructure projects and should be reviewed as part of the dependency cleanup pass
+- `Microsoft.Extensions.Logging.Abstractions` and `Microsoft.Extensions.Http` in shared infrastructure produce `NU1510` pruning warnings and should be reviewed during the dependency cleanup pass
+- `ChatbotUnitOfWork` and `LoggingUnitOfWork` both produce `CS0108` field-hiding warnings and should be cleaned up during infrastructure refinement
 
 ---
 

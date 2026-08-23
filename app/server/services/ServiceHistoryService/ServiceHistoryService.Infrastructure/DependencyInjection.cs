@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using ServiceHistoryService.Application.Abstractions;
+using ServiceHistoryService.Infrastructure.Messaging;
 using ServiceHistoryService.Infrastructure.Persistence;
 
 namespace ServiceHistoryService.Infrastructure;
@@ -19,6 +20,7 @@ public static class DependencyInjection
         }
         services.AddDbContext<ServiceHistoryDbContext>(options => options.UseNpgsql(connectionString));
         services.AddScoped<IServiceHistoryUnitOfWork, ServiceHistoryUnitOfWork>();
+        services.AddHostedService<ServiceHistoryEventConsumer>();
         return services;
     }
 }

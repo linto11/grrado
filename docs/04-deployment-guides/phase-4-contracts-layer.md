@@ -83,7 +83,7 @@ API (Depends on: Domain, Contracts, Application, Infrastructure)
 ## Build Status
 - **0 Errors** ✅
 - **70 Warnings** (non-critical: NuGet package advisories, nullable reference type hints)
-- **Contracts DLL**: Successfully compiled to `/Contracts/bin/Debug/net10.0/Contracts.dll`
+- **Contracts DLL**: Successfully compiled to `/Contracts/bin/Debug/net9.0/Contracts.dll`
 
 ## Files Created
 ```

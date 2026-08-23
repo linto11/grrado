@@ -10,9 +10,10 @@
     <ProjectReference Include="..\..\..\shared\GRRADO.Shared.Application\GRRADO.Shared.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="14.0.0" />
+    <PackageReference Include="MediatR" Version="13.0.0" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
   </ItemGroup>
 </Project>
+

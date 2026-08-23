@@ -1,7 +1,7 @@
 # GRRADO Vehicle Service Portal
 
 **Status:** Phase 4 In Progress -- Microservices Migration Complete | **Build:** 33 projects, 0 errors
-**Last Updated:** February 14, 2026 | **Architecture:** Microservices (.NET 10.0) | **Naming:** Kebab-Case
+**Last Updated:** April 17, 2026 | **Architecture:** Microservices (.NET 9.0) | **Naming:** Kebab-Case
 
 A full-stack web application for managing vehicle service records, diagnostics, and garage operations with AI chatbot support.
 
@@ -41,10 +41,10 @@ dotnet run --project gateway/ApiGateway/ApiGateway.csproj
 
 | Goal | Read This |
 |------|-----------|
-| **See the complete solution** | [docs/implementation-plan.md](docs/implementation-plan.md) -- Master plan for all 12 phases |
+| **Know which docs are current** | [docs/current-doc-set.md](docs/current-doc-set.md) |
 | **Understand current progress** | [docs/02-progress-tracking/current-status.md](docs/02-progress-tracking/current-status.md) |
 | **Learn development rules** | [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md) -- **MANDATORY** |
-| **Migration reference** | [MIGRATION-STATUS.md](MIGRATION-STATUS.md) -- Architecture details & conventions |
+| **See the broader roadmap** | [docs/implementation-plan.md](docs/implementation-plan.md) -- historical/high-level plan |
 
 ---
 
@@ -165,9 +165,9 @@ docker compose -f d:\_GRRADO\src\docker-compose.yml up -d
 
 | Layer | Technology |
 |-------|-----------|
-| **Backend** | .NET 10.0, ASP.NET Core (Microservices) |
+| **Backend** | .NET 9.0, ASP.NET Core (Microservices) |
 | **CQRS** | MediatR 14.0.0 |
-| **ORM** | Entity Framework Core 10.0.1 |
+| **ORM** | Entity Framework Core 9.0.1 |
 | **Database** | PostgreSQL 15 (database-per-service) |
 | **Caching** | Redis 7 |
 | **Messaging** | RabbitMQ 3 |
@@ -222,11 +222,11 @@ docker compose -f d:\_GRRADO\src\docker-compose.yml up -d
 
 | Document | Purpose | Location |
 |----------|---------|----------|
+| **Current Doc Set** | Which docs are current vs historical | [docs/current-doc-set.md](docs/current-doc-set.md) |
 | **Rulebook** | Development standards | [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md) |
-| **Migration Status** | Architecture reference | [MIGRATION-STATUS.md](MIGRATION-STATUS.md) |
 | **Current Status** | Quick project status | [docs/02-progress-tracking/current-status.md](docs/02-progress-tracking/current-status.md) |
 | **Progress Tracker** | Detailed progress | [docs/02-progress-tracking/progress-tracker.md](docs/02-progress-tracking/progress-tracker.md) |
-| **Implementation Plan** | Master plan (12 phases) | [docs/implementation-plan.md](docs/implementation-plan.md) |
+| **Implementation Plan** | Historical roadmap and long-range planning | [docs/implementation-plan.md](docs/implementation-plan.md) |
 | **Build Verification** | Build status proof | [docs/build-verification.md](docs/build-verification.md) |
 
 ---
@@ -235,7 +235,7 @@ docker compose -f d:\_GRRADO\src\docker-compose.yml up -d
 
 ### Developers
 1. Read: [.vscode/rules/rulebook.md](.vscode/rules/rulebook.md)
-2. Read: [MIGRATION-STATUS.md](MIGRATION-STATUS.md) -- Architecture patterns & conventions
+2. Read: [docs/current-doc-set.md](docs/current-doc-set.md)
 3. Build: `dotnet build GRRADO.Microservices.sln`
 4. Run: `dotnet run --project services/{ServiceName}/{ServiceName}.API/{ServiceName}.API.csproj`
 5. Docs: `http://localhost:{port}/scalar/v1`
@@ -274,6 +274,6 @@ docker compose -f d:\_GRRADO\src\docker-compose.yml up -d
 ---
 
 **Project:** GRRADO Vehicle Service Portal
-**Last Updated:** February 14, 2026
+**Last Updated:** February 15, 2026
 **Build:** 33 projects, 0 errors
-**Architecture:** Microservices (.NET 10.0)
+**Architecture:** Microservices (.NET 9.0)

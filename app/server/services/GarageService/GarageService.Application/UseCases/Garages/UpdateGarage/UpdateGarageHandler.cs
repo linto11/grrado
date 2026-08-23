@@ -1,6 +1,7 @@
 using AutoMapper;
 using GarageService.Application.Abstractions;
 using GarageService.Application.DTOs;
+using GRRADO.Shared.Abstractions.Caching;
 using GRRADO.Shared.Application.Common;
 using MediatR;
 
@@ -10,11 +11,13 @@ public class UpdateGarageHandler : IRequestHandler<UpdateGarageCommand, Result<G
 {
     private readonly IGarageUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICacheService _cache;
 
-    public UpdateGarageHandler(IGarageUnitOfWork unitOfWork, IMapper mapper)
+    public UpdateGarageHandler(IGarageUnitOfWork unitOfWork, IMapper mapper, ICacheService cache)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _cache = cache;
     }
 
     public async Task<Result<GarageDto>> Handle(UpdateGarageCommand request, CancellationToken cancellationToken)
@@ -36,6 +39,8 @@ public class UpdateGarageHandler : IRequestHandler<UpdateGarageCommand, Result<G
 
         await _unitOfWork.Garages.UpdateAsync(entity);
         await _unitOfWork.SaveChangesAsync();
+
+        await _cache.RemoveAsync($"garage:{request.Id}", cancellationToken);
 
         var dto = _mapper.Map<GarageDto>(entity);
         return Result<GarageDto>.Success(dto);

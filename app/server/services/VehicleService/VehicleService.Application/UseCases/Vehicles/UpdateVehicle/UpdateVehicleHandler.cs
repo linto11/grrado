@@ -1,4 +1,5 @@
 using AutoMapper;
+using GRRADO.Shared.Abstractions.Caching;
 using GRRADO.Shared.Application.Common;
 using VehicleService.Application.Abstractions;
 using VehicleService.Application.DTOs;
@@ -11,11 +12,13 @@ public class UpdateVehicleHandler : IRequestHandler<UpdateVehicleCommand, Result
 {
     private readonly IVehicleUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICacheService _cache;
 
-    public UpdateVehicleHandler(IVehicleUnitOfWork unitOfWork, IMapper mapper)
+    public UpdateVehicleHandler(IVehicleUnitOfWork unitOfWork, IMapper mapper, ICacheService cache)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _cache = cache;
     }
 
     public async Task<Result<VehicleDto>> Handle(UpdateVehicleCommand request, CancellationToken cancellationToken)
@@ -40,6 +43,9 @@ public class UpdateVehicleHandler : IRequestHandler<UpdateVehicleCommand, Result
 
             await _unitOfWork.Vehicles.UpdateAsync(entity);
             await _unitOfWork.SaveChangesAsync();
+
+            await _cache.RemoveAsync($"vehicle:{request.Id}", cancellationToken);
+
             return Result<VehicleDto>.Success(_mapper.Map<VehicleDto>(entity));
         }
         catch (Exception ex)
